@@ -20,6 +20,15 @@ A required API Parameter, select any of updated|opened|closed.
 .PARAMETER Status
 An optional API Parameter, filter results by status.
 
+.PARAMETER AllowChildCases
+An optional API Parameter, enter true to receive the list of child cases associated with a parent case in the response. Otherwise, enter false. This parameter is optional.
+
+.PARAMETER Max
+An optional API Parameter, enter maximum number of records the API will display.
+
+.PARAMETER Offset
+An optional API Parameter, used for pagination of the request.
+
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixIncidentsList
 
@@ -30,7 +39,7 @@ System.String. Get-SecuronixIncidentsList returns the API response. The API will
 PS> Get-SecuronixIncidentsList -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -TimeStart 1641040200 -TimeEnd 1641144600 -RangeType Updated
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/Cloud/Content/SNYPR%206.3/Web%20Services/6.3_REST%20API%20Categories.htm#Auth
+https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
 #>
 function Get-SecuronixIncidentsList {
 	param(
@@ -46,6 +55,9 @@ function Get-SecuronixIncidentsList {
 		[string] $RangeType,
 
 		[string] $Status
+		[switch] $AllowChildCases
+		[int] $Max
+		[int] $Offset
 	)
 
 	Begin {
@@ -57,6 +69,11 @@ function Get-SecuronixIncidentsList {
 			'token' = $Token
 		}
 
+		$RangeType = $RangeType.ToLower()
+		if(($RangeType -ne 'updated') -and ($RangeType -ne 'opened') ($RangeType -ne 'closed')) {
+			throw "Invalid RangeType provided. You entered \"$($RangeType)\". Valid values: opened, closed, updated."
+		}
+
 		$params = [ordered]@{
 			'type' = 'list'
 			'from' = $TimeStart
@@ -66,6 +83,19 @@ function Get-SecuronixIncidentsList {
 		
 		if($Status -ne $null) {
 			$params['status'] = $Status
+		}
+
+		if($Max -ne $null) {
+			$params['max'] = $Max
+		}
+
+		# Default behavior is false.
+		if($AllowChildCases) {
+			$params['allowChildCases'] = 'true'
+		}
+
+		if($Offset -ne $null) {
+			$param['offset'] = $Offset
 		}
 		
 		$paramsList = @()
