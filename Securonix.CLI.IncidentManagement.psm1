@@ -87,8 +87,6 @@ function Get-SecuronixIncidentsList {
 
 		$o = $PSBoundParameters.Remove('Url');
 		$o = $PSBoundParameters.Remove('Token');
-
-		}
 		
 		$paramsList = @('type=list')
 		foreach($param in $PSBoundParameters.Keys) {
