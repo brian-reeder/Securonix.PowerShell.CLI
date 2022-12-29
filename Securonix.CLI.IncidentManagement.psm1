@@ -33,45 +33,54 @@ PS> Get-SecuronixIncidentsList -Url "hxxps://DunderMifflin.securonix.com/Snypr" 
 https://documentation.securonix.com/onlinedoc/Content/Cloud/Content/SNYPR%206.3/Web%20Services/6.3_REST%20API%20Categories.htm#Auth
 #>
 function Get-SecuronixIncidentsList {
-    param(
-        [Parameter(Mandatory)]
-        [string] $Url,
-        [Parameter(Mandatory)]
-        [string] $Token
-	[Parameter(Mandatory)]
-	[int] $TimeStart
-	[Parameter(Mandatory)]
-	[int] $TimeEnd
-	[Parameter(Mandatory)]
-	[string] $RangeType
+	param(
+		[Parameter(Mandatory)]
+		[string] $Url,
+		[Parameter(Mandatory)]
+		[string] $Token
+		[Parameter(Mandatory)]
+		[int] $TimeStart
+		[Parameter(Mandatory)]
+		[int] $TimeEnd
+		[Parameter(Mandatory)]
+		[string] $RangeType
 
-	[string] $Status
-    )
+		[string] $Status
+	)
 
-    Begin {
-        if($Url.EndsWith('/')) {
-            $Url = $Url.Remove($Url.Length-1, 1)   
-        }
+	Begin {
+		if($Url.EndsWith('/')) {
+			$Url = $Url.Remove($Url.Length-1, 1)   
+		}
 
-        $Uri = "$Url/ws/token/validate"
-        
-	$Header = [ordered]@{
-            token = $Token
-        }
+		$Header = [ordered]@{
+			'token' = $Token
+		}
 
-	$Parameters = [ordered]@{
-	    type = 'list'
-	    from = $TimeStart
-	    to  = $TimeEnd
+		$params = [ordered]@{
+			'type' = 'list'
+			'from' = $TimeStart
+			'to'  = $TimeEnd
+		}
+		
+		if($Status -ne $null) {
+			$params['status'] = $Status
+		}
+		
+		$paramsList = @()
+		foreach($param in $params.Keys) {
+			$paramsList += "$($param)=$($params[param])"
+		}
+		
+		$Uri = "$Url/ws/incident/get?$($paramsList -join '&')"
 	}
-    }
 
-    Process {
-        $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
-        return $response.Content
-    }
+	Process {
+		$response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
+		return $response.result
+	}
 
-    End {}
+	End {}
 }
 
 Export-ModuleMember -Function Get-SecuronixIncidentsList 
