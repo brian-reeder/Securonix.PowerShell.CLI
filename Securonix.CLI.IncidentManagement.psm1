@@ -39,9 +39,9 @@ function Get-SecuronixIncidentsList {
 		[Parameter(Mandatory)]
 		[string] $Token
 		[Parameter(Mandatory)]
-		[int] $TimeStart
+		[string] $TimeStart
 		[Parameter(Mandatory)]
-		[int] $TimeEnd
+		[string] $TimeEnd
 		[Parameter(Mandatory)]
 		[string] $RangeType
 
