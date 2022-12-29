@@ -37,13 +37,13 @@ function Get-SecuronixIncidentsList {
 		[Parameter(Mandatory)]
 		[string] $Url,
 		[Parameter(Mandatory)]
-		[string] $Token
+		[string] $Token,
 		[Parameter(Mandatory)]
-		[string] $TimeStart
+		[string] $TimeStart,
 		[Parameter(Mandatory)]
-		[string] $TimeEnd
+		[string] $TimeEnd,
 		[Parameter(Mandatory)]
-		[string] $RangeType
+		[string] $RangeType,
 
 		[string] $Status
 	)
@@ -61,6 +61,7 @@ function Get-SecuronixIncidentsList {
 			'type' = 'list'
 			'from' = $TimeStart
 			'to'  = $TimeEnd
+			'rangeType' = $RangeType
 		}
 		
 		if($Status -ne $null) {
@@ -69,7 +70,7 @@ function Get-SecuronixIncidentsList {
 		
 		$paramsList = @()
 		foreach($param in $params.Keys) {
-			$paramsList += "$($param)=$($params[param])"
+			$paramsList += "$($param)=$($params[$param])"
 		}
 		
 		$Uri = "$Url/ws/incident/get?$($paramsList -join '&')"
