@@ -9,7 +9,7 @@ This project is to provide a layer of abstraction when working with the Securoni
 1. Download the repository.
 2. Import the PowerShell module.
 ```
-PS C\..\Securonix.PowerShell.CLI> Import-Module .\Securonix.CLI.Auth.psm1
+PS C:\..\Securonix.PowerShell.CLI> Import-Module .\Securonix.CLI.Auth.psm1
 ```
 
 ## Links
