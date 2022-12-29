@@ -54,9 +54,9 @@ function Get-SecuronixIncidentsList {
 		[Parameter(Mandatory)]
 		[string] $RangeType,
 
-		[string] $Status
-		[switch] $AllowChildCases
-		[int] $Max
+		[string] $Status,
+		[switch] $AllowChildCases,
+		[int] $Max,
 		[int] $Offset
 	)
 
@@ -69,38 +69,30 @@ function Get-SecuronixIncidentsList {
 			'token' = $Token
 		}
 
+		$RangeTypeSet = @('opened', 'closed', 'updated')	
+		if($RangeTypeSet -NotContains $RangeType.ToLower()) {
+			throw "Invalid RangeType provided. You entered `"$($RangeType)`". Valid values: $($RangeTypeSet)."
+		}
 		$RangeType = $RangeType.ToLower()
-		if(($RangeType -ne 'updated') -and ($RangeType -ne 'opened') ($RangeType -ne 'closed')) {
-			throw "Invalid RangeType provided. You entered \"$($RangeType)\". Valid values: opened, closed, updated."
+
+		$paramsTable = @{
+			'TimeStart' = 'from'
+			'TimeEnd' = 'to'
+			'RangeType' = 'rangeType'
+			'Status' = 'status'
+			'AllowChildCases' = 'allowChildCases'
+			'Max' = 'max'
+			'Offset' = 'offset'
 		}
 
-		$params = [ordered]@{
-			'type' = 'list'
-			'from' = $TimeStart
-			'to'  = $TimeEnd
-			'rangeType' = $RangeType
+		$o = $PSBoundParameters.Remove('Url');
+		$o = $PSBoundParameters.Remove('Token');
+
 		}
 		
-		if($Status -ne $null) {
-			$params['status'] = $Status
-		}
-
-		if($Max -ne $null) {
-			$params['max'] = $Max
-		}
-
-		# Default behavior is false.
-		if($AllowChildCases) {
-			$params['allowChildCases'] = 'true'
-		}
-
-		if($Offset -ne $null) {
-			$param['offset'] = $Offset
-		}
-		
-		$paramsList = @()
-		foreach($param in $params.Keys) {
-			$paramsList += "$($param)=$($params[$param])"
+		$paramsList = @('type=list')
+		foreach($param in $PSBoundParameters.Keys) {
+			$paramsList += "$($paramsTable[$param])=$($PSBoundParameters[$param])"
 		}
 		
 		$Uri = "$Url/ws/incident/get?$($paramsList -join '&')"
