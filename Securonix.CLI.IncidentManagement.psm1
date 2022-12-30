@@ -325,7 +325,7 @@ function Confirm-SecuronixIncidentAction {
 		[Parameter(Mandatory)]
 		[string] $Token,
 		[Parameter(Mandatory)]
-		[string] $IncidentId
+		[string] $IncidentId,
 		[Parameter(Mandatory)]
 		[string] $ActionName
 	)
@@ -381,7 +381,7 @@ function Get-SecuronixWorkflowsList {
 		[Parameter(Mandatory)]
 		[string] $Url,
 		[Parameter(Mandatory)]
-		[string] $Token,
+		[string] $Token
 	)
 
 	Begin {}
