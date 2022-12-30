@@ -10,6 +10,7 @@ This project is to provide a layer of abstraction when working with the Securoni
 2. Import the PowerShell module.
 ```
 PS C:\..\Securonix.PowerShell.CLI> Import-Module .\Securonix.CLI.Auth.psm1
+PS C:\..\Securonix.PowerShell.CLI> Import-Module .\Securonix.CLI.IncidentManagement.psm1
 ```
 
 ## Links
