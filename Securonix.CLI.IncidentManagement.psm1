@@ -174,7 +174,7 @@ function Get-SecuronixIncidentStatus {
 
 	Process {
 		$r = Get-SecuronixIncidentAPIResponse @Params
-		return r.status
+		return $r.status
 	}
 
 	End {}
@@ -267,7 +267,8 @@ function Get-SecuronixIncidentsList {
 	}
 
 	Process {
-		return Get-SecuronixIncidentAPIResponse @Params
+		$r = Get-SecuronixIncidentAPIResponse @Params
+		return $r.data
 	}
 
 	End {}
