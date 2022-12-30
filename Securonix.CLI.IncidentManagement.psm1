@@ -51,16 +51,12 @@ function Get-SecuronixIncidentAPIResponse {
 			'token' = $Token
 		}
 
-		$paramsTable = @{
-			'IncidentId' = 'incidentId'
-		}
-
 		$o = $PSBoundParameters.Remove('Url');
 		$o = $PSBoundParameters.Remove('Token');
 		
 		$paramsList = @()
 		foreach($param in $PSBoundParameters.Keys) {
-			$paramsList += "$($paramsTable[$param])=$($PSBoundParameters[$param])"
+			$paramsList += "$($param)=$($PSBoundParameters[$param])"
 		}
 		
 		$Uri = "$Url/ws/incident/get?$($paramsList -join '&')"
@@ -106,7 +102,7 @@ function Get-SecuronixIncident {
 		[Parameter(Mandatory)]
 		[string] $Token,
 		[Parameter(Mandatory)]
-		[string] $IncidentId,
+		[string] $IncidentId
 	)
 
 	Begin {
@@ -122,7 +118,8 @@ function Get-SecuronixIncident {
 	}
 
 	Process {
-		return Get-SecuronixIncidentAPIResponse @Params
+		$r = Get-SecuronixIncidentAPIResponse @Params
+		return $r.data.incidentItems
 	}
 
 	End {}
@@ -160,7 +157,7 @@ function Get-SecuronixIncidentStatus {
 		[Parameter(Mandatory)]
 		[string] $Token,
 		[Parameter(Mandatory)]
-		[string] $IncidentId,
+		[string] $IncidentId
 	)
 
 	Begin {
@@ -176,7 +173,8 @@ function Get-SecuronixIncidentStatus {
 	}
 
 	Process {
-		return Get-SecuronixIncidentAPIResponse @Params
+		$r = Get-SecuronixIncidentAPIResponse @Params
+		return r.status
 	}
 
 	End {}
@@ -245,14 +243,6 @@ function Get-SecuronixIncidentsList {
 	)
 
 	Begin {
-		if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
-		}
-
-		$Header = [ordered]@{
-			'token' = $Token
-		}
-
 		$RangeTypeSet = @('opened', 'closed', 'updated')	
 		if($RangeTypeSet -NotContains $RangeType.ToLower()) {
 			throw "Invalid RangeType provided. You entered `"$($RangeType)`". Valid values: $($RangeTypeSet)."
@@ -269,24 +259,20 @@ function Get-SecuronixIncidentsList {
 			'Offset' = 'offset'
 		}
 
-		$o = $PSBoundParameters.Remove('Url');
-		$o = $PSBoundParameters.Remove('Token');
-		
-		$paramsList = @('type=list')
+		$params = [ordered]@{'type'='list'}
 		foreach($param in $PSBoundParameters.Keys) {
-			$paramsList += "$($paramsTable[$param])=$($PSBoundParameters[$param])"
+			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
+			$params[$key] = $PSBoundParameters[$param]
 		}
-		
-		$Uri = "$Url/ws/incident/get?$($paramsList -join '&')"
 	}
 
 	Process {
-		$response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-		return $response.result
+		return Get-SecuronixIncidentAPIResponse @Params
 	}
 
 	End {}
 }
 
 Export-ModuleMember -Function Get-SecuronixIncident
+Export-ModuleMember -Function Get-SecuronixIncidentStatus
 Export-ModuleMember -Function Get-SecuronixIncidentsList 
