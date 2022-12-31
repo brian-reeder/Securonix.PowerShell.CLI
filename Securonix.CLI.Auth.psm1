@@ -31,6 +31,10 @@ PS> New-SecuronixApiToken -Url "hxxps://Initech.securonix.com" -Username "Michae
 https://documentation.securonix.com/onlinedoc/Content/Cloud/Content/SNYPR%206.3/Web%20Services/6.3_REST%20API%20Categories.htm#Auth
 #>
 function New-SecuronixApiToken {
+    [CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
     param(
         [Parameter(Mandatory)]
         [string] $Url,
@@ -56,8 +60,10 @@ function New-SecuronixApiToken {
     }
 
     Process {
-        $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
-        return $response.Content
+        if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
+            $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
+            return $response.Content
+        }
     }
 }
 
@@ -84,6 +90,10 @@ PS> Confirm-SecuronixApiToken -Url "hxxps://DunderMifflin.securonix.com" -Token 
 https://documentation.securonix.com/onlinedoc/Content/Cloud/Content/SNYPR%206.3/Web%20Services/6.3_REST%20API%20Categories.htm#Auth
 #>
 function Confirm-SecuronixApiToken {
+    [CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
     param(
         [Parameter(Mandatory)]
         [string] $Url,
@@ -104,8 +114,10 @@ function Confirm-SecuronixApiToken {
     }
 
     Process {
-        $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
-        return $response.Content
+        if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
+            $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
+            return $response.Content
+        }
     }
 
     End {}
@@ -134,6 +146,10 @@ PS> Update-SecuronixApiToken -Url "hxxps://DunderMifflin.securonix.com" -Token "
 https://documentation.securonix.com/onlinedoc/Content/Cloud/Content/SNYPR%206.3/Web%20Services/6.3_REST%20API%20Categories.htm#Auth
 #>
 function Update-SecuronixApiToken {
+    [CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
     param(
         [Parameter(Mandatory)]
         [string] $Url,
@@ -154,8 +170,10 @@ function Update-SecuronixApiToken {
     }
 
     Process {
-        $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
-        return $response.Content
+        if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
+            $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
+            return $response.Content
+        }
         
     }
 
