@@ -7,10 +7,18 @@ This project is to provide a layer of abstraction when working with the Securoni
 
 ## Installation
 1. Download the repository.
-2. Import the PowerShell module.
+2. Import the PowerShell module from the module manifest.
 ```
-PS C:\..\Securonix.PowerShell.CLI> Import-Module .\Securonix.CLI.Auth.psm1
-PS C:\..\Securonix.PowerShell.CLI> Import-Module .\Securonix.CLI.IncidentManagement.psm1
+PS C:\..\Securonix.PowerShell.CLI> Import-Module .\Securonix.CLI.psd1
+```
+
+## Verify Installation
+You can check to see if your PowerShell session has the module installed with the Get-Module cmdlet and Get-Command cmdlet.
+```
+PS C:\..\Securonix.PowerShell.CLI> Get-Module .\Securonix.CLI.psd1
+ModuleType  Version  Name            ExportedCommands
+----------  -------  ----            ----------------
+Manifest    0.1       Securonix.CLI  {Confirm-SecuronixApiToken, Confirm-SecuronixIncidentActio...
 ```
 
 ## Links
