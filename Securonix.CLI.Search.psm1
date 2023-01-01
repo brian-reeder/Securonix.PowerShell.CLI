@@ -62,7 +62,7 @@ function Get-SecuronixSearchAPIResponse {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response.result
+            return $response
         }
 	}
 
