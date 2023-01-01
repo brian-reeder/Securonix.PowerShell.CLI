@@ -48,8 +48,8 @@ function Get-SecuronixSearchAPIResponse {
 			'token' = $Token
 		}
 
-		$o = $PSBoundParameters.Remove('Url');
-		$o = $PSBoundParameters.Remove('Token');
+		$PSBoundParameters.Remove('Url') | Out-Null
+		$PSBoundParameters.Remove('Token') | Out-Null
 		
 		$paramsList = @()
 		foreach($param in $PSBoundParameters.Keys) {
@@ -100,11 +100,12 @@ function Get-SecuronixActivityEvents {
 		[Parameter(Mandatory)]
 		[string] $Token,
         [Parameter(Mandatory)]
-        [string] $Query,
-        [Parameter(Mandatory)]
         [string] $TimeStart,
         [Parameter(Mandatory)]
         [string] $TimeEnd,
+
+        [AllowEmptyString()]
+        [string] $Query = '',
 
         [string] $TimeZone,
         [bool] $PrettyJson,
@@ -127,7 +128,13 @@ function Get-SecuronixActivityEvents {
             $PSBoundParameters.Remove('WhatIf') |  Out-Null
         }
 
-        $PSBoundParameters['Query'] = @('index=activity',$Query) -join ' AND '
+        if($Query -ne '') {
+            $PSBoundParameters['Query'] = "index=activity AND $($Query)"
+        }
+        else {
+            $PSBoundParameters['Query'] = 'index=activity'
+        }
+
 		$params = [ordered]@{}
 		foreach($param in $PSBoundParameters.Keys) {
 			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
