@@ -754,7 +754,7 @@ PS> Get-SecuronixUsersData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Tok
 PS> Get-SecuronixUsersData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "location = `"Dallas`" AND lastname = `"OGWA`""
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#ThirdPartyIntel
+https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Users
 #>
 function Get-SecuronixUsersData {
     [CmdletBinding(

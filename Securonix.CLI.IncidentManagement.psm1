@@ -54,8 +54,8 @@ function Get-SecuronixIncidentAPIResponse {
 			'token' = $Token
 		}
 
-		$o = $PSBoundParameters.Remove('Url');
-		$o = $PSBoundParameters.Remove('Token');
+		$PSBoundParameters.Remove('Url') | Out-Null
+		$PSBoundParameters.Remove('Token') | Out-Null
 		
 		$paramsList = @()
 		foreach($param in $PSBoundParameters.Keys) {
@@ -655,8 +655,8 @@ function Get-SecuronixIncidentAttachments {
 			'token' = $Token
 		}
 
-		$o = $PSBoundParameters.Remove('Url');
-		$o = $PSBoundParameters.Remove('Token');
+		$PSBoundParameters.Remove('Url') | Out-Null
+		$PSBoundParameters.Remove('Token') | Out-Null
 		
 		$paramsList = @()
 		foreach($param in $PSBoundParameters.Keys) {
