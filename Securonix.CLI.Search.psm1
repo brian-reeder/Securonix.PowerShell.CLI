@@ -33,6 +33,8 @@ function Get-SecuronixSearchAPIResponse {
 
         [string] $eventtime_from,
         [string] $eventtime_to,
+        [string] $generationtime_from,
+        [string] $generationtime_to,
         [string] $tz,
         [bool] $prettyJson,
         [int] $max,
