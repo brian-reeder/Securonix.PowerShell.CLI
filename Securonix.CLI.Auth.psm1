@@ -28,7 +28,7 @@ PS> New-SecuronixApiToken -Url "hxxps://DunderMifflin.securonix.com" -Username "
 PS> New-SecuronixApiToken -Url "hxxps://Initech.securonix.com" -Username "MichaelBolton" -Password "PiEcEsOfFlAiR"
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/Cloud/Content/SNYPR%206.3/Web%20Services/6.3_REST%20API%20Categories.htm#Auth
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Auth/New-SecuronixApiToken.md
 #>
 function New-SecuronixApiToken {
     [CmdletBinding(
@@ -87,7 +87,7 @@ System.String. Confirm-SecuronixApiToken returns the API response. The API will 
 PS> Confirm-SecuronixApiToken -Url "hxxps://DunderMifflin.securonix.com" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/Cloud/Content/SNYPR%206.3/Web%20Services/6.3_REST%20API%20Categories.htm#Auth
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Auth/Confirm-SecuronixApiToken.md
 #>
 function Confirm-SecuronixApiToken {
     [CmdletBinding(
@@ -143,7 +143,7 @@ System.String. Update-SecuronixApiToken returns the API response. The API will r
 PS> Update-SecuronixApiToken -Url "hxxps://DunderMifflin.securonix.com" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/Cloud/Content/SNYPR%206.3/Web%20Services/6.3_REST%20API%20Categories.htm#Auth
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Auth/Update-SecuronixApiToken.md
 #>
 function Update-SecuronixApiToken {
     [CmdletBinding(
