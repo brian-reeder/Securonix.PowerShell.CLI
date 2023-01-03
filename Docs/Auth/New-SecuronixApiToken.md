@@ -31,6 +31,11 @@ Response
 New-SecuronixApiToken -Url 'Initech.securonix.com/Snypr' -Username 'MichaelBolton' -Password 'PiEcEsOfFlAiR'
 ```
 
+Response
+```
+12345678-90AB-CDEF-1234-567890ABCDEF
+```
+
 ## Parameters
 
 ### -Url
