@@ -23,13 +23,16 @@ Manifest    0.1       Securonix.CLI  {Confirm-SecuronixApiToken, Confirm-Securon
 
 
 
-PS C:\..\Securonix.PowerShell.CLI> Get-Command -Module Securonix*
+PS C:\..\Securonix.PowerShell.CLI> Get-Command -Module Securonix.CLI
 
 CommandType     Name                                               Version    Source
 -----------     ----                                               -------    ------
 Function        Confirm-SecuronixApiToken                          0.1        Securonix.CLI
 Function        Confirm-SecuronixIncidentAction                    0.1        Securonix.CLI
+Function        Get-SecuronixActivityEvents                        0.1        Securonix.CLI
+Function        Get-SecuronixAssetData                             0.1        Securonix.CLI
 Function        Get-SecuronixChildIncidents                        0.1        Securonix.CLI
+Function        Get-SecuronixGeolocationData                       0.1        Securonix.CLI
 Function        Get-SecuronixIncident                              0.1        Securonix.CLI
 Function        Get-SecuronixIncidentActions                       0.1        Securonix.CLI
 Function        Get-SecuronixIncidentActivityHistory               0.1        Securonix.CLI
@@ -38,11 +41,21 @@ Function        Get-SecuronixIncidentAttachments                   0.1        Se
 Function        Get-SecuronixIncidentsList                         0.1        Securonix.CLI
 Function        Get-SecuronixIncidentStatus                        0.1        Securonix.CLI
 Function        Get-SecuronixIncidentWorkflowName                  0.1        Securonix.CLI
+Function        Get-SecuronixLookupData                            0.1        Securonix.CLI
+Function        Get-SecuronixPeerGroupsList                        0.1        Securonix.CLI
+Function        Get-SecuronixPolicyList                            0.1        Securonix.CLI
+Function        Get-SecuronixResourcegroupList                     0.1        Securonix.CLI
+Function        Get-SecuronixRiskHistory                           0.1        Securonix.CLI
+Function        Get-SecuronixRiskScorecard                         0.1        Securonix.CLI
+Function        Get-SecuronixSearchAPIResponse                     0.1        Securonix.CLI
+Function        Get-SecuronixTPI                                   0.1        Securonix.CLI
+Function        Get-SecuronixUsersData                             0.1        Securonix.CLI
+Function        Get-SecuronixViolationEvents                       0.1        Securonix.CLI
 Function        Get-SecuronixWorkflowDefaultAssignee               0.1        Securonix.CLI
 Function        Get-SecuronixWorkflowDetails                       0.1        Securonix.CLI
 Function        Get-SecuronixWorkflowsList                         0.1        Securonix.CLI
 Function        New-SecuronixApiToken                              0.1        Securonix.CLI
-Function        Update-SecuronixApiToken                           0.1        Securonix.CLIS
+Function        Update-SecuronixApiToken                           0.1        Securonix.CLI
 ```
 
 ## Links
