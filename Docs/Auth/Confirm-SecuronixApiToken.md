@@ -42,16 +42,8 @@ It must be in the following format:
 ```
 https://<hostname or IPaddress>/Snypr
 ```
-### -Username
-Username for the account.
-
-### -Password
-Password for the account.
-
-### -Validity
-The number of days the token will be valid.
-    
-If unspecified, the default length is 365 days.
+### -Token
+Valid authentication token.
 
 ## Links
 [Securonix 6.4 REST API Categories - Auth ](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Auth)
