@@ -68,19 +68,19 @@ https://<hostname or IPaddress>/Snypr
 ### -Token
 Valid authentication token.
 
-### TimeStart
+### -TimeStart
 A required API Parameter, enter starting point for the search. Time (epoch) in ms.
 
-### TimeEnd
+### -TimeEnd
 A required API Parameter, enter ending point for the search. Time (epoch) in ms.
 
-### Offset
+### -Offset
 An optional API Parameter, used for pagination of the request.
 
-### Max
+### -Max
 An optional API Parameter, enter maximum number of records the API will display.
 
-### TenantName
+### -TenantName
 Enter the name of the tenant the threat model belongs to. This parameter is optional for non-MSSP.
 
 
