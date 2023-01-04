@@ -344,7 +344,7 @@ PS> Get-SecuronixTopViolations -Url 'DunderMifflin.securonix.com/Snypr' -Token '
 PS> Get-SecuronixTopViolations -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Days 90 -Max 100
 
 .LINK
-https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Security%20Command%20Center/Get-SecuronixEntityTopViolations.md
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Security%20Command%20Center/Get-SecuronixTopViolations.md
 #>
 function Get-SecuronixTopViolations {
     [CmdletBinding(
@@ -469,7 +469,7 @@ PS> Get-SecuronixTopViolators -Url 'DunderMifflin.securonix.com/Snypr' -Token '1
 PS> Get-SecuronixTopViolators -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Days 90 -Max 100
 
 .LINK
-https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Security%20Command%20Center/Get-SecuronixEntityTopViolators.md
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Security%20Command%20Center/Get-SecuronixTopViolators.md
 #>
 function Get-SecuronixTopViolators {
     [CmdletBinding(
