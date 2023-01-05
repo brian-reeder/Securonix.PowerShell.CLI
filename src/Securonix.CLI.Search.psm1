@@ -903,3 +903,78 @@ function Get-SecuronixViolationEvents {
 
 	End {}
 }
+
+<#
+.DESCRIPTION
+Get-SecuronixWatchlistData prepares API parameters and queries the Securonix watchlist index.
+
+.PARAMETER Url
+Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
+
+.PARAMETER Token
+An API token to validate access. Use New-SecuronixApiToken to generate a new token.
+
+.PARAMETER Query
+A spotter query to be processed by Securonix. Valid indexes are: activity, violation, users, asset, geolocation, lookup, riskscore, riskscorehistory.
+
+.INPUTS
+None. You cannot pipe objects to Get-SecuronixWatchlistData
+
+.OUTPUTS
+System.String. Get-SecuronixWatchlistData returns the API response. The API will respond with a JSON object for valid requests.
+
+.EXAMPLE
+PS> Get-SecuronixWatchlistData -Url 'hxxps://DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
+
+.EXAMPLE
+PS> Get-SecuronixWatchlistData -Url 'hxxps://DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'watchlistname="Flight Risk Users"'
+
+.LINK
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixWatchlistData.md
+#>
+function Get-SecuronixWatchlistData {
+    [CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
+	param(
+		[Parameter(Mandatory)]
+		[string] $Url,
+		[Parameter(Mandatory)]
+		[string] $Token,
+
+        [AllowEmptyString()]
+        [string] $Query = ''
+	)
+
+	Begin {
+		$paramsTable = @{
+            'Query' = 'query'
+		}
+
+        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
+        foreach($key in $Exclusions) {
+            $PSBoundParameters.Remove($key) | Out-Null
+        }
+
+        if($Query -ne '') {
+            $PSBoundParameters['Query'] = "index=watchlist AND $($Query)"
+        }
+        else {
+            $PSBoundParameters['Query'] = 'index=watchlist'
+        }
+
+		$params = [ordered]@{}
+		foreach($param in $PSBoundParameters.Keys) {
+			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
+			$params[$key] = $PSBoundParameters[$param]
+		}
+	}
+
+	Process {
+        $r = Get-SecuronixSearchAPIResponse @Params
+        return $r
+	}
+
+	End {}
+}
