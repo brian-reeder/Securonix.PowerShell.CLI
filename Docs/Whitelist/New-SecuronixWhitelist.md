@@ -6,7 +6,9 @@ Create a new whitelist.
 New-SecuronixWhitelist
     [[-Url]<string>]
     [[-Token]<string>]
-    [[-WatchlistName]<string>]
+    [[-WhitelistName]<string>]
+    [[-TenantName]<string>]
+    [[-EntityType]<string>]
 ```
 
 ## Description
@@ -49,4 +51,4 @@ A required API Parameter, the name of the tenant this whitelist should belong to
 A required API Parameter, enter the type of entity thie whitelist is intended to hold. May be the following types: 'Users', 'Activityaccount', 'Resources', 'IpAddress'.
 
 ## Links
-[Securonix 6.4 REST API Categories - Watchlist ](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Watchlist)
+[Securonix 6.4 REST API Categories - Whitelist Endpoints](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#WhitelistEndpoints)
