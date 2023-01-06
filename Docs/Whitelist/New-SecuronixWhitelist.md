@@ -42,7 +42,7 @@ https://<hostname or IPaddress>/Snypr
 Valid authentication token.
 
 ### -WhitelistName
-A required API Parameter, the name of the watchlist you want to create.
+A required API Parameter, the name of the whitelist you want to create.
 
 ### -TenantName
 A required API Parameter, the name of the tenant this whitelist should belong to.

@@ -62,7 +62,7 @@ https://<hostname or IPaddress>/Snypr
 Valid authentication token.
 
 ### -WhitelistName
-A required API Parameter, the name of the whitelist you want to create.
+A required API Parameter, the name of the whitelist to remove entities from.
 
 ### -TenantName
 A required API Parameter, the name of the tenant the whitelist belongs to.
@@ -77,7 +77,7 @@ A required API Parameter, the id to remove from a whitelist.
 | IpAddress   | ipaddress    |
 
 ### -EntityIdList
-A required API Parameter, a list of EntityIds to remove from a watch list. Max number of 5 at a time.
+A required API Parameter, a list of EntityIds to remove from a whitelist. Max number of 5 at a time.
 
 ## Links
 [Securonix 6.4 REST API Categories - Whitelist Endpoints](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#WhitelistEndpoints)
