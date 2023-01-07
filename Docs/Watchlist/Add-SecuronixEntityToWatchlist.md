@@ -2,6 +2,8 @@
 Add an entity to a watchlist.
 
 ## Syntax
+
+Specify an EntityType for an Entity.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
@@ -12,6 +14,8 @@ Add-SecuronixEntityToWatchlist
     [-ExpiryDays] <int>
     [-ResourceGroupId] <string>
 ```
+
+Specify an EntityType for an Entity list.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
@@ -22,6 +26,8 @@ Add-SecuronixEntityToWatchlist
     [-ExpiryDays] <int>
     [-ResourceGroupId] <string>
 ```
+
+Specify a user id.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
@@ -30,6 +36,8 @@ Add-SecuronixEntityToWatchlist
     -UsersId <string>
     -ExpiryDays <int>
 ```
+
+Specify a user id list.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
@@ -38,6 +46,8 @@ Add-SecuronixEntityToWatchlist
     -UsersIdList <string[]>
     -ExpiryDays <int>
 ```
+
+Specify an activityaccount id.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
@@ -47,6 +57,8 @@ Add-SecuronixEntityToWatchlist
     -ExpiryDays <int>
     -ResourceGroupId <string>
 ```
+
+Specify an activityaccount id list.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
@@ -56,6 +68,8 @@ Add-SecuronixEntityToWatchlist
     -ExpiryDays <int>
     -ResourceGroupId <string>
 ```
+
+Specify a resource id.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
@@ -65,6 +79,8 @@ Add-SecuronixEntityToWatchlist
     -ExpiryDays <int>
     -ResourceGroupId <string>
 ```
+
+Specify a resource id list.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
@@ -74,6 +90,8 @@ Add-SecuronixEntityToWatchlist
     -ExpiryDays <int>
     -ResourceGroupId <string>
 ```
+
+Specify an activity ip.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
@@ -83,6 +101,8 @@ Add-SecuronixEntityToWatchlist
     -ExpiryDays <int>
     -ResourceGroupId <string>
 ```
+
+Specify an activity ip list.
 ```
 Add-SecuronixEntityToWatchlist
     [-Url] <string>
