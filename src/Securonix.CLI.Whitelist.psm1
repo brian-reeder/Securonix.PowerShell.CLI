@@ -44,17 +44,13 @@ function New-SecuronixWhitelist {
         [Parameter(Mandatory)]
 		[string] $TenantName,
         [Parameter(Mandatory)]
+        [ValidateSet('Users', 'Activityaccount', 'Resources', 'IpAddress')]
 		[string] $EntityType
 	)
 
 	Begin {
         if($Url.EndsWith('/')) {
 			$Url = $Url.Remove($Url.Length-1, 1)   
-		}
-
-        $EntityTypeSet = @('Users', 'Activityaccount', 'Resources', 'IpAddress')	
-		if($EntityTypeSet -NotContains $EntityType.ToLower()) {
-			throw "Invalid EntityType provided. You entered `"$($EntityType)`". Valid values: $($EntityTypeSet)."
 		}
 
 		$Header = [ordered]@{
