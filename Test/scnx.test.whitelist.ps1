@@ -179,9 +179,35 @@ function Test-RemoveSecuronixAttributeFromWhitelist {
             TenantName = $ScnxParams.TenantName
             AttributeName = 'source ip'
             AttributeValue = '10.0.0.1'
-            ExpiryDate = '01/02/2023'
         }        
         Remove-SecuronixAttributeFromWhitelist @params
+        Write-Host "`r`n"
+    }
+
+    End {
+        Remove-Module scnx.test.params
+    }
+    
+}
+
+function Test-RemoveSecuronixEntityFromWhitelist {
+    param ()
+    
+    begin {
+        Import-Module .\scnx.test.params.psm1
+    }
+
+    process {
+        Write-Host 'Testing Remove-SecuronixEntityFromWhitelist'
+        $params = [ordered]@{
+            WhatIf = $True
+            Url = $ScnxParams.Url
+            Token = $ScnxParams.Token
+            WhiteListName = $ScnxParams.WhitelistName
+            TenantName = $ScnxParams.TenantName
+            EntityId = $ScnxParams.EmployeeId
+        }        
+        Remove-SecuronixEntityFromWhitelist @params
         Write-Host "`r`n"
     }
 
@@ -198,3 +224,4 @@ Test-AddSecuronixEntityToWhitelist
 Test-GetSecuronixWhitelist
 Test-GetSecuronixWhitelistMembers
 Test-RemoveSecuronixAttributeFromWhitelist
+Test-RemoveSecuronixEntityFromWhitelist
