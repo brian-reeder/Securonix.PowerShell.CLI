@@ -1,12 +1,12 @@
 # Get-SecuronixWatchlistMembers
-Gets a list of all Watchlists.
+Gets a list members in a given watchlist.
 
 ## Syntax
 ```
 Get-SecuronixWatchlistMembers
-    [[-Url]<string>]
-    [[-Token]<string>]
-    [[-WatchlistName]<string>]
+    [-Url] <string>
+    [-Token] <string>
+    [-WatchlistName] <string>
 ```
 
 ## Description
@@ -17,7 +17,8 @@ Get-SecuronixWatchlistMembers makes an API call to the incident/listWatchlistEnt
 ### Example 1: Get list of members in a watchlist.
 Request
 ```
-Get-SecuronixWatchlistMembers -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -WatchlistName 'test_watchlist'
+Get-SecuronixWatchlistMembers -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
+-WatchlistName 'test_watchlist'
 ```
 
 Response
@@ -53,4 +54,4 @@ Valid authentication token.
 A required API Parameter, the name of the watchlist to retrieve member list.
 
 ## Links
-[Securonix 6.4 REST API Categories - Watchlist ](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Watchlist)
+[Securonix 6.4 REST API Categories - Watchlist](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Watchlist)
