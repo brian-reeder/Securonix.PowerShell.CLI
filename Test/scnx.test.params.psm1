@@ -6,6 +6,9 @@ $ScnxParams = @{
     Password = 'seEcUrEpAsSwOrD'
     WhiteListName = 'test_whitelist'
     TenantName = 'PA-Scranton'
+    EmployeeId = 'jhalpert'
+    ResourceName = 'dundermifflin_mst365_azuread'
+    ResourceGroupId = '35'
 }
 
 Export-ModuleMember -Variable ScnxParams
