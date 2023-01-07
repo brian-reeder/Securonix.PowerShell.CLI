@@ -4,10 +4,10 @@ Request a new API token from the Securonix Web API endpoint.
 ## Syntax
 ```
 New-SecuronixApiToken
-    [[-Url]<string>]
-    [[-Username]<string>]
-    [[-Password]<string>]
-    [-Validity <int>]
+    [-Url] <string>
+    [-Username] <string>
+    [-Password] <string>
+    [[-Validity] <int>]
 ```
 
 ## Description
@@ -28,7 +28,7 @@ Response
 
 ### Example 2: Request an API token with access for 31 Days
 ```
-New-SecuronixApiToken -Url 'Initech.securonix.com/Snypr' -Username 'MichaelBolton' -Password 'PiEcEsOfFlAiR'
+New-SecuronixApiToken -Url 'Initech.securonix.com/Snypr' -Username 'MichaelBolton' -Password 'PiEcEsOfFlAiR' -Validity 31
 ```
 
 Response
@@ -56,4 +56,4 @@ The number of days the token will be valid.
 If unspecified, the default length is 365 days.
 
 ## Links
-[Securonix 6.4 REST API Categories - Auth ](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Auth)
+[Securonix 6.4 REST API Categories - Auth](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Auth)
