@@ -24,25 +24,45 @@ PS> Get-SecuronixIncidentAPIResponse -Url "hxxps://DunderMifflin.securonix.com/S
 https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
 #>
 function Get-SecuronixIncidentAPIResponse {
+	[CmdletBinding(
+		DefaultParameterSetName='default',
+		SupportsShouldProcess
+	)]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
 		[Parameter(Mandatory)]
 		[string] $Token,
 		[Parameter(Mandatory)]
+		[ValidateSet(
+			'metaInfo','status','workflows',
+			'actions', 'actionInfo','workflowname',
+			'defaultAssignee','list','childCaseInfo',
+			'activityStreamInfo'
+		)]
 		[string] $type,
-		
+
+		[Parameter(ParameterSetName='incident',Mandatory)]
+		[Parameter(ParameterSetName='actioninfo',Mandatory)]
 		[string] $incidentId,
+		[Parameter(ParameterSetName='list',Mandatory)]
 		[string] $from,
+		[Parameter(ParameterSetName='list',Mandatory)]
 		[string] $to,
+		[Parameter(ParameterSetName='list',Mandatory)]
 		[string] $rangeType,
+		[Parameter(ParameterSetName='list')]
 		[string] $status,
+		[Parameter(ParameterSetName='list')]
 		[switch] $allowChildCases,
+		[Parameter(ParameterSetName='list')]
 		[int] $max,
+		[Parameter(ParameterSetName='list')]
 		[int] $offset,
+		[Parameter(ParameterSetName='actioninfo',Mandatory)]
 		[string] $actionName,
-		[string] $workflowname,
-		[string] $workflow
+		[Parameter(ParameterSetName='workflowDetails', Mandatory)]
+		[string] $workflowname
 	)
 
 	Begin {
@@ -54,8 +74,10 @@ function Get-SecuronixIncidentAPIResponse {
 			'token' = $Token
 		}
 
-		$PSBoundParameters.Remove('Url') | Out-Null
-		$PSBoundParameters.Remove('Token') | Out-Null
+		$Exclusions = @('Url', 'Token', 'WhatIf', 'Confirm', 'Verbose')
+        foreach($key in $Exclusions) {
+            $PSBoundParameters.Remove($key) | Out-Null
+        }
 		
 		$paramsList = @()
 		foreach($param in $PSBoundParameters.Keys) {
@@ -66,8 +88,10 @@ function Get-SecuronixIncidentAPIResponse {
 	}
 
 	Process {
-		$response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-		return $response.result
+		if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
+			$response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
+			return $response.result
+		}
 	}
 
 	End {}
@@ -93,10 +117,10 @@ None. You cannot pipe objects to Get-SecuronixIncident
 System.String. Get-SecuronixIncident returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixIncident -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -IncidentId 1234567890
+PS> Get-SecuronixIncident -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '1234567890'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncident.md
 #>
 function Get-SecuronixIncident {
 	param(
@@ -121,7 +145,7 @@ function Get-SecuronixIncident {
 	}
 
 	Process {
-		$r = Get-SecuronixIncidentAPIResponse @Params
+		$r = Get-SecuronixIncidentAPIResponse @params
 		return $r.data.incidentItems
 	}
 
@@ -139,7 +163,7 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
 .PARAMETER IncidentId
-A required API Parameter, enter the incident id to view the details.
+A required API Parameter, enter the incident id to view the status.
 
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixIncidentStatus
@@ -148,10 +172,10 @@ None. You cannot pipe objects to Get-SecuronixIncidentStatus
 System.String. Get-SecuronixIncidentStatus returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixIncidentStatus -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -IncidentId 1234567890
+PS> Get-SecuronixIncidentStatus -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '100107'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentStatus.md
 #>
 function Get-SecuronixIncidentStatus {
 	param(
@@ -176,7 +200,7 @@ function Get-SecuronixIncidentStatus {
 	}
 
 	Process {
-		$r = Get-SecuronixIncidentAPIResponse @Params
+		$r = Get-SecuronixIncidentAPIResponse @params
 		return $r.status
 	}
 
@@ -185,7 +209,7 @@ function Get-SecuronixIncidentStatus {
 
 <#
 .DESCRIPTION
-Get-SecuronixIncidenSecuronixIncidentWorkflowNametStatus makes an API call to the Incident/Get endpoint and retrieves the status of an incident.
+Get-SecuronixIncidentWorkflowName makes an API call to the Incident/Get endpoint and retrieves the workflow name of an incident.
 
 .PARAMETER Url
 Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
@@ -194,7 +218,7 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
 .PARAMETER IncidentId
-A required API Parameter, enter the incident id to view the details.
+A required API Parameter, enter the incident id to view the workflow name.
 
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixIncidentWorkflowName
@@ -203,10 +227,10 @@ None. You cannot pipe objects to Get-SecuronixIncidentWorkflowName
 System.String. Get-SecuronixIncidentWorkflowName returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixIncidentWorkflowName -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -IncidentId 1234567890
+PS> Get-SecuronixIncidentWorkflowName -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '100107'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentWorkflowName.md
 #>
 function Get-SecuronixIncidentWorkflowName {
 	param(
@@ -240,7 +264,7 @@ function Get-SecuronixIncidentWorkflowName {
 
 <#
 .DESCRIPTION
-Get-SecuronixIncidentActions makes an API call to the Incident/Get endpoint and retrieves the actions available for an Incident.
+Get-SecuronixIncidentActions makes an API call to the incident/Get endpoint and retrieves the actions available for an incident.
 
 .PARAMETER Url
 Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
@@ -249,7 +273,7 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
 .PARAMETER IncidentId
-A required API Parameter, enter the incident id to view the details.
+A required API Parameter, enter the incident id to view available actions.
 
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixIncidentActions
@@ -261,7 +285,7 @@ System.String. Get-SecuronixIncidentActions returns the API response. The API wi
 PS> Get-SecuronixIncidentActions -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -IncidentId 1234567890
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentActions.md
 #>
 function Get-SecuronixIncidentActions {
 	param(
@@ -306,6 +330,9 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 .PARAMETER IncidentId
 A required API Parameter, enter the incident id to view the details.
 
+.PARAMETER Actioname
+A required API Parameter, check to see if this action is available for an incident.
+
 .INPUTS
 None. You cannot pipe objects to Confirm-SecuronixIncidentAction
 
@@ -313,10 +340,10 @@ None. You cannot pipe objects to Confirm-SecuronixIncidentAction
 System.String. Confirm-SecuronixIncidentAction returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Confirm-SecuronixIncidentAction -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -IncidentId "1234567890" -ActionName "CLAIM"
+PS> Confirm-SecuronixIncidentAction -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '100107' -ActionName 'Claim'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Confirm-SecuronixIncidentAction.md
 #>
 function Confirm-SecuronixIncidentAction {
 	param(
@@ -336,7 +363,7 @@ function Confirm-SecuronixIncidentAction {
 			'ActionName' = 'actionName'
 		}
 		
-		$params = [ordered]@{'type'='actions'}
+		$params = [ordered]@{'type'='actionInfo'}
 		foreach($param in $PSBoundParameters.Keys) {
 			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
 			$params[$key] = $PSBoundParameters[$param]
@@ -344,7 +371,7 @@ function Confirm-SecuronixIncidentAction {
 	}
 
 	Process {
-		$r = Get-SecuronixIncidentAPIResponse @Params
+		$r = Get-SecuronixIncidentAPIResponse @params
 		return $r
 	}
 
@@ -361,9 +388,6 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 .PARAMETER Token
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
-.PARAMETER IncidentId
-A required API Parameter, enter the incident id to view the details.
-
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixWorkflowsList
 
@@ -371,10 +395,10 @@ None. You cannot pipe objects to Get-SecuronixWorkflowsList
 System.String. Get-SecuronixWorkflowsList returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixWorkflowsList -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -IncidentId 1234567890
+PS> Get-SecuronixWorkflowsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixWorkflowsList.md
 #>
 function Get-SecuronixWorkflowsList {
 	param(
@@ -396,7 +420,7 @@ function Get-SecuronixWorkflowsList {
 
 <#
 .DESCRIPTION
-Get-SecuronixWorkflowDetails makes an API call to the Incident/Get endpoint and retrieves the status/action details for an Incident Workflow.
+Get-SecuronixWorkflowDetails makes an API call to the Incident/Get endpoint and returns with the details for the specified workflow.
 
 .PARAMETER Url
 Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
@@ -404,8 +428,8 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 .PARAMETER Token
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
-.PARAMETER IncidentId
-A required API Parameter, enter the incident id to view the details.
+.PARAMETER WorkflowName
+A required API Parameter, enter the name of a Securonix workflow.
 
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixWorkflowDetails
@@ -414,10 +438,10 @@ None. You cannot pipe objects to Get-SecuronixWorkflowDetails
 System.String. Get-SecuronixWorkflowDetails returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixWorkflowDetails -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -WorkflowName SOCTeamReview
+Get-SecuronixWorkflowDetails -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -WorkflowName 'SOCTeamReview'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixWorkflowDetails.md
 #>
 function Get-SecuronixWorkflowDetails {
 	param(
@@ -442,7 +466,7 @@ function Get-SecuronixWorkflowDetails {
 	}
 
 	Process {
-		$r = Get-SecuronixIncidentAPIResponse @Params
+		$r = Get-SecuronixIncidentAPIResponse @params
 		return $r
 	}
 
@@ -459,8 +483,8 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 .PARAMETER Token
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
-.PARAMETER IncidentId
-A required API Parameter, enter the incident id to view the details.
+.PARAMETER WorkflowName
+A required API Parameter, enter the name of a Securonix workflow.
 
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixWorkflowDefaultAssignee
@@ -472,7 +496,7 @@ System.String. Get-SecuronixWorkflowDefaultAssignee returns the API response. Th
 PS> Get-SecuronixWorkflowDefaultAssignee -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -WorkflowName SOCTeamReview
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixWorkflowDefaultAssignee.md
 #>
 function Get-SecuronixWorkflowDefaultAssignee {
 	param(
@@ -545,19 +569,24 @@ System.String. Get-SecuronixIncidentsList returns the API response. The API will
 PS> Get-SecuronixIncidentsList -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -TimeStart 1641040200 -TimeEnd 1641144600 -RangeType Updated
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentsList.md
 #>
 function Get-SecuronixIncidentsList {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory,Position=0)]
 		[string] $Url,
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory,Position=1)]
 		[string] $Token,
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory,Position=2)]
 		[string] $TimeStart,
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory,Position=3)]
 		[string] $TimeEnd,
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory,Position=4)]
+		[ValidateSet('opened', 'closed', 'updated')]
 		[string] $RangeType,
 
 		[string] $Status,
@@ -567,12 +596,6 @@ function Get-SecuronixIncidentsList {
 	)
 
 	Begin {
-		$RangeTypeSet = @('opened', 'closed', 'updated')	
-		if($RangeTypeSet -NotContains $RangeType.ToLower()) {
-			throw "Invalid RangeType provided. You entered `"$($RangeType)`". Valid values: $($RangeTypeSet)."
-		}
-		$RangeType = $RangeType.ToLower()
-
 		$paramsTable = @{
 			'TimeStart' = 'from'
 			'TimeEnd' = 'to'
@@ -609,7 +632,16 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
 .PARAMETER IncidentId
-A required API Parameter, enter the incident id to view the details.
+A required API Parameter, enter the incident id to view the attachments.
+
+.PARAMETER TimeStart
+A required API Parameter, enter starting point for the search. Time (epoch) in ms.
+
+.PARAMETER TimeEnd
+A required API Parameter, enter ending point for the search. Time (epoch) in ms.
+
+.PARAMETER AttachmentType
+A required API Parameter, select any of: csv, pdf, txt.
 
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixIncidentAttachments
@@ -621,9 +653,15 @@ System.String. Get-SecuronixIncidentAttachments returns the API response. The AP
 PS> Get-SecuronixIncidentAttachments -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -IncidentId 1234567890
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentAttachments.md
 #>
 function Get-SecuronixIncidentAttachments {
+
+	[CmdletBinding(
+		DefaultParameterSetName='default',
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -631,10 +669,12 @@ function Get-SecuronixIncidentAttachments {
 		[string] $Token,
 		[Parameter(Mandatory)]
 		[string] $IncidentId,
-
-		[string] $AttachmentType,
+		[Parameter(ParameterSetName='filtertime',Mandatory)]
 		[string] $TimeStart,
-		[string] $TimeEnd
+		[Parameter(ParameterSetName='filtertime',Mandatory)]
+		[string] $TimeEnd,
+		[ValidateSet('pdf','csv','txt')]
+		[string] $AttachmentType
 
 
 	)
@@ -655,8 +695,10 @@ function Get-SecuronixIncidentAttachments {
 			'token' = $Token
 		}
 
-		$PSBoundParameters.Remove('Url') | Out-Null
-		$PSBoundParameters.Remove('Token') | Out-Null
+		$Exclusions = @('Url', 'Token', 'WhatIf', 'Confirm', 'Verbose')
+        foreach($key in $Exclusions) {
+            $PSBoundParameters.Remove($key) | Out-Null
+        }
 		
 		$paramsList = @()
 		foreach($param in $PSBoundParameters.Keys) {
@@ -667,8 +709,10 @@ function Get-SecuronixIncidentAttachments {
 	}
 
 	Process {
-		$response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-		return $response.result
+		if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
+			$response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
+			return $response.result
+		}
 	}
 
 	End {}
@@ -684,7 +728,7 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 .PARAMETER Token
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
-.PARAMETER IncidentId
+.PARAMETER ParentId
 A required API Parameter, enter the incident id to view the details.
 
 .INPUTS
@@ -694,12 +738,16 @@ None. You cannot pipe objects to Get-SecuronixChildIncidents
 System.String. Get-SecuronixChildIncidents returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixChildIncidents -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -IncidentId 1234567890
+PS> Get-SecuronixChildIncidents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -ParentId '100107'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixChildIncidents.md
 #>
 function Get-SecuronixChildIncidents {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -731,7 +779,7 @@ function Get-SecuronixChildIncidents {
 
 <#
 .DESCRIPTION
-Get-SecuronixChildIncidents makes an API call to the Incident/Get endpoint and retrieves all children incident ids of an incident.
+Get-SecuronixIncidentActivityHistory makes an API call to the incident/Get endpoint and retrieves a list of activity and actions taken on an incident.
 
 .PARAMETER Url
 Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
@@ -755,6 +803,10 @@ PS> Get-SecuronixChildIncidents -Url "hxxps://DunderMifflin.securonix.com/Snypr"
 https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
 #>
 function Get-SecuronixIncidentActivityHistory {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
