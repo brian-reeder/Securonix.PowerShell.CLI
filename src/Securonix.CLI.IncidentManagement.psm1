@@ -11,6 +11,33 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 .PARAMETER type
 A required API Parameter, enter the API type to view the details.
 
+.PARAMETER incidentId
+A required API Parameter, enter the unique incident id number.
+
+.PARAMETER from
+A required API Parameter, enter time starting point. Time (epoch) in ms.
+
+.PARAMETER to
+A required API Parameter, enter time ending point. Time (epoch) in ms.
+
+.PARAMETER rangeType
+A required API Parameter, enter the incident action status. Select any of updated,opened,closed.
+
+.PARAMETER status
+An optional API Parameter, filter results by status.
+
+.PARAMETER allowChildCases
+An optional API Parameter, used to receive the list of child cases associated with a parent case in the response.
+
+.PARAMETER max
+An optional API Parameter, enter maximum number of records the API will display.
+
+.PARAMETER offset
+An optional API Parameter, used for pagination of the request.
+
+.PARAMETER workflowname
+A required API Parameter, enter the name of a Securonix workflow.
+
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 
@@ -21,7 +48,7 @@ System.String. Get-SecuronixIncidentAPIResponse returns the API response. The AP
 PS> Get-SecuronixIncidentAPIResponse -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -type "metaInfo" -incidentId "1234567890"
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentAPIResponse.md
 #>
 function Get-SecuronixIncidentAPIResponse {
 	[CmdletBinding(
