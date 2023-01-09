@@ -17,7 +17,8 @@ Get-SecuronixWatchlistData makes an API call to the watchlist index in Spotter t
 ### Example 1: Get a list of entries in the "Flight Risk Users" watchlist.
 Request
 ```
-Get-SecuronixWatchlistData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "watchlistname=`"Flight Risk Users`""
+Get-SecuronixWatchlistData -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
+-Query 'watchlistname="Flight Risk Users"'
 ```
 
 Response
@@ -166,7 +167,7 @@ https://<hostname or IPaddress>/Snypr
 Valid authentication token.
 
 ### -Query
-A spotter query to be processed by Securonix. Valid indexes are: activity, violation, users, asset, geolocation, lookup, riskscore, riskscorehistory.
+A spotter query to be processed by Securonix. Valid indexes are: activity, violation, users, asset, geolocation, lookup, riskscore, riskscorehistory, watchlist.
 
 ## Links
-[Securonix 6.4 REST API Categories - Watchlist ](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Watchlist)
+[Securonix 6.4 REST API Categories - Watchlist](https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Watchlist)

@@ -63,85 +63,35 @@ https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%
 function Get-SecuronixSearchAPIResponse {
     [CmdletBinding(
         DefaultParameterSetName="default",
-        PositionalBinding,
         SupportsShouldProcess
     )]
 	param(
-		[Parameter(
-            Mandatory,
-            Position=0
-        )]
+		[Parameter(Mandatory)]
 		[string] $Url,
-		[Parameter(
-            Mandatory,
-            Position=1
-        )]
+		[Parameter(Mandatory)]
 		[string] $Token,
-        [Parameter(
-            Mandatory,
-            Position=2
-        )]
+        [Parameter(Mandatory)]
         [string] $query,
 
-        [Parameter(
-            Mandatory,
-            ParameterSetName='Activity',
-            Position=3
-        )]
+        [Parameter(Mandatory,ParameterSetName='Activity')]
         [string] $eventtime_from,
-        [Parameter(
-            Mandatory,
-            ParameterSetName='Activity',
-            Position=4
-        )]
+        [Parameter(Mandatory,ParameterSetName='Activity')]
         [string] $eventtime_to,
-        [Parameter(
-            Mandatory,
-            ParameterSetName='Violation',
-            Position=4
-        )]
+        [Parameter(Mandatory,ParameterSetName='Violation')]
         [string] $generationtime_from,
-        [Parameter(
-            Mandatory,
-            ParameterSetName='Violation',
-            Position=4
-        )]
+        [Parameter(Mandatory,ParameterSetName='Violation')]
         [string] $generationtime_to,
-        [Parameter(
-            ParameterSetName='Activity',
-            Position=5
-        )]
-        [Parameter(
-            ParameterSetName='Violation',
-            Position=5
-        )]
+        [Parameter(ParameterSetName='Activity')]
+        [Parameter(ParameterSetName='Violation')]
         [string] $tz,
-        [Parameter(
-            ParameterSetName='Activity',
-            Position=6
-        )]
-        [Parameter(
-            ParameterSetName='Violation',
-            Position=6
-        )]
+        [Parameter(ParameterSetName='Activity')]
+        [Parameter(ParameterSetName='Violation')]
         [bool] $prettyJson,
-        [Parameter(
-            ParameterSetName='Activity',
-            Position=7
-        )]
-        [Parameter(
-            ParameterSetName='Violation',
-            Position=7
-        )]
+        [Parameter(ParameterSetName='Activity')]
+        [Parameter(ParameterSetName='Violation')]
         [int] $max,
-        [Parameter(
-            ParameterSetName='Activity',
-            Position=8
-        )]
-        [Parameter(
-            ParameterSetName='Violation',
-            Position=8
-        )]
+        [Parameter(ParameterSetName='Activity')]
+        [Parameter(ParameterSetName='Violation')]
         [string] $queryId
  	)
 
@@ -179,7 +129,7 @@ function Get-SecuronixSearchAPIResponse {
 
 <#
 .DESCRIPTION
-Get-SecuronixActivityEvents prepares API parameters and queries the Securonix activity index.
+Get-SecuronixActivityEvents prepares API parameters and queries the Securonix activity index. If any events are matched, they will be returned by the API in groups of 1000 if Max is not supplied.
 
 .PARAMETER Url
 Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
@@ -212,9 +162,9 @@ None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixActivityEvents -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "accountname=`"admin`"" -TimeStart "01/02/2008 00:00:00" -TimeEnd "01/03/2008 00:00:00" -Max 10000
+PS> Get-SecuronixActivityEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -TimeStart "01/02/2008 00:00:00" -TimeEnd "01/03/2008 00:00:00" -Query 'accountname="admin"' -Max 10000
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Activity
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixActivityEvents.md
 #>
 function Get-SecuronixActivityEvents {
     [CmdletBinding(
@@ -222,15 +172,16 @@ function Get-SecuronixActivityEvents {
         SupportsShouldProcess
     )]
 	param(
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory,Position=0)]
 		[string] $Url,
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory,Position=1)]
 		[string] $Token,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=2)]
         [string] $TimeStart,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=3)]
         [string] $TimeEnd,
 
+        [Parameter(Position=4)]
         [AllowEmptyString()]
         [string] $Query = '',
 
@@ -280,7 +231,7 @@ function Get-SecuronixActivityEvents {
 
 <#
 .DESCRIPTION
-Get-SecuronixAssetData prepares API parameters and queries the Securonix asset index.
+Get-SecuronixAssetData prepares API parameters and queries the Securonix activity index. If any events are matched, they will be returned by the API in groups of 1000 if Max is not supplied.
 
 .PARAMETER Url
 Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
@@ -298,13 +249,13 @@ None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixAssetData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
+PS> GetSecuronixAssetData -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'entityname="QUALYYSTEST|30489654_42428"'
 
 .EXAMPLE
-PS> GetSecuronixAssetData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "entityname=`"QUALYYSTEST|30489654_42428`""
+PS> Get-SecuronixAssetData -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Asset
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixAssetData.md
 #>
 function Get-SecuronixAssetData {
     [CmdletBinding(
@@ -373,13 +324,10 @@ None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixGeolocationData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
-
-.EXAMPLE
-PS> Get-SecuronixGeolocationData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "location = `"City:Paris Region:A8 Country:FR`" AND longitude = `"2.3488`""
+PS> Get-SecuronixGeolocationData -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'location = "City:Paris Region:A8 Country:FR" AND longitude = "2.3488"'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Geolocation
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixGeolocationData.md
 #>
 function Get-SecuronixGeolocationData {
     [CmdletBinding(
@@ -454,7 +402,7 @@ PS> Get-SecuronixLookupData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -To
 PS> Get-SecuronixLookupData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "lookupname = `"VulnerableHostLookUpTable`""
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Lookup
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixLookupData.md
 #>
 function Get-SecuronixLookupData {
     [CmdletBinding(
@@ -523,13 +471,10 @@ None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixRiskScorecard -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
-
-.EXAMPLE
-PS> Get-SecuronixRiskScorecard -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "violator = `"Users`" AND employeeid = `"1082`""
+PS> Get-SecuronixRiskScorecard -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'violator = "Users" AND employeeid = "1082"'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#RiskHistory
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixRiskScorecard.md
 #>
 function Get-SecuronixRiskScorecard {
     [CmdletBinding(
@@ -598,13 +543,10 @@ None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixRiskHistory -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
-
-.EXAMPLE
-PS> Get-SecuronixRiskHistory -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "employeeid = `"1129`""
+PS> Get-SecuronixRiskHistory -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'employeeid = "1129"'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#RiskHistory
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixRiskHistory.md
 #>
 function Get-SecuronixRiskHistory {
     [CmdletBinding(
@@ -673,13 +615,10 @@ None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixTPI -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
-
-.EXAMPLE
-PS> Get-SecuronixTPI -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "tpi_type = `"Malicious Domain`""
+PS> Get-SecuronixTPI -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'tpi_type = "Malicious Domain"'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#ThirdPartyIntel
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixRiskHistory.md
 #>
 function Get-SecuronixTPI {
     [CmdletBinding(
@@ -730,7 +669,7 @@ function Get-SecuronixTPI {
 
 <#
 .DESCRIPTION
-Get-SecuronixUsersData prepares API parameters and queries the Securonix tpi index.
+Get-SecuronixUsersData prepares API parameters and queries the Securonix users index.
 
 .PARAMETER Url
 Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
@@ -748,13 +687,10 @@ None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixUsersData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
-
-.EXAMPLE
-PS> Get-SecuronixUsersData -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "location = `"Dallas`" AND lastname = `"OGWA`""
+Get-SecuronixUsersData -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'location = "Dallas" AND lastname = "OGWA"'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Users
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixUsersData.md
 #>
 function Get-SecuronixUsersData {
     [CmdletBinding(
@@ -832,15 +768,15 @@ Enter the number of records you want the REST API to return. Default: 1000, Max:
 Used for paginating through the results in the specified duration to ge the next set of maximum records. When you run the query for the first time, the response has the queryId. You can use the queryId to look for records on a specific page.
 
 .INPUTS
-None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
+None. You cannot pipe objects to Get-SecuronixViolationEvents
 
 .OUTPUTS
-System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Get-SecuronixViolationEvents returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixViolationEvents -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -Query "policyname=`"Email sent to self`"" -TimeStart "01/02/2008 00:00:00" -TimeEnd "01/02/2008 15:00:00" -Max 50
+PS> Get-SecuronixViolationEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'policyname="Email sent to self"'
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Violations
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixViolationEvents.md
 #>
 function Get-SecuronixViolationEvents {
     [CmdletBinding(
@@ -924,10 +860,7 @@ None. You cannot pipe objects to Get-SecuronixWatchlistData
 System.String. Get-SecuronixWatchlistData returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixWatchlistData -Url 'hxxps://DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
-
-.EXAMPLE
-PS> Get-SecuronixWatchlistData -Url 'hxxps://DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'watchlistname="Flight Risk Users"'
+PS> Get-SecuronixWatchlistData -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -Query 'watchlistname="Flight Risk Users"'
 
 .LINK
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Search/Get-SecuronixWatchlistData.md
