@@ -11,6 +11,33 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 .PARAMETER type
 A required API Parameter, enter the API type to view the details.
 
+.PARAMETER incidentId
+A required API Parameter, enter the unique incident id number.
+
+.PARAMETER from
+A required API Parameter, enter time starting point. Time (epoch) in ms.
+
+.PARAMETER to
+A required API Parameter, enter time ending point. Time (epoch) in ms.
+
+.PARAMETER rangeType
+A required API Parameter, enter the incident action status. Select any of updated,opened,closed.
+
+.PARAMETER status
+An optional API Parameter, filter results by status.
+
+.PARAMETER allowChildCases
+An optional API Parameter, used to receive the list of child cases associated with a parent case in the response.
+
+.PARAMETER max
+An optional API Parameter, enter maximum number of records the API will display.
+
+.PARAMETER offset
+An optional API Parameter, used for pagination of the request.
+
+.PARAMETER workflowname
+A required API Parameter, enter the name of a Securonix workflow.
+
 .INPUTS
 None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 
