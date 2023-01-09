@@ -65,7 +65,7 @@ function Get-SecuronixIncidentAPIResponse {
 			'metaInfo','status','workflows',
 			'actions', 'actionInfo','workflowname',
 			'defaultAssignee','list','childCaseInfo',
-			'activityStreamInfo'
+			'activityStreamInfo', 'workflow'
 		)]
 		[string] $type,
 
@@ -150,6 +150,10 @@ PS> Get-SecuronixIncident -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncident.md
 #>
 function Get-SecuronixIncident {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -205,6 +209,10 @@ PS> Get-SecuronixIncidentStatus -Url 'DunderMifflin.securonix.com/Snypr' -Token 
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentStatus.md
 #>
 function Get-SecuronixIncidentStatus {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -260,6 +268,10 @@ PS> Get-SecuronixIncidentWorkflowName -Url 'DunderMifflin.securonix.com/Snypr' -
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentWorkflowName.md
 #>
 function Get-SecuronixIncidentWorkflowName {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -315,6 +327,10 @@ PS> Get-SecuronixIncidentActions -Url "hxxps://DunderMifflin.securonix.com/Snypr
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentActions.md
 #>
 function Get-SecuronixIncidentActions {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -373,6 +389,10 @@ PS> Confirm-SecuronixIncidentAction -Url 'DunderMifflin.securonix.com/Snypr' -To
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Confirm-SecuronixIncidentAction.md
 #>
 function Confirm-SecuronixIncidentAction {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -428,6 +448,10 @@ PS> Get-SecuronixWorkflowsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixWorkflowsList.md
 #>
 function Get-SecuronixWorkflowsList {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -438,7 +462,7 @@ function Get-SecuronixWorkflowsList {
 	Begin {}
 
 	Process {
-		$r = Get-SecuronixIncidentAPIResponse -type 'workflows'
+		$r = Get-SecuronixIncidentAPIResponse -Url $Url -Token $Token -type 'workflows' 
 		return $r
 	}
 
@@ -471,6 +495,10 @@ Get-SecuronixWorkflowDetails -Url 'DunderMifflin.securonix.com/Snypr' -Token '12
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixWorkflowDetails.md
 #>
 function Get-SecuronixWorkflowDetails {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -526,6 +554,10 @@ PS> Get-SecuronixWorkflowDefaultAssignee -Url "hxxps://DunderMifflin.securonix.c
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixWorkflowDefaultAssignee.md
 #>
 function Get-SecuronixWorkflowDefaultAssignee {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
