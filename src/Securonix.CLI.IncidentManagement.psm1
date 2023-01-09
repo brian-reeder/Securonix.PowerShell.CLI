@@ -48,7 +48,7 @@ System.String. Get-SecuronixIncidentAPIResponse returns the API response. The AP
 PS> Get-SecuronixIncidentAPIResponse -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -type "metaInfo" -incidentId "1234567890"
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentAPIResponse.md
 #>
 function Get-SecuronixIncidentAPIResponse {
 	[CmdletBinding(
