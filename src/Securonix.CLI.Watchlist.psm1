@@ -336,24 +336,10 @@ function Add-SecuronixEntityToWatchlist {
         [Parameter(ParameterSetName='ActivityIpIdList',Mandatory)]
         [ValidateCount(1,5)]
 		[string[]] $ActivityIpIdList,
-        [Parameter(ParameterSetName='single',
-            Mandatory,
-            Position=5
-        )]
-        [Parameter(ParameterSetName='list',
-            Mandatory,
-            Position=5
-        )]
         [Parameter(Mandatory)]
 		[int] $ExpiryDays,
-        [Parameter(ParameterSetName='single',
-            Mandatory,
-            Position=6
-        )]
-        [Parameter(ParameterSetName='list',
-            Mandatory,
-            Position=6
-        )]
+        [Parameter(ParameterSetName='single',Mandatory)]
+        [Parameter(ParameterSetName='list',Mandatory)]
         [Parameter(ParameterSetName='ActivityaccountId', Mandatory)]
         [Parameter(ParameterSetName='ActivityaccountIdList', Mandatory)]
         [Parameter(ParameterSetName='ResourceId', Mandatory)]
@@ -364,7 +350,7 @@ function Add-SecuronixEntityToWatchlist {
 	)
 
 	Begin {
-        if($PSBoundParameters.Keys() -notcontains 'EntityType') {
+        if($PSBoundParameters.Keys -notcontains 'EntityType') {
             if($UsersId -ne '') {
                 $EntityType = 'Users';
                 $EntityId = $PSBoundParameters['UsersId']
@@ -423,7 +409,7 @@ function Add-SecuronixEntityToWatchlist {
         if ($EntityIdList.Count -gt 0) {
             $EntityId = $EntityIdList -join ','
             $PSBoundParameters.Add('EntityId', $EntityId)
-            $PSBoundParameters.Remove('EntityIdList')
+            $PSBoundParameters.Remove('EntityIdList') | Out-Null
         }
 
         if($Url.EndsWith('/')) {
@@ -541,3 +527,9 @@ function Get-SecuronixWatchlistMembers {
 
 	End {}
 }
+
+Export-ModuleMember -Function New-SecuronixWatchlist
+Export-ModuleMember -Function Get-SecuronixWatchlistList
+Export-ModuleMember -Function Get-SecuronixEntityWatchlists
+Export-ModuleMember -Function Add-SecuronixEntityToWatchlist
+Export-ModuleMember -Function Get-SecuronixWatchlistMembers
