@@ -201,7 +201,7 @@ Describe 'Get-SecuronixWatchlistMembers' {
     Context "When token is valid" {
         BeforeEach {
             Mock Invoke-RestMethod  -Verifiable  `
-                -MockWith { return $WatchlistList } `
+                -MockWith { return $WatchlistMembers } `
                 -ModuleName Securonix.CLI.Watchlist
         }
         It 'Given the required parameters, it returns a list of watchlists.' {
