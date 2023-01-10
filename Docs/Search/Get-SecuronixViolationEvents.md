@@ -25,6 +25,7 @@ Get-SecuronixViolationEvents prepares API parameters and queries the Securonix v
 Request
 ```
 Get-SecuronixViolationEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
+-TimeStart '08/19/2019 00:00:00' -TimeEnd '08/19/2019 23:59:59' \
 -Query 'policyname="Email sent to self"'
 ```
 
@@ -96,6 +97,16 @@ Response
 }
 ```
 
+### Example 2: Get violations for policy "Email sent to self" using time epoch.
+
+Request
+```
+Get-SecuronixViolationEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
+-TimeStart '1566190800' -TimeEnd '1566277199' \
+-Query 'policyname="Email sent to self"'
+```
+
+
 ## Parameters
 
 ### -Url
@@ -111,10 +122,10 @@ Valid authentication token.
 A spotter query to be processed by Securonix. Valid indexes are: activity, violation, users, asset, geolocation, lookup, riskscore, riskscorehistory.
 
 ### -TimeStart
-Required to query the violation index. Enter the event time start range in format MM/dd/yyy HH:mm:ss.
+Required to query the violation index. Enter the event time start range. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS'.
 
 ### -TimeEnd
-Required to query the violation index. Enter the event time end range in format MM/dd/yyy HH:mm:ss.
+Required to query the violation index. Enter the event time end range. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS'.
 
 ### -TimeZone
 Enter the timezone info. If empty, the application timezone will be selected.

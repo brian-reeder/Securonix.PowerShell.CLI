@@ -24,7 +24,7 @@ Get-SecuronixActivityEvents prepares API parameters and queries the Securonix ac
 Request
 ```
 Get-SecuronixActivityEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
--TimeStart "01/02/2008 00:00:00" -TimeEnd "01/03/2008 00:00:00" \
+-TimeStart '01/02/2008 00:00:00' -TimeEnd '01/03/2008 00:00:00' \
 -Query 'accountname="admin"' -Max 10000
 ```
 
@@ -107,10 +107,10 @@ Valid authentication token.
 A spotter query to be processed by Securonix. Valid indexes are: activity, violation, users, asset, geolocation, lookup, riskscore, riskscorehistory.
 
 ### -TimeStart
-Required to query the activity index. Enter the event time start range in format MM/dd/yyy HH:mm:ss.
+Required to query the activity index. Enter the event time start range. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS'.
 
 ### -TimeEnd
-Required to query the activity index. Enter the event time end range in format MM/dd/yyy HH:mm:ss.
+Required to query the activity index. Enter the event time start range. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS'.
 
 ### -TimeZone
 Enter the timezone info. If empty, the application timezone will be selected.

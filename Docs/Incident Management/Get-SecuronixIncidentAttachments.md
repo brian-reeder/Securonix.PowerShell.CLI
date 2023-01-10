@@ -58,10 +58,10 @@ https://<hostname or IPaddress>/Snypr
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
 ### -TimeStart
-A required API Parameter, enter starting point for the search. Time (epoch) in ms.
+A required API Parameter, enter starting point for the search. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS-00'.
 
 ### -TimeEnd
-A required API Parameter, enter ending point for the search. Time (epoch) in ms.
+A required API Parameter, enter ending point for the search. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS-00'.
 
 ### -AttachmentType
 A required API Parameter, select any of: csv, pdf, txt.
