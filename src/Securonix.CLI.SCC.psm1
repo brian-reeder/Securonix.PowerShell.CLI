@@ -9,10 +9,10 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
 .PARAMETER TimeStart
-A required API Parameter, enter starting point for the search. Time (epoch) in ms.
+A required API Parameter, enter starting point for the search. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS-00'.
 
 .PARAMETER TimeEnd
-A required API Parameter, enter ending point for the search. Time (epoch) in ms.
+A required API Parameter, enter ending point for the search. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS-00'.
 
 .PARAMETER Offset
 An optional API Parameter, used for pagination of the request.
@@ -59,6 +59,15 @@ function Get-SecuronixThreats {
 	)
 
 	Begin {
+        . "$PSScriptRoot\lib\Convert-StringTime.ps1"
+
+		if($TimeStart -notmatch '^[\d]+$' ) {
+			$PSBoundParameters['TimeStart'] = Convert-StringTime -DateTime $TimeStart
+		}
+		if($TimeEnd -notmatch '^[\d]+$' ) {
+			$PSBoundParameters['TimeEnd'] = Convert-StringTime -DateTime $TimeEnd
+		}
+
         if($Url.EndsWith('/')) {
 			$Url = $Url.Remove($Url.Length-1, 1)   
 		}

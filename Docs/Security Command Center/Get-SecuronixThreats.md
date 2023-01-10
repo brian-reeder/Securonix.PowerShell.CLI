@@ -69,10 +69,10 @@ https://<hostname or IPaddress>/Snypr
 Valid authentication token.
 
 ### -TimeStart
-A required API Parameter, enter starting point for the search. Time (epoch) in ms.
+A required API Parameter, enter starting point for the search. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS-00'.
 
 ### -TimeEnd
-A required API Parameter, enter ending point for the search. Time (epoch) in ms.
+A required API Parameter, enter ending point for the search. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS-00'.
 
 ### -Offset
 An optional API Parameter, used for pagination of the request.
