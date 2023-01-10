@@ -9,16 +9,16 @@ Url endpoint for your Securonix instance. Must be in the format https://<hostnam
 An API token to validate access. Use New-SecuronixApiToken to generate a new token.
 
 .INPUTS
-None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
+None. You cannot pipe objects to Get-SecuronixPolicyList
 
 .OUTPUTS
-System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Get-SecuronixPolicyList returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixPolicyList -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
+PS> Get-SecuronixPolicyList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#List
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/List/Get-SecuronixPolicyList.md
 #>
 function Get-SecuronixPolicyList {
     [CmdletBinding(
@@ -64,13 +64,13 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 None. You cannot pipe objects to Get-SecuronixResourcegroupList
 
 .OUTPUTS
-System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Get-SecuronixResourcegroupList returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixResourcegroupList -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
+PS> Get-SecuronixResourcegroupList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#List
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/List/Get-SecuronixResourcegroupList.md
 #>
 function Get-SecuronixResourcegroupList {
     [CmdletBinding(
@@ -104,7 +104,7 @@ function Get-SecuronixResourcegroupList {
 
 <#
 .DESCRIPTION
-Get-SecuronixPeerGroupsList prepares API parameters and queries the Securonix for a list of all Resource Groups configured by Snypr for monitoring.
+Get-SecuronixPeerGroupsList prepares API parameters and queries the Securonix for a list of all Peer Groups configured by Snypr for monitoring.
 
 .PARAMETER Url
 Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
@@ -116,13 +116,13 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 None. You cannot pipe objects to Get-SecuronixPeerGroupsList
 
 .OUTPUTS
-System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Get-SecuronixPeerGroupsList returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixPeerGroupsList -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF"
+PS> Get-SecuronixPeerGroupsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
 
 .LINK
-https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#List
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/List/Get-SecuronixPeerGroupsList.md
 #>
 function Get-SecuronixPeerGroupsList {
     [CmdletBinding(
@@ -153,3 +153,7 @@ function Get-SecuronixPeerGroupsList {
 
 	End {}
 }
+
+Export-ModuleMember -Function Get-SecuronixPolicyList 
+Export-ModuleMember -Function Get-SecuronixResourcegroupList
+Export-ModuleMember -Function Get-SecuronixPeerGroupsList
