@@ -141,10 +141,10 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 A spotter query to be processed by Securonix. Valid indexes are: activity, violation, users, asset, geolocation, lookup, riskscore, riskscorehistory.
 
 .PARAMETER TimeStart
-Required to query the activity index. Enter the event time start range in format MM/dd/yyy HH:mm:ss.
+Required to query the activity index. Enter the event time start range. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS'.
 
 .PARAMETER TimeEnd
-Required to query the activity index. Enter the event time end range in format MM/dd/yyy HH:mm:ss.
+Required to query the activity index. Enter the event time start range. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS'.
 
 .PARAMETER TimeZone
 Enter the timezone info. If empty, the application timezone will be selected.
@@ -156,10 +156,10 @@ Enter the number of records you want the REST API to return. Default: 1000, Max:
 Used for paginating through the results in the specified duration to ge the next set of maximum records. When you run the query for the first time, the response has the queryId. You can use the queryId to look for records on a specific page.
 
 .INPUTS
-None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
+None. You cannot pipe objects to Get-SecuronixActivityEvents
 
 .OUTPUTS
-System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Get-SecuronixActivityEvents returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
 PS> Get-SecuronixActivityEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -TimeStart "01/02/2008 00:00:00" -TimeEnd "01/03/2008 00:00:00" -Query 'accountname="admin"' -Max 10000
@@ -186,12 +186,20 @@ function Get-SecuronixActivityEvents {
         [string] $Query = '',
 
         [string] $TimeZone,
-        [bool] $PrettyJson,
+        [switch] $PrettyJson,
         [int] $Max,
         [string] $QueryId
 	)
 
 	Begin {
+        . "$PSScriptRoot\lib\Convert-StringTime.ps1"
+
+		if($TimeStart -match '^[\d]+$' ) {
+			$PSBoundParameters['TimeStart'] = Convert-StringTime -Epoch $TimeStart
+		}
+		if($TimeEnd -match '^[\d]+$' ) {
+			$PSBoundParameters['TimeEnd'] = Convert-StringTime -Epoch $TimeEnd
+		}
 		$paramsTable = @{
             'Query' = 'query'
 			'TimeStart' = 'eventtime_from'
@@ -753,10 +761,10 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 A spotter query to be processed by Securonix. Valid indexes are: activity, violation, users, asset, geolocation, lookup, riskscore, riskscorehistory.
 
 .PARAMETER TimeStart
-Required to query the violation index. Enter the event time start range in format MM/dd/yyy HH:mm:ss.
+Required to query the violation index. Enter the event time start range. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS'.
 
 .PARAMETER TimeEnd
-Required to query the violation index. Enter the event time end range in format MM/dd/yyy HH:mm:ss.
+Required to query the violation index. Enter the event time end range. Time (epoch) in ms or Date Time in 'mm/dd/YYYY HH:MM:SS'.
 
 .PARAMETER TimeZone
 Enter the timezone info. If empty, the application timezone will be selected.
@@ -784,25 +792,35 @@ function Get-SecuronixViolationEvents {
         SupportsShouldProcess
     )]
 	param(
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory,Position=0)]
 		[string] $Url,
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory,Position=1)]
 		[string] $Token,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=2)]
         [string] $TimeStart,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory,Position=3)]
         [string] $TimeEnd,
 
+        [Parameter(Position=4)]
         [AllowEmptyString()]
         [string] $Query = '',
 
         [string] $TimeZone,
-        [bool] $PrettyJson,
+        [switch] $PrettyJson,
         [int] $Max,
         [string] $QueryId
 	)
 
 	Begin {
+        . "$PSScriptRoot\lib\Convert-StringTime.ps1"
+
+		if($TimeStart -match '^[\d]+$' ) {
+			$PSBoundParameters['TimeStart'] = Convert-StringTime -Epoch $TimeStart
+		}
+		if($TimeEnd -match '^[\d]+$' ) {
+			$PSBoundParameters['TimeEnd'] = Convert-StringTime -Epoch $TimeEnd
+		}
+
 		$paramsTable = @{
             'Query' = 'query'
 			'TimeStart' = 'generationtime_from'
