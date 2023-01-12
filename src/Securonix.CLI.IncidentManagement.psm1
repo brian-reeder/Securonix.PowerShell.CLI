@@ -65,7 +65,7 @@ function Get-SecuronixIncidentAPIResponse {
 			'metaInfo','status','workflows',
 			'actions', 'actionInfo','workflowname',
 			'defaultAssignee','list','childCaseInfo',
-			'activityStreamInfo', 'workflow'
+			'activityStreamInfo', 'workflow','threatActions'
 		)]
 		[string] $type,
 
@@ -913,6 +913,345 @@ function Get-SecuronixIncidentActivityHistory {
 	End {}
 }
 
+<#
+.DESCRIPTION
+Get-SecuronixThreatActions makes an API call to the Incident/Get endpoint and retrieves all actions avaiable for an incident.
+
+.PARAMETER Url
+Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
+
+.PARAMETER Token
+An API token to validate access. Use New-SecuronixApiToken to generate a new token.
+
+.INPUTS
+None. You cannot pipe objects to Get-SecuronixThreatActions
+
+.OUTPUTS
+System.String. Get-SecuronixThreatActions returns the API response. The API will respond with a JSON object for valid requests.
+
+.EXAMPLE
+PS> Get-SecuronixThreatActions -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
+
+.LINK
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixThreatActions.md
+#>
+function Get-SecuronixThreatActions {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
+	param(
+		[Parameter(Mandatory)]
+		[string] $Url,
+		[Parameter(Mandatory)]
+		[string] $Token
+	)
+
+	Begin {		
+		$Exclusions = @('WhatIf', 'Confirm', 'Verbose')
+        foreach($key in $Exclusions) {
+            $PSBoundParameters.Remove($key) | Out-Null
+		}
+
+		$params = [ordered]@{'type'='threatActions'}
+		foreach($param in $PSBoundParameters.Keys) {
+			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
+			$params[$key] = $PSBoundParameters[$param]
+		}
+	}
+
+	Process {
+		$r = Get-SecuronixIncidentAPIResponse @Params
+		return $r
+	}
+
+	End {}
+}
+
+<#
+.DESCRIPTION
+Update-SecuronixIncident makes an API call to the Incident/Actions endpoint and updates an incident with the supplied action.
+
+.PARAMETER Url
+Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
+
+.PARAMETER Token
+An API token to validate access. Use New-SecuronixApiToken to generate a new token.
+
+.PARAMETER IncidentId
+A required API Parameter, enter the incident id to view the workflow name.
+
+.PARAMETER ActionName
+A required API Parameter. Enter an action that you want to perform for the incident. You can run the Available Threat Actions on an Incident API to view the available actions.
+
+.PARAMETER Attributes
+Depending on workflow configured in your organization, add the required attributes. Run Confirm-SecuronixIncidentAction, or Get-SecuronixIncidentActions to view all the attributes (required or not).
+
+.INPUTS
+None. You cannot pipe objects to Update-SecuronixIncident
+
+.OUTPUTS
+System.String. Update-SecuronixIncident returns the API response. The API will respond with a JSON object for valid requests.
+
+.EXAMPLE
+PS> Update-SecuronixIncident -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '10029' -ActionName 'comment' -Attributes @{'comment'='comment message';'username'='jhalpert';'firstname'='Jim';'lastname'='Halpert'}
+
+.LINK
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Update-SecuronixIncident.md
+#>
+function Update-SecuronixIncident {
+	[CmdletBinding(
+		DefaultParameterSetName='IncidentId',
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
+	param(
+		[Parameter(Mandatory,Position=0)]
+		[string] $Url,
+		[Parameter(Mandatory,Position=1)]
+		[string] $Token,
+		[Parameter(ParameterSetName='IncidentId',
+			Mandatory,
+			Position=2
+		)]
+		[string] $IncidentId,
+		[Parameter(ParameterSetName='bulkcaseids',
+			Mandatory
+		)]
+		[string] $bulkcaseids,
+		[Parameter(ParameterSetName='bulkcaseidsList',
+			Mandatory
+		)]
+		[string[]] $bulkcaseidsList,
+		[Parameter(Mandatory,Position=2)]
+		[string] $ActionName,
+		
+		[hashtable] $Attributes
+	)
+
+	Begin {
+		if($Url.EndsWith('/')) {
+			$Url = $Url.Remove($Url.Length-1, 1)   
+		}
+
+		$Header = [ordered]@{
+			'token' = $Token
+		}
+
+		if($bulkcaseids -ne '') {
+			$bulkcaseids = "bulkcaseids=$bulkcaseids"
+		}
+		if($bulkcaseidsList.Count -gt 0) {
+			$list = @()
+			foreach($i in $bulkcaseidsList) {
+				$list += "bulkcaseids=$i"
+			}
+			$bulkcaseids = ($list -join '&')
+			$PSBoundParameters.Remove('bulkcaseidsList') | Out-Null
+		}
+
+		foreach($key in $Attributes.Keys) {
+			$PSBoundParameters.Add($key, $Attributes[$key])
+		}
+
+		$Exclusions = @(
+			'Url', 'Token', 'WhatIf', 'Confirm', 'Verbose',
+			'Attributes', 'bulkcaseids'
+		)
+        foreach($key in $Exclusions) {
+            $PSBoundParameters.Remove($key) | Out-Null
+        }
+		###
+		$paramsTable = @{
+			'IncidentId' = 'incidentId'
+			'ActionName' = 'actionName'
+		}
+		
+		$params = @()
+		foreach($param in $PSBoundParameters.Keys) {
+			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
+			$value = $PSBoundParameters[$param]
+			$params += "$key=$value"
+		}
+		###
+		$Uri = "$Url/ws/incident/actions?$($params -join '&')"
+
+		if($bulkcaseids -ne '') {
+			$Uri = "$Uri&$bulkcaseids"
+		}
+	}
+
+	Process {
+		if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
+			$response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
+			return $response
+		}
+	}
+
+
+	End {}
+}
+
+<#
+.DESCRIPTION
+Add-SecuronixComment makes an API call to the Incident/Actions endpoint and adds a comment.
+
+.PARAMETER Url
+Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
+
+.PARAMETER Token
+An API token to validate access. Use New-SecuronixApiToken to generate a new token.
+
+.PARAMETER IncidentId
+A required API Parameter. Enter the incident id of the incident to update.
+
+.PARAMETER Comment
+A required parameter. Enter a message to add to an incident.
+
+.PARAMETER Username
+An optional parameter. Enter the username of the user adding the comment.
+
+.PARAMETER Firstname
+An optional parameter. Enter the first name of the user adding the comment.
+
+.PARAMETER Lastname
+An optional parameter. Enter the last name of the user adding the comment.
+
+.INPUTS
+None. You cannot pipe objects to Add-SecuronixComment
+
+.OUTPUTS
+System.String. Add-SecuronixComment returns the API response. The API will respond with a JSON object for valid requests.
+
+.EXAMPLE
+PS> Add-SecuronixComment -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '10029' -Comment 'This is a test'
+
+.LINK
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixThreatActions.md
+#>
+function Add-SecuronixComment {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
+	param(
+		[Parameter(Mandatory,Position=0)]
+		[string] $Url,
+		[Parameter(Mandatory,Position=1)]
+		[string] $Token,
+		[Parameter(Mandatory,Position=2)]
+		[string] $IncidentId,
+		[Parameter(Mandatory,Position=3)]
+		[string] $Comment,
+		
+		[string] $Username,
+		[string] $Firstname,
+		[string] $Lastname
+	)
+
+	Begin {		
+		$Exclusions = @('WhatIf', 'Confirm', 'Verbose')
+        foreach($key in $Exclusions) {
+            $PSBoundParameters.Remove($key) | Out-Null
+		}
+
+		$Attributes = @{}
+		$Attributes.Add('comment', $Comment)
+
+		if($Username -ne '') {
+			$Attributes.Add('username', $Username)
+		}
+		if($Firstname -ne '') {
+			$Attributes.Add('firstname', $Firstname)
+		}
+		if($Lastname -ne '') {
+			$Attributes.Add('lastname', $Lastname)
+		}
+	}
+
+	Process {
+		$r = Update-SecuronixIncident -Url $Url -Token $Token -IncidentId $IncidentId -ActionName 'comment' -Attributes $Attributes
+		return $r
+	}
+
+	End {}
+}
+
+<#
+.DESCRIPTION
+Update-SecuronixCriticality makes an API call to the Incident/Actions endpoint and updates the incidents criticality.
+
+.PARAMETER Url
+Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
+
+.PARAMETER Token
+An API token to validate access. Use New-SecuronixApiToken to generate a new token.
+
+.PARAMETER IncidentId
+A required API Parameter. Enter the incident id of the incident to update.
+
+.PARAMETER Comment
+A required parameter. Enter a message to add to an incident.
+
+.PARAMETER Username
+An optional parameter. Enter the username of the user adding the comment.
+
+.PARAMETER Firstname
+An optional parameter. Enter the first name of the user adding the comment.
+
+.PARAMETER Lastname
+An optional parameter. Enter the last name of the user adding the comment.
+
+.INPUTS
+None. You cannot pipe objects to Add-SecuronixComment
+
+.OUTPUTS
+System.String. Add-SecuronixComment returns the API response. The API will respond with a JSON object for valid requests.
+
+.EXAMPLE
+PS> Add-SecuronixComment -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '10029' -Comment 'This is a test'
+
+.LINK
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixThreatActions.md
+#>
+function Update-SecuronixCriticality {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
+	param(
+		[Parameter(Mandatory,Position=0)]
+		[string] $Url,
+		[Parameter(Mandatory,Position=1)]
+		[string] $Token,
+		[Parameter(Mandatory,Position=2)]
+		[string] $IncidentId,
+		[Parameter(Mandatory,Position=3)]
+		[ValidateSet('none','low','medium','high','custom')]
+		[string] $Criticality
+	)
+
+	Begin {		
+		$Exclusions = @('WhatIf', 'Confirm', 'Verbose')
+        foreach($key in $Exclusions) {
+            $PSBoundParameters.Remove($key) | Out-Null
+		}
+
+		$Attributes = @{}
+		$Attributes.Add('criticality', $Criticality)
+		$Attributes.Add('changecriticality', 'true')
+
+
+	}
+
+	Process {
+		$r = Update-SecuronixIncident -Url $Url -Token $Token -IncidentId $IncidentId -ActionName 'comment' -Attributes $Attributes
+		return $r
+	}
+
+	End {}
+}
+
 Export-ModuleMember -Function Get-SecuronixIncidentAPIResponse
 Export-ModuleMember -Function Get-SecuronixIncident
 Export-ModuleMember -Function Get-SecuronixIncidentStatus
@@ -926,3 +1265,7 @@ Export-ModuleMember -Function Get-SecuronixIncidentsList
 Export-ModuleMember -Function Get-SecuronixIncidentAttachments
 Export-ModuleMember -Function Get-SecuronixChildIncidents
 Export-ModuleMember -Function Get-SecuronixIncidentActivityHistory
+Export-ModuleMember -Function Get-SecuronixThreatActions
+Export-ModuleMember -Function Add-SecuronixComment
+Export-ModuleMember -Function Update-SecuronixIncident
+Export-ModuleMember -Function Update-SecuronixCriticality
