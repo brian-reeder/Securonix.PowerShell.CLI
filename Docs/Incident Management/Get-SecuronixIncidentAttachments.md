@@ -25,6 +25,7 @@ Get-SecuronixIncidentAttachments makes an API call to the Incident/attachments e
 ## Example
 
 ### Example 1: Get list of incidents in updated status within the time frame.
+
 Request
 ```
 Get-SecuronixIncidentAttachments -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
@@ -32,6 +33,8 @@ Get-SecuronixIncidentAttachments -Url 'DunderMifflin.securonix.com/Snypr' -Token
 ```
 
 ### Example 2: User doesn't have access to incident or incident tenant.
+
+Request
 ```
 Get-SecuronixIncidentAttachments -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
 -IncidentId '100107'

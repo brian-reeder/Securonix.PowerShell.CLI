@@ -15,6 +15,7 @@ Get-SecuronixIncidentWorkflowName makes an API call to the Incident/Get endpoint
 ## Example
 
 ### Example 1: Get status of an incident
+
 Request
 ```
 Get-SecuronixIncidentWorkflowName -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '100107'

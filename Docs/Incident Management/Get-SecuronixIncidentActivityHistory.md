@@ -15,11 +15,13 @@ Get-SecuronixIncidentActivityHistory makes an API call to the incident/Get endpo
 ## Example
 
 ### Example 1: Get history for an incident.
+
 Request
 ```
 Get-SecuronixIncidentActivityHistory -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
 -IncidentId '20019'
 ```
+
 Response
 ```
 {

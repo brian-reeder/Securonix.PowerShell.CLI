@@ -22,6 +22,7 @@ New-SecuronixIncident makes an API call to the Incident/Actions endpoint and cre
 ## Example
 
 ### Example 1: Create a new incident.
+
 Request
 ```
 New-SecuronixIncident -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \

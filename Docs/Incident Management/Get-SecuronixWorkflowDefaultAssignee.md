@@ -15,6 +15,7 @@ Get-SecuronixWorkflowDefaultAssignee makes an API call to the Incident/Get endpo
 ## Example
 
 ### Example 1: Get a list of all workflows.
+
 Request
 ```
 Get-SecuronixWorkflowDefaultAssignee -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \

@@ -18,12 +18,14 @@ Add-SecuronixComment makes an API call to the Incident/Actions endpoint and adds
 
 ## Example
 
-### Example 1: Take an action
+### Example 1: Add a comment to an open incident.
+
 Request
 ```
 Add-SecuronixComment -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
 -IncidentId '10029' -Comment 'This is a test'
 ```
+
 Response
 ```
 {

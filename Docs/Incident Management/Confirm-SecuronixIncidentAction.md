@@ -16,6 +16,7 @@ Confirm-SecuronixIncidentAction makes an API call to the Incident/Get endpoint a
 ## Example
 
 ### Example 1: Verify Claim as an available action for an incident
+
 Request
 ```
 Confirm-SecuronixIncidentAction -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '100107' -ActionName 'Claim'
