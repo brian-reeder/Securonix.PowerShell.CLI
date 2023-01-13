@@ -15,6 +15,7 @@ Get-SecuronixWorkflowDetails makes an API call to the Incident/Get endpoint and 
 ## Example
 
 ### Example 1: Get a list of all workflows.
+
 Request
 ```
 Get-SecuronixWorkflowDetails -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \

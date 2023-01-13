@@ -14,10 +14,12 @@ Get-SecuronixThreatActions makes an API call to the Incident/Get endpoint and re
 ## Example
 
 ### Example 1: Get list of available threat management actions.
+
 Request
 ```
 Get-SecuronixThreatActions -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
 ```
+
 Response
 ```
 {

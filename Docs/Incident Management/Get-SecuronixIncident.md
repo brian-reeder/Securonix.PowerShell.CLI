@@ -15,6 +15,7 @@ Get-SecuronixIncident makes an API call to the Incident/Get endpoint and retriev
 ## Example
 
 ### Example 1: Get an incident
+
 Request
 ```
 Get-SecuronixIncident -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \

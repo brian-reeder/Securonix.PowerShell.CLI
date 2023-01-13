@@ -21,6 +21,7 @@ Get-SecuronixIncidentsList makes an API call to the Incident/Get endpoint and re
 ## Example
 
 ### Example 1: Get list of incidents in updated status within the time frame.
+
 Request
 ```
 Get-SecuronixIncidentsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \

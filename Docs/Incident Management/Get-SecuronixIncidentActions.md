@@ -15,6 +15,7 @@ Get-SecuronixIncidentActions makes an API call to the incident/Get endpoint and 
 ## Example
 
 ### Example 1: Get actions for an incident
+
 Request
 ```
 Get-SecuronixIncidentActions -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '100107'

@@ -17,12 +17,14 @@ Update-SecuronixIncident makes an API call to the Incident/Actions endpoint and 
 ## Example
 
 ### Example 1: Take an action
+
 Request
 ```
 Update-SecuronixIncident -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
 -IncidentId '10029' -ActionName 'comment' \
 -Attributes @{'comment'='comment message';'username'='jhalpert';'firstname'='Jim';'lastname'='Halpert'}
 ```
+
 Response
 ```
 {

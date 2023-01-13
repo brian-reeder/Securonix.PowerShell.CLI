@@ -15,11 +15,13 @@ Get-SecuronixChildIncidents makes an API call to the Incident/Get endpoint and r
 ## Example
 
 ### Example 1: Get list of children incidents.
+
 Request
 ```
 Get-SecuronixChildIncidents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
 -ParentId '20019'
 ```
+
 Response
 ```
 {

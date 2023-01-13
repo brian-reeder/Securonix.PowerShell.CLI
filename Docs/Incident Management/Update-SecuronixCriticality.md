@@ -16,11 +16,13 @@ Update-SecuronixCriticality makes an API call to the Incident/Actions endpoint a
 ## Example
 
 ### Example 1: Take an action
+
 Request
 ```
 Update-SecuronixCriticality -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' \
 -IncidentId '10029' -Criticality 'low'
 ```
+
 Response
 ```
 {
