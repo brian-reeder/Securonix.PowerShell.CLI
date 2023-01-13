@@ -868,13 +868,13 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 A required API Parameter, enter the incident id to view the details.
 
 .INPUTS
-None. You cannot pipe objects to Get-SecuronixChildIncidents
+None. You cannot pipe objects to Get-SecuronixIncidentActivityHistory
 
 .OUTPUTS
-System.String. Get-SecuronixChildIncidents returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Get-SecuronixIncidentActivityHistory returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixChildIncidents -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -IncidentId 1234567890
+PS> Get-SecuronixIncidentActivityHistory -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '1234567890'
 
 .LINK
 https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#IncidentManagement
@@ -1001,7 +1001,7 @@ https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident
 #>
 function Update-SecuronixIncident {
 	[CmdletBinding(
-		DefaultParameterSetName='IncidentId',
+		DefaultParameterSetName='default',
         PositionalBinding,
         SupportsShouldProcess
     )]
@@ -1127,7 +1127,7 @@ System.String. Add-SecuronixComment returns the API response. The API will respo
 PS> Add-SecuronixComment -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '10029' -Comment 'This is a test'
 
 .LINK
-https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixThreatActions.md
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Add-SecuronixComment.md
 #>
 function Add-SecuronixComment {
 	[CmdletBinding(
@@ -1190,29 +1190,20 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 .PARAMETER IncidentId
 A required API Parameter. Enter the incident id of the incident to update.
 
-.PARAMETER Comment
-A required parameter. Enter a message to add to an incident.
-
-.PARAMETER Username
-An optional parameter. Enter the username of the user adding the comment.
-
-.PARAMETER Firstname
-An optional parameter. Enter the first name of the user adding the comment.
-
-.PARAMETER Lastname
-An optional parameter. Enter the last name of the user adding the comment.
+.PARAMETER Criticality
+A required parameter. Enter the new criticality. Possible values: 'none','low','medium','high','custom'.
 
 .INPUTS
-None. You cannot pipe objects to Add-SecuronixComment
+None. You cannot pipe objects to Update-SecuronixCriticality
 
 .OUTPUTS
-System.String. Add-SecuronixComment returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Update-SecuronixCriticality returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Add-SecuronixComment -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '10029' -Comment 'This is a test'
+PS> Update-SecuronixCriticality -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -IncidentId '10029' -Criticality 'high'
 
 .LINK
-https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixThreatActions.md
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Update-SecuronixCriticality.md
 #>
 function Update-SecuronixCriticality {
 	[CmdletBinding(
@@ -1252,6 +1243,240 @@ function Update-SecuronixCriticality {
 	End {}
 }
 
+<#
+.DESCRIPTION
+New-SecuronixIncident makes an API call to the Incident/Actions endpoint and creates a new incident.
+
+.PARAMETER Url
+Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
+
+.PARAMETER Token
+An API token to validate access. Use New-SecuronixApiToken to generate a new token.
+
+.PARAMETER IncidentId
+A required API Parameter. Enter the incident id of the incident to update.
+
+.PARAMETER ViolationName
+A required API Parameter. Enter the violation policy name.
+
+.PARAMETER DatasourceName
+A required API Parameter. Enter the resource group name.
+
+.PARAMETER EntityType
+A required API Parameter. Enter any of the following types: Users, Activityaccount, RGActivityaccount, Resources, Activityip.
+
+.PARAMETER EntityName
+A required API Parameter. Enter the accountname associated with the violation.
+
+.PARAMETER Workflow
+A required API Parameter. Enter the workflow name.
+
+.PARAMETER Comment
+An optional API Parameter. Enter an additional comment.
+
+.PARAMETER EmployeeId
+An optional API Parameter. Enter the employee id.
+
+.PARAMETER Criticality
+A required parameter. Enter the new criticality. Possible values: 'none','low','medium','high','custom'.
+
+.INPUTS
+None. You cannot pipe objects to New-SecuronixIncident
+
+.OUTPUTS
+System.String. New-SecuronixIncident returns the API response. The API will respond with a JSON object for valid requests.
+
+.EXAMPLE
+PS> New-SecuronixIncident -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -ViolationName 'Repeated Visits to Potentially Malicious address' -DatasourceName 'Websense Proxy' -EntityType 'Activityip' -EntityName '134.119.189.29' -Workflow 'SOCTeamReview'
+
+.LINK
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/New-SecuronixIncident.md
+#>
+function New-SecuronixIncident {
+	[CmdletBinding(
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
+	param(
+		[Parameter(Mandatory,Position=0)]
+		[string] $Url,
+		[Parameter(Mandatory,Position=1)]
+		[string] $Token,
+		[Parameter(Mandatory,Position=2)]
+		[string] $ViolationName,
+		[Parameter(Mandatory,Position=3)]
+		[string] $DatasourceName,
+		[Parameter(Mandatory,Position=4)]
+		[ValidateSet('Users','Activityaccount','RGActivityaccount','Resources','Activityip')]
+		[string] $EntityType,
+		[Parameter(Mandatory,Position=5)]
+		[string] $EntityName,
+		[Parameter(Mandatory,Position=6)]
+		[string] $Workflow,
+
+		[string] $Comment,
+		[string] $EmployeeId,
+		[ValidateSet('none','low','medium','high','custom')]
+		[string] $Criticality
+
+	)
+
+	Begin {		
+		$Exclusions = @('Url','Token','WhatIf', 'Confirm', 'Verbose')
+        foreach($key in $Exclusions) {
+            $PSBoundParameters.Remove($key) | Out-Null
+		}
+
+		$AttrsTable = @{
+			'Comment' = 'comment'
+			'Criticality' = 'criticality'
+			'EmployeeId' = 'employeeId'
+			'DatasourceName' = 'datasourceName'
+			'EntityType' = 'entityType'
+			'EntityName' = 'entityName'
+			'ResourceName' = 'resourceName'
+			'ViolationName' = 'violationName'
+
+		}
+		$Attributes = [ordered]@{}
+		foreach($param in $PSBoundParameters.Keys) {
+			$key = if($AttrsTable.Keys -Contains $param) { $AttrsTable[$param] } else { $param }
+			$Attributes[$key] = $PSBoundParameters[$param]
+		}
+	}
+
+	Process {
+		$r = Update-SecuronixIncident -Url $Url -Token $Token -ActionName 'Mark as concern and create incident' -Attributes $Attributes
+		return $r
+	}
+
+	End {}
+}
+
+<#
+.DESCRIPTION
+Add-SecuronixViolationScore makes an API call to the Incident/Actions endpoint and updates an incident with the supplied action.
+
+.PARAMETER Url
+Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
+
+.PARAMETER Token
+An API token to validate access. Use New-SecuronixApiToken to generate a new token.
+
+.PARAMETER ScoreIcrement
+A required API parameter. Only accepts positive integers, enter the value to increase the violation score by.
+
+.PARAMETER TenantName
+A required API parameter. The name of the tenant the entity belongs to.
+
+.PARAMETER ViolationName
+A required API parameter. Name of the violation/policy to increase the violation score.
+
+.PARAMETER PolicyCategory
+A required API parameter. Policy category name of the policy being acted on.
+
+.PARAMETER EntityType
+A required API parameter. Type of entity, enter any of: Users, Activityaccount, Resources, IpAddress.
+
+.PARAMETER EntityName
+A required API parameter. Entityid/name of the entity being added. accountname for Activityaccount, userid for Users, ipadress for ActivityIp, resourceName for resources.
+
+.PARAMETER ResourceGroupName
+Required if EntityType is not Users. Enter the name of the resource group the entity belongs to.
+
+.PARAMETER ResourceName
+Required if EntityType is not Users. Enter the name of the resource the entity belongs to.
+
+.INPUTS
+None. You cannot pipe objects to Add-SecuronixViolationScore
+
+.OUTPUTS
+System.String. Add-SecuronixViolationScore returns the API response. The API will respond with a JSON object for valid requests.
+
+.EXAMPLE
+PS> Add-SecuronixViolationScore -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -ScoreIncrement 1 -TenantName 'Automationtenant' -ViolationName 'policy' -PolicyCategory 'category' -EntityType 'Users' -EntityName 'xyz' -ResourceGroupname 'rgGroup' -ResourceName 'resource'
+
+.LINK
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Add-SecuronixViolationScore.md
+#>
+function Add-SecuronixViolationScore {
+	[CmdletBinding(
+		DefaultParameterSetName='default',
+        PositionalBinding,
+        SupportsShouldProcess
+    )]
+	param(
+		[Parameter(Mandatory,Position=0)]
+		[string] $Url,
+		[Parameter(Mandatory,Position=1)]
+		[string] $Token,
+		[Parameter(Mandatory,Position=2)]
+		[int] $ScoreIncrement,
+		[Parameter(Mandatory,Position=3)]
+		[string] $TenantName,
+		[Parameter(Mandatory,Position=4)]
+		[string] $ViolationName,
+		[Parameter(Mandatory,Position=5)]
+		[string] $PolicyCategory,
+		[Parameter(Mandatory,Position=6)]
+		[ValidateSet('Users','Activityaccount','RGActivityaccount','Resources','Activityip')]
+		[string] $EntityType,
+		[Parameter(Mandatory,Position=7)]
+		[string] $EntityName,
+		[Parameter(Mandatory,Position=8)]
+		[string] $ResourceGroupName,
+		[Parameter(Mandatory,Position=9)]
+		[string] $ResourceName
+	)
+
+	Begin {
+		if($Url.EndsWith('/')) {
+			$Url = $Url.Remove($Url.Length-1, 1)   
+		}
+
+		$Header = [ordered]@{
+			'token' = $Token
+		}
+
+		$Exclusions = @(
+			'Url', 'Token', 'WhatIf', 'Confirm', 'Verbose'
+		)
+        foreach($key in $Exclusions) {
+            $PSBoundParameters.Remove($key) | Out-Null
+        }
+		
+		$paramsTable = @{
+			'ScoreIcrement' = 'scoreIncrement'
+			'TenantName' = 'tenantname'
+			'ViolationName' = 'violationName'
+			'PolicyCategory' = 'policyCategory'
+			'EntityType' = 'entityType'
+			'EntityName' = 'entityName'
+			'ResourceGroupName' = 'resourcegroupName'
+			'ResourceName' = 'resourceName'
+		}
+		
+		$params = @()
+		foreach($param in $PSBoundParameters.Keys) {
+			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
+			$value = $PSBoundParameters[$param]
+			$params += "$key=$value"
+		}
+		
+		$Uri = "$Url/ws/incident/updateViolationScore?$($params -join '&')"
+	}
+
+	Process {
+		if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
+			$response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
+			return $response
+		}
+	}
+
+
+	End {}
+}
+
 Export-ModuleMember -Function Get-SecuronixIncidentAPIResponse
 Export-ModuleMember -Function Get-SecuronixIncident
 Export-ModuleMember -Function Get-SecuronixIncidentStatus
@@ -1269,3 +1494,5 @@ Export-ModuleMember -Function Get-SecuronixThreatActions
 Export-ModuleMember -Function Add-SecuronixComment
 Export-ModuleMember -Function Update-SecuronixIncident
 Export-ModuleMember -Function Update-SecuronixCriticality
+Export-ModuleMember -Function New-SecuronixIncident
+Export-ModuleMember -Function Add-SecuronixViolationScore
