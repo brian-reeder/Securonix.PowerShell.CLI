@@ -17,18 +17,22 @@ You can check to see if your PowerShell session has the module installed with th
 ```
 PS C:\..\Securonix.PowerShell.CLI> Get-Module Securonix.CLI
 
-ModuleType  Version  PreRelease  Name           ExportedCommands
-----------  -------  ----------  ----           ----------------
-Manifest    0.1                Securonix.CLI  {Add-SecuronixAttributeToWhitelist, Add-SecuronixEntityToWatchlist, Add-SecuronixEntityToWhitelist, Confirm-SecuronixApiToken…
+ModuleType  Version  PreRelease     Name  ExportedCommands
+----------  -------  ----------     ----  ----------------
+Manifest    0.1      Securonix.CLI        {Add-SecuronixAttributeToWhitelist, Add-SecuronixComment, Add-SecuronixEntityToWatchlist, Add-SecuronixEntityToWhitelist…}
 ```
 ```
 PS C:\..\Securonix.PowerShell.CLI> Get-Command -Module Securonix.CLI
 
-CommandType  Name                                    Version  Source
------------  ----                                    -------  ------
+CommandType  Name                        Version  Source
+-----------  ----                        -------  ------
+CommandType  Name                                    Version  Source       
+-----------  ----                                    -------  ------       
 Function     Add-SecuronixAttributeToWhitelist       0.1      Securonix.CLI
+Function     Add-SecuronixComment                    0.1      Securonix.CLI
 Function     Add-SecuronixEntityToWatchlist          0.1      Securonix.CLI
 Function     Add-SecuronixEntityToWhitelist          0.1      Securonix.CLI
+Function     Add-SecuronixViolationScore             0.1      Securonix.CLI
 Function     Confirm-SecuronixApiToken               0.1      Securonix.CLI
 Function     Confirm-SecuronixIncidentAction         0.1      Securonix.CLI
 Function     Get-SecuronixActivityEvents             0.1      Securonix.CLI
@@ -52,6 +56,7 @@ Function     Get-SecuronixResourcegroupList          0.1      Securonix.CLI
 Function     Get-SecuronixRiskHistory                0.1      Securonix.CLI
 Function     Get-SecuronixRiskScorecard              0.1      Securonix.CLI
 Function     Get-SecuronixSearchAPIResponse          0.1      Securonix.CLI
+Function     Get-SecuronixThreatActions              0.1      Securonix.CLI
 Function     Get-SecuronixThreats                    0.1      Securonix.CLI
 Function     Get-SecuronixTopThreats                 0.1      Securonix.CLI
 Function     Get-SecuronixTopViolations              0.1      Securonix.CLI
@@ -68,11 +73,14 @@ Function     Get-SecuronixWorkflowDefaultAssignee    0.1      Securonix.CLI
 Function     Get-SecuronixWorkflowDetails            0.1      Securonix.CLI
 Function     Get-SecuronixWorkflowsList              0.1      Securonix.CLI
 Function     New-SecuronixApiToken                   0.1      Securonix.CLI
+Function     New-SecuronixIncident                   0.1      Securonix.CLI
 Function     New-SecuronixWatchlist                  0.1      Securonix.CLI
 Function     New-SecuronixWhitelist                  0.1      Securonix.CLI
 Function     Remove-SecuronixAttributeFromWhitelist  0.1      Securonix.CLI
 Function     Remove-SecuronixEntityFromWhitelist     0.1      Securonix.CLI
 Function     Update-SecuronixApiToken                0.1      Securonix.CLI
+Function     Update-SecuronixCriticality             0.1      Securonix.CLI
+Function     Update-SecuronixIncident                0.1      Securonix.CLI
 ```
 
 ## Links
