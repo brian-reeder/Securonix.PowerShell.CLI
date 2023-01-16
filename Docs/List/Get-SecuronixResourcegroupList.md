@@ -14,9 +14,29 @@ Get-SecuronixResourcegroupList prepares API parameters and queries the Securonix
 ## Examples
 
 ### Example 1: Get list of resource groups.
+
 Request
 ```
 Get-SecuronixResourcegroupList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
+```
+
+Response
+```
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
+<resourceGroups> 
+	<resourceGroup> 
+		<name>Bluecoat Proxy</name> 
+		<type>Bluecoat Proxy</type> 
+	</resourceGroup> 
+	<resourceGroup> 
+		<name>Ironport Data</name> 
+		<type>Cisco Ironport Email</type> 
+	</resourceGroup> 
+	<resourceGroup> 
+		<name>Windchill Data</name> 
+		<type>Windchill</type> 
+	</resourceGroup> 
+</resourceGroups>
 ```
 
 ## Parameters
