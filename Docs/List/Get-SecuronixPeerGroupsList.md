@@ -14,9 +14,25 @@ Get-SecuronixPeerGroupsList prepares API parameters and queries the Securonix fo
 ## Examples
 
 ### Example 1: Get list of peer groups.
+
 Request
 ```
 Get-SecuronixPeerGroupsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
+```
+
+Response
+```
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<peerGroups>
+	<peerGroup>
+		<criticality>Low</criticality>
+		<name>Advertising</name>
+	</peerGroup>
+	<peerGroup>
+		<criticality>Low</criticality>
+		<name>Branding</name>
+	</peerGroup>
+</peerGroups> 
 ```
 
 ## Parameters

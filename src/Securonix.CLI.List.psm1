@@ -12,7 +12,7 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 None. You cannot pipe objects to Get-SecuronixPolicyList
 
 .OUTPUTS
-System.String. Get-SecuronixPolicyList returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Get-SecuronixPolicyList returns the API response. The API will respond with a XML object for valid requests.
 
 .EXAMPLE
 PS> Get-SecuronixPolicyList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
@@ -64,7 +64,7 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 None. You cannot pipe objects to Get-SecuronixResourcegroupList
 
 .OUTPUTS
-System.String. Get-SecuronixResourcegroupList returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Get-SecuronixResourcegroupList returns the API response. The API will respond with a XML object for valid requests.
 
 .EXAMPLE
 PS> Get-SecuronixResourcegroupList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
@@ -116,7 +116,7 @@ An API token to validate access. Use New-SecuronixApiToken to generate a new tok
 None. You cannot pipe objects to Get-SecuronixPeerGroupsList
 
 .OUTPUTS
-System.String. Get-SecuronixPeerGroupsList returns the API response. The API will respond with a JSON object for valid requests.
+System.String. Get-SecuronixPeerGroupsList returns the API response. The API will respond with a XML object for valid requests.
 
 .EXAMPLE
 PS> Get-SecuronixPeerGroupsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
