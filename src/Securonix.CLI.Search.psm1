@@ -185,33 +185,22 @@ function Get-SecuronixActivityEvents {
 
 	Begin {
         . "$PSScriptRoot\lib\Convert-StringTime.ps1"
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
 
         $PSBoundParameters['TimeStart'] = Convert-StringTime -InputDateTime $TimeStart -OutDateTime
         $PSBoundParameters['TimeEnd']   = Convert-StringTime -InputDateTime $TimeEnd -OutDateTime
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-		$paramsTable = @{
-            'Query' = 'query'
-			'TimeStart' = 'eventtime_from'
-			'TimeEnd' = 'eventtime_to'
-			'TimeZone' = 'tz'
-			'Max' = 'max'
-			'QueryId' = 'queryId'
-		}
-        
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=activity AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=activity'
-        }
+        $PSBoundParameters['Query'] = "index=activity$(if($Query -ne '') { " AND $Query" })"
 
-		$params = [ordered]@{}
-        $PSBoundParameters.GetEnumerator() `
-            | Where-Object { $Exclusions -notcontains $_.Key } `
-            | ForEach-Object {
-                $key = if($paramsTable.containsKey($_.Key)) { $paramsTable[$_.Key] } else { $_.Key }
-                $params[$key] = $_.value
+		$params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+                'TimeStart' = 'eventtime_from'
+                'TimeEnd' = 'eventtime_to'
+                'TimeZone' = 'tz'
+                'Max' = 'max'
+                'QueryId' = 'queryId'
             }
 	}
 
@@ -267,27 +256,15 @@ function Get-SecuronixAssetData {
 	)
 
 	Begin {
-		$paramsTable = @{
-            'Query' = 'query'
-		}
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
+        $PSBoundParameters['Query'] = "index=asset$(if($Query -ne '') { " AND $Query" })"
 
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=asset AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=asset'
-        }
-
-		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        $params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+            }
 	}
 
 	Process {
@@ -339,27 +316,15 @@ function Get-SecuronixGeolocationData {
 	)
 
 	Begin {
-		$paramsTable = @{
-            'Query' = 'query'
-		}
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
+        $PSBoundParameters['Query'] = "index=geolocation$(if($Query -ne '') { " AND $Query" })"
 
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=geolocation AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=geolocation'
-        }
-
-		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+            }
 	}
 
 	Process {
@@ -414,27 +379,15 @@ function Get-SecuronixLookupData {
 	)
 
 	Begin {
-		$paramsTable = @{
-            'Query' = 'query'
-		}
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
+        $PSBoundParameters['Query'] = "index=lookup$(if($Query -ne '') { " AND $Query" })"
 
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=lookup AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=lookup'
-        }
-
-		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+            }
 	}
 
 	Process {
@@ -485,28 +438,16 @@ function Get-SecuronixRiskScorecard {
         [string] $Query = ''
 	)
 
-	Begin {
-		$paramsTable = @{
-            'Query' = 'query'
-		}
+    Begin {
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
+        $PSBoundParameters['Query'] = "index=riskscore$(if($Query -ne '') { " AND $Query" })"
 
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=riskscore AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=riskscore'
-        }
-
-		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+            }
 	}
 
 	Process {
@@ -557,28 +498,16 @@ function Get-SecuronixRiskHistory {
         [string] $Query = ''
 	)
 
-	Begin {
-		$paramsTable = @{
-            'Query' = 'query'
-		}
+    Begin {
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
+        $PSBoundParameters['Query'] = "index=riskscorehistory$(if($Query -ne '') { " AND $Query" })" 
 
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=riskscorehistory AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=riskscorehistory'
-        }
-
-		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        $params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+            }
 	}
 
 	Process {
@@ -629,28 +558,16 @@ function Get-SecuronixTPI {
         [string] $Query = ''
 	)
 
-	Begin {
-		$paramsTable = @{
-            'Query' = 'query'
-		}
+    Begin {
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
+        $PSBoundParameters['Query'] = "index=tpi$(if($Query -ne '') { " AND $Query" })" 
 
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=tpi AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=tpi'
-        }
-
-		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        $params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+            }
 	}
 
 	Process {
@@ -701,28 +618,16 @@ function Get-SecuronixUsersData {
         [string] $Query = ''
 	)
 
-	Begin {
-		$paramsTable = @{
-            'Query' = 'query'
-		}
+    Begin {
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
+        $PSBoundParameters['Query'] = "index=users$(if($Query -ne '') { " AND $Query" })" 
 
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=users AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=users'
-        }
-
-		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        $params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+            }
 	}
 
 	Process {
@@ -796,38 +701,25 @@ function Get-SecuronixViolationEvents {
         [string] $QueryId
 	)
 
-	Begin {
+    Begin {
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
         . "$PSScriptRoot\lib\Convert-StringTime.ps1"
 
 		$PSBoundParameters['TimeStart'] = Convert-StringTime -InputDateTime $TimeStart -OutDateTime
         $PSBoundParameters['TimeEnd']   = Convert-StringTime -InputDateTime $TimeEnd -OutDateTime
 
-		$paramsTable = @{
-            'Query' = 'query'
-			'TimeStart' = 'generationtime_from'
-			'TimeEnd' = 'generationtime_to'
-			'TimeZone' = 'tz'
-			'Max' = 'max'
-			'QueryId' = 'queryId'
-		}
+        $PSBoundParameters['Query'] = "index=violation$(if($Query -ne '') { " AND $Query" })" 
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
-
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=violation AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=violation'
-        }
-
-		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        $params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+                'TimeStart' = 'generationtime_from'
+                'TimeEnd' = 'generationtime_to'
+                'TimeZone' = 'tz'
+                'Max' = 'max'
+                'QueryId' = 'queryId'
+            }
 	}
 
 	Process {
@@ -878,28 +770,16 @@ function Get-SecuronixWatchlistData {
         [string] $Query = ''
 	)
 
-	Begin {
-		$paramsTable = @{
-            'Query' = 'query'
-		}
+    Begin {
+        . "$PSScriptRoot\lib\Format-ApiParameters.ps1"
 
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
+        $PSBoundParameters['Query'] = "index=watchlist$(if($Query -ne '') { " AND $Query" })" 
 
-        if($Query -ne '') {
-            $PSBoundParameters['Query'] = "index=watchlist AND $($Query)"
-        }
-        else {
-            $PSBoundParameters['Query'] = 'index=watchlist'
-        }
-
-		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        $params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+            -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
+            -Aliases @{
+                'Query' = 'query'
+            }
 	}
 
 	Process {
