@@ -2,76 +2,147 @@
 BeforeAll {
     Remove-Module Securonix.CLI -ErrorAction SilentlyContinue
     Import-Module $PSScriptRoot\..\Securonix.CLI.psd1
-
-    $Url = 'https://dundermifflin.securonix.net/Snypr'
-
-    $ResourceGroups = [xml]@'
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?> <resourceGroups> <resourceGroup> <name>Bluecoat Proxy</name> <type>Bluecoat Proxy</type> </resourceGroup> <resourceGroup> <name>Ironport Data</name> <type>Cisco Ironport Email</type> </resourceGroup> <resourceGroup> <name>Windchill Data</name> <type>Windchill</type> </resourceGroup> </resourceGroups>
-'@
-    $PolicyList = [xml]@'
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?> <policies> <policy> <createdBy>admin</createdBy> <createdOn>2013-11-09T16:13:23-06:00</createdOn> <criticality>Low</criticality> <description></description> <hql> FROM AccessAccount AS accessaccount, Resources AS resources, AccessAccountUser AS accessaccountuser WHERE ((accessaccount.resourceid = resources.id AND accessaccountuser.id.accountid = accessaccount.id )) AND ((accessaccountuser.id.userid = '-1'))</hql> <id>1</id> <name>Accounts that dont have Users</name> </policy> <policy> <createdBy>DocTeam</createdBy> <createdOn>2013-11-09T16:31:09-06:00</createdOn> <criticality>Medium</criticality> <description></description> <hql> FROM Users AS users, AccessAccountUser AS accessaccountuser, AccessAccount AS accessaccount, Resources AS resources WHERE ((users.id = accessaccountuser.id.userid AND accessaccountuser.id.accountid = accessaccount.id AND accessaccount.resourceid = resources.id )) AND ((users.status = '0'))</hql> <id>2</id> <name>Accounts that belong to terminated user</name> </policy> </policies>
-'@
-    $PeerGroupList = [xml]@'
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><peerGroups><peerGroup> <criticality>Low</criticality><name>Advertising</name></peerGroup><peerGroup> <criticality>Low</criticality><name>Branding</name></peerGroup></peerGroups> 
-'@
 }
 
 Describe 'Get-SecuronixResourcegroupList' {
+    BeforeAll {
+        $ValidResponse = [xml]@'
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?> <resourceGroups> <resourceGroup> <name>Bluecoat Proxy</name> <type>Bluecoat Proxy</type> </resourceGroup> <resourceGroup> <name>Ironport Data</name> <type>Cisco Ironport Email</type> </resourceGroup> <resourceGroup> <name>Windchill Data</name> <type>Windchill</type> </resourceGroup> </resourceGroups>
+'@
+        $URL   = 'https://dundermifflin.securonix.net/Snypr'
+        $TOKEN = '530bf219-5360-41d3-81d1-8b4d6f75956d'
+    }
     Context "When token is valid" {
         BeforeEach {
             Mock Invoke-RestMethod -Verifiable `
-                -MockWith { return $ResourceGroups } `
+                -MockWith { return $ValidResponse } `
                 -ModuleName Securonix.CLI.List
         }
         It 'Given required parameters, it returns all resource groups.' {
-            $response = Get-SecuronixResourcegroupList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
+            $response = Get-SecuronixResourcegroupList -Url $URL -Token $TOKEN
+            
             Should -InvokeVerifiable
             $response.Count | Should -be 3
         }
         It 'Given positional parameters, it returns all resource groups.' {
-            $response = Get-SecuronixResourcegroupList 'DunderMifflin.securonix.com/Snypr' '12345678-90AB-CDEF-1234-567890ABCDEF'
+            $response = Get-SecuronixResourcegroupList $URL $TOKEN
+            
             Should -InvokeVerifiable
             $response.Count | Should -be 3
+        }
+    }
+    Context "When connection is set" {
+        BeforeEach {
+            $env:scnx_url   = 'https://dundermifflin.securonix.net/Snypr'
+            $env:scnx_token = '530bf219-5360-41d3-81d1-8b4d6f75956d'
+
+            Mock Invoke-RestMethod -Verifiable `
+                -MockWith { return $ValidResponse } `
+                -ModuleName Securonix.CLI.List
+        }
+        It 'Given no parameters, it returns all resource groups.' {
+            $response = Get-SecuronixResourcegroupList
+            
+            Should -InvokeVerifiable
+            $response.Count | Should -be 3
+        }
+        AfterAll {
+            $env:scnx_url   = ''
+            $env:scnx_token = ''
         }
     }
 }
 
 Describe 'Get-SecuronixPolicyList' {
+    BeforeAll {
+        $ValidResponse = [xml]@'
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?> <policies> <policy> <createdBy>admin</createdBy> <createdOn>2013-11-09T16:13:23-06:00</createdOn> <criticality>Low</criticality> <description></description> <hql> FROM AccessAccount AS accessaccount, Resources AS resources, AccessAccountUser AS accessaccountuser WHERE ((accessaccount.resourceid = resources.id AND accessaccountuser.id.accountid = accessaccount.id )) AND ((accessaccountuser.id.userid = '-1'))</hql> <id>1</id> <name>Accounts that dont have Users</name> </policy> <policy> <createdBy>DocTeam</createdBy> <createdOn>2013-11-09T16:31:09-06:00</createdOn> <criticality>Medium</criticality> <description></description> <hql> FROM Users AS users, AccessAccountUser AS accessaccountuser, AccessAccount AS accessaccount, Resources AS resources WHERE ((users.id = accessaccountuser.id.userid AND accessaccountuser.id.accountid = accessaccount.id AND accessaccount.resourceid = resources.id )) AND ((users.status = '0'))</hql> <id>2</id> <name>Accounts that belong to terminated user</name> </policy> </policies>
+'@
+        $URL   = 'https://dundermifflin.securonix.net/Snypr'
+        $TOKEN = '530bf219-5360-41d3-81d1-8b4d6f75956d'
+    }
     Context "When token is valid" {
         BeforeEach {
             Mock Invoke-RestMethod -Verifiable `
-                -MockWith { return $PolicyList } `
+                -MockWith { return $ValidResponse } `
                 -ModuleName Securonix.CLI.List
         }
         It 'Given required parameters, it returns all configured policies.' {
-            $response = Get-SecuronixPolicyList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
+            $response = Get-SecuronixPolicyList -Url $URL -Token $TOKEN
             Should -InvokeVerifiable
             $response.Count | Should -be 2
         }
         It 'Given positional parameters, it returns all configured policies.' {
-            $response = Get-SecuronixPolicyList 'DunderMifflin.securonix.com/Snypr' '12345678-90AB-CDEF-1234-567890ABCDEF'
+            $response = Get-SecuronixPolicyList $URL $TOKEN
             Should -InvokeVerifiable
             $response.Count | Should -be 2
+        }
+    }
+    Context "When connection is set" {
+        BeforeEach {
+            $env:scnx_url   = 'https://dundermifflin.securonix.net/Snypr'
+            $env:scnx_token = '530bf219-5360-41d3-81d1-8b4d6f75956d'
+
+            Mock Invoke-RestMethod -Verifiable `
+                -MockWith { return $ValidResponse } `
+                -ModuleName Securonix.CLI.List
+        }
+        It 'Given no parameters, it returns all configured policies.' {
+            $response = Get-SecuronixPolicyList
+            
+            Should -InvokeVerifiable
+            $response.Count | Should -be 2
+        }
+        AfterAll {
+            $env:scnx_url   = ''
+            $env:scnx_token = ''
         }
     }
 }
 
 Describe 'Get-SecuronixPeerGroupsList' {
+    BeforeAll {
+        $ValidResponse = [xml]@'
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><peerGroups><peerGroup> <criticality>Low</criticality><name>Advertising</name></peerGroup><peerGroup> <criticality>Low</criticality><name>Branding</name></peerGroup></peerGroups> 
+'@
+        $URL   = 'https://dundermifflin.securonix.net/Snypr'
+        $TOKEN = '530bf219-5360-41d3-81d1-8b4d6f75956d'
+    }
     Context "When token is valid" {
         BeforeEach {
             Mock Invoke-RestMethod -Verifiable `
-                -MockWith { return $PeerGroupList } `
+                -MockWith { return $ValidResponse } `
                 -ModuleName Securonix.CLI.List
         }
         It 'Given required parameters, it returns all user peer groups.' {
-            $response = Get-SecuronixPeerGroupsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
+            $response = Get-SecuronixPeerGroupsList -Url $URL -Token $TOKEN
             Should -InvokeVerifiable
             $response.Count | Should -be 2
         }
         It 'Given positional parameters, it returns all user peer groups.' {
-            $response = Get-SecuronixPeerGroupsList 'DunderMifflin.securonix.com/Snypr' '12345678-90AB-CDEF-1234-567890ABCDEF'
+            $response = Get-SecuronixPeerGroupsList $URL $TOKEN
             Should -InvokeVerifiable
             $response.Count | Should -be 2
+        }
+    }
+    Context "When connection is set" {
+        BeforeEach {
+            $env:scnx_url   = $URL
+            $env:scnx_token = $TOKEN
+
+            Mock Invoke-RestMethod -Verifiable `
+                -MockWith { return $ValidResponse } `
+                -ModuleName Securonix.CLI.List
+        }
+        It 'Given no parameters, it returns all user peer groups.' {
+            $response = Get-SecuronixPeerGroupsList
+            
+            Should -InvokeVerifiable
+            $response.Count | Should -be 2
+        }
+        AfterAll {
+            $env:scnx_url   = ''
+            $env:scnx_token = ''
         }
     }
 }

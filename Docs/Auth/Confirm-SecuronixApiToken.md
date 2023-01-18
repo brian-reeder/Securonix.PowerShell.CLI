@@ -8,6 +8,11 @@ Confirm-SecuronixApiToken
     [-Token] <string>
 ```
 
+Connection was set by Connect-SecuronixApi
+```
+Confirm-SecuronixApiToken
+```
+
 ## Description
 Confirm-SecuronixApiToken makes an API call to the AUTH/Validate Securonix Web API with the supplied token. If the token is valid, the API will respond with "Valid".
 
@@ -32,6 +37,20 @@ Confirm-SecuronixApiToken -Url 'DunderMifflin.securonix.com/Snypr' -Token '530bf
 Response
 ```
 Invalid
+```
+
+### Example 3: Connect to the Securonix Api and validate the connection.
+```
+Connect-SecuronixApi -Instance 'dundermifflin' `
+    -Username 'MichaelBolton' -Password 'PiEcEsOfFlAiR'
+
+Confirm-SecuronixApiToken
+```
+
+Responses
+```
+Connected
+Valid
 ```
 
 ## Parameters
