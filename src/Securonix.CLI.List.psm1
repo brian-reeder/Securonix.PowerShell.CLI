@@ -43,7 +43,7 @@ function Get-SecuronixPolicyList {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response
+            return $response.policies.policy
         }
 	}
 
@@ -95,7 +95,7 @@ function Get-SecuronixResourcegroupList {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response
+            return $response.resourceGroups.resourceGroup
         }
 	}
 
@@ -147,7 +147,7 @@ function Get-SecuronixPeerGroupsList {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response
+            return $response.peerGroups.peerGroup
         }
 	}
 
