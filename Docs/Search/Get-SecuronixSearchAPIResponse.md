@@ -18,7 +18,6 @@ Get-SecuronixSearchAPIResponse
     -eventtime_from <string>
     -eventtime_to <string>
     [-tz <string>]
-    [-prettyJson]
     [-max <int>]
     [-queryId]
 ```
@@ -32,7 +31,6 @@ Get-SecuronixSearchAPIResponse
     -generationtime_from <string>
     -generationtime_to <string>
     [-tz <string>]
-    [-prettyJson]
     [-max <int>]
     [-queryId]
 ```

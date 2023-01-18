@@ -86,9 +86,6 @@ function Get-SecuronixSearchAPIResponse {
         [string] $tz,
         [Parameter(ParameterSetName='Activity')]
         [Parameter(ParameterSetName='Violation')]
-        [bool] $prettyJson,
-        [Parameter(ParameterSetName='Activity')]
-        [Parameter(ParameterSetName='Violation')]
         [int] $max,
         [Parameter(ParameterSetName='Activity')]
         [Parameter(ParameterSetName='Violation')]
@@ -186,7 +183,6 @@ function Get-SecuronixActivityEvents {
         [string] $Query = '',
 
         [string] $TimeZone,
-        [switch] $PrettyJson,
         [int] $Max,
         [string] $QueryId
 	)
@@ -205,7 +201,6 @@ function Get-SecuronixActivityEvents {
 			'TimeStart' = 'eventtime_from'
 			'TimeEnd' = 'eventtime_to'
 			'TimeZone' = 'tz'
-			'PrettyJson' = 'prettyJson'
 			'Max' = 'max'
 			'QueryId' = 'queryId'
 		}
@@ -806,7 +801,6 @@ function Get-SecuronixViolationEvents {
         [string] $Query = '',
 
         [string] $TimeZone,
-        [switch] $PrettyJson,
         [int] $Max,
         [string] $QueryId
 	)
@@ -826,7 +820,6 @@ function Get-SecuronixViolationEvents {
 			'TimeStart' = 'generationtime_from'
 			'TimeEnd' = 'generationtime_to'
 			'TimeZone' = 'tz'
-			'PrettyJson' = 'prettyJson'
 			'Max' = 'max'
 			'QueryId' = 'queryId'
 		}

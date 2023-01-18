@@ -33,7 +33,7 @@ Describe 'Get-SecuronixActivityEvents' {
             $response.totalDocuments | Should -not -BeNullOrEmpty
         }
         It 'Given all optional parameters, it returns a list of events.' {
-            $response = Get-SecuronixActivityEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -TimeStart '1199253600' -TimeEnd '1199340000' -Query 'accountname="admin"' -TimeZone 'cst6' -PrettyJson -Max 10000 -QueryId '42'
+            $response = Get-SecuronixActivityEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -TimeStart '1199253600' -TimeEnd '1199340000' -Query 'accountname="admin"' -TimeZone 'cst6' -Max 10000 -QueryId '42'
             Should -InvokeVerifiable
             $response.totalDocuments | Should -not -BeNullOrEmpty
         }
@@ -68,7 +68,7 @@ Describe 'Get-SecuronixViolationEvents' {
             $response.totalDocuments | Should -not -BeNullOrEmpty
         }
         It 'Given all optional parameters, it returns a list of events.' {
-            $response = Get-SecuronixViolationEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -TimeStart '08/19/2019 00:00:00' -TimeEnd '08/19/2019 23:59:59' -Query 'policyname="Email sent to self"' -TimeZone 'cst6' -PrettyJson -Max 10000 -QueryId '42'
+            $response = Get-SecuronixViolationEvents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -TimeStart '08/19/2019 00:00:00' -TimeEnd '08/19/2019 23:59:59' -Query 'policyname="Email sent to self"' -TimeZone 'cst6' -Max 10000 -QueryId '42'
             Should -InvokeVerifiable
             $response.totalDocuments | Should -not -BeNullOrEmpty
         }
