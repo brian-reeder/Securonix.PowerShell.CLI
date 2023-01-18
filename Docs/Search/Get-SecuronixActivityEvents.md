@@ -10,7 +10,6 @@ Get-SecuronixActivityEvents
     [-TimeEnd] <string>
     [[-Query] <string>]
     [-TimeZone <string>]
-    [-PrettyJson <string>]
     [-Max <int>]
     [-QueryId <string>]
 ```
