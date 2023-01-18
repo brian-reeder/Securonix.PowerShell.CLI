@@ -36,7 +36,8 @@ function Convert-StringTime {
 
     Process {
         if($DateTime -ne '') {
-            return Get-Date -Date $DateTime -UFormat %s
+            [System.DateTime]$newDateTime = Get-Date -Date $DateTime
+            return ([System.DateTimeOffset]$newDateTime).ToUnixTimeMilliseconds()
         }
 
         if($Epoch -ne '') {
