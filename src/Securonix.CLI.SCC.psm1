@@ -52,14 +52,16 @@ function Get-SecuronixThreats {
 		[string] $TimeStart,
         [Parameter(Mandatory)]
 		[string] $TimeEnd,
-
-		[int] $Offset,
-		[int] $Max,
+		[int] $Offset = 0,
+		[int] $Max    = 10,
 		[string] $TenantName
 	)
 
 	Begin {
         . "$PSScriptRoot\lib\Convert-StringTime.ps1"
+        
+        $PSBoundParameters['Offset'] = $Offset
+        $PSBoundParameters['Max']    = $Max
 
 		if($TimeStart -notmatch '^[\d]+$' ) {
 			$PSBoundParameters['TimeStart'] = Convert-StringTime -DateTime $TimeStart
@@ -259,14 +261,17 @@ function Get-SecuronixTopThreats {
             Position=2
         )]
 		[int] $Hours,
-        [int] $Offset,
-		[int] $Max
+        [int] $Offset = 0,
+		[int] $Max    = 10
 	)
 
 	Begin {
         if($Url.EndsWith('/')) {
 			$Url = $Url.Remove($Url.Length-1, 1)   
 		}
+
+        $PSBoundParameters['Offset'] = $Offset
+        $PSBoundParameters['Max']    = $Max
 
 		$Header = [ordered]@{
 			'token' = $Token
@@ -384,14 +389,17 @@ function Get-SecuronixTopViolations {
             Position=2
         )]
 		[int] $Hours,
-        [int] $Offset,
-		[int] $Max
+        [int] $Offset = 0,
+		[int] $Max    = 10
 	)
 
 	Begin {
         if($Url.EndsWith('/')) {
 			$Url = $Url.Remove($Url.Length-1, 1)   
 		}
+
+        $PSBoundParameters['Offset'] = $Offset
+        $PSBoundParameters['Max']    = $Max
 
 		$Header = [ordered]@{
 			'token' = $Token
@@ -509,8 +517,8 @@ function Get-SecuronixTopViolators {
             Position=2
         )]
 		[int] $Hours,
-        [int] $Offset,
-		[int] $Max,
+        [int] $Offset = 0,
+		[int] $Max    = 10,
         [string] $Name
 	)
 
@@ -518,6 +526,9 @@ function Get-SecuronixTopViolators {
         if($Url.EndsWith('/')) {
 			$Url = $Url.Remove($Url.Length-1, 1)   
 		}
+
+        $PSBoundParameters['Offset'] = $Offset
+        $PSBoundParameters['Max']    = $Max
 
 		$Header = [ordered]@{
 			'token' = $Token
