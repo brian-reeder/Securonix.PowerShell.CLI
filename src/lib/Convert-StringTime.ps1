@@ -26,25 +26,34 @@ https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Auth/Con
 function Convert-StringTime {
 
     param (
+        [Parameter(Mandatory)]
+        [string] $InputDateTime,
         [Parameter(Mandatory, ParameterSetName='datetime')]
-        [string] $DateTime,
+        [switch] $OutDateTime,
         [Parameter(Mandatory, ParameterSetName='epoch')]
-        [string] $Epoch
+        [switch] $OutEpoch
     )
     
-    Begin {}
+    Begin {
+        if($InputDateTime -match "^[\d]+$") {
+            [System.DateTime]$newDateTime = (Get-Date -Date '01-01-1970') `
+                + ([System.TimeSpan]::FromMilliseconds(($InputDateTime)))
+        }
+        else {
+            [System.DateTime]$newDateTime = Get-Date -Date $InputDateTime
+        }
+    }
 
     Process {
-        if($DateTime -ne '') {
-            [System.DateTime]$newDateTime = Get-Date -Date $DateTime
+        if($OutDateTime) {
+            return Get-Date $newDateTime -UFormat "%D %T"
+        }
+
+        if($OutEpoch) {
             return ([System.DateTimeOffset]$newDateTime).ToUnixTimeMilliseconds()
         }
 
-        if($Epoch -ne '') {
-            $obj = (Get-Date -Date '01-01-1970') + ([System.TimeSpan]::FromMilliseconds(($Epoch)))
-
-            return Get-Date $obj -UFormat "%D %T"
-        }
+        return ''
     }
 
     End {}

@@ -1,6 +1,6 @@
 <#
 .DESCRIPTION
-Get-SecuronixSearchAPIResponse is a flexible controller used to process Securonix Search calls. Use the higher level interfaces to enforce parameter guidelines.
+Invoke-SecuronixSearchApi is a flexible controller used to process Securonix Search calls. Use the higher level interfaces to enforce parameter guidelines.
 
 .PARAMETER Url
 Url endpoint for your Securonix instance. Must be in the format https://<hostname or IPaddress>/Snypr
@@ -39,10 +39,10 @@ None. You cannot pipe objects to Get-SecuronixIncidentAPIResponse
 System.String. Get-SecuronixIncidentAPIResponse returns the API response. The API will respond with a JSON object for valid requests.
 
 .EXAMPLE
-PS> Get-SecuronixSearchAPIResponse -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -query "index=tpi AND tpi_type=`"Malicious Domain`""
+PS> Invoke-SecuronixSearchApi -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -query "index=tpi AND tpi_type=`"Malicious Domain`""
 
 .EXAMPLE
-PS> Get-SecuronixSearchAPIResponse -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -query "index=activity AND accountname=`"admin`"" -eventtime_from "01/02/2008 00:00:00" -eventtime_to "01/03/2008 00:00:00" -max 10000
+PS> Invoke-SecuronixSearchApi -Url "hxxps://DunderMifflin.securonix.com/Snypr" -Token "12345678-90AB-CDEF-1234-567890ABCDEF" -query "index=activity AND accountname=`"admin`"" -eventtime_from "01/02/2008 00:00:00" -eventtime_to "01/03/2008 00:00:00" -max 10000
 .LINK
 https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Activity
 
@@ -60,7 +60,7 @@ https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%
 
 https://documentation.securonix.com/onlinedoc/Content/6.4%20Cloud/Content/SNYPR%206.4/6.4%20Guides/Web%20Services/6.4_REST%20API%20Categories.htm#Violations
 #>
-function Get-SecuronixSearchAPIResponse {
+function Invoke-SecuronixSearchApi {
     [CmdletBinding(
         DefaultParameterSetName="default",
         SupportsShouldProcess
@@ -102,14 +102,10 @@ function Get-SecuronixSearchAPIResponse {
 		}
 
         $Exclusions = @('Url', 'Token', 'WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
 
-		$paramsList = @()
-		foreach($param in $PSBoundParameters.Keys) {
-			$paramsList += "$($param)=$($PSBoundParameters[$param])"
-		}
+        $paramsList = $PSBoundParameters.GetEnumerator() `
+            | Where-Object { $Exclusions -notcontains $_.Key } `
+            | ForEach-Object { "$($_.Key)=$($_.Value)" }
 		
 		$Uri = "$Url/ws/spotter/index/search?$($paramsList -join '&')"
 	}
@@ -190,12 +186,10 @@ function Get-SecuronixActivityEvents {
 	Begin {
         . "$PSScriptRoot\lib\Convert-StringTime.ps1"
 
-		if($TimeStart -match '^[\d]+$' ) {
-			$PSBoundParameters['TimeStart'] = Convert-StringTime -Epoch $TimeStart
-		}
-		if($TimeEnd -match '^[\d]+$' ) {
-			$PSBoundParameters['TimeEnd'] = Convert-StringTime -Epoch $TimeEnd
-		}
+        $PSBoundParameters['TimeStart'] = Convert-StringTime -InputDateTime $TimeStart -OutDateTime
+        $PSBoundParameters['TimeEnd']   = Convert-StringTime -InputDateTime $TimeEnd -OutDateTime
+
+        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
 		$paramsTable = @{
             'Query' = 'query'
 			'TimeStart' = 'eventtime_from'
@@ -204,12 +198,7 @@ function Get-SecuronixActivityEvents {
 			'Max' = 'max'
 			'QueryId' = 'queryId'
 		}
-
-        $Exclusions = @('WhatIf', 'Confirm', 'Verbose')
-        foreach($key in $Exclusions) {
-            $PSBoundParameters.Remove($key) | Out-Null
-        }
-
+        
         if($Query -ne '') {
             $PSBoundParameters['Query'] = "index=activity AND $($Query)"
         }
@@ -218,14 +207,16 @@ function Get-SecuronixActivityEvents {
         }
 
 		$params = [ordered]@{}
-		foreach($param in $PSBoundParameters.Keys) {
-			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
-			$params[$key] = $PSBoundParameters[$param]
-		}
+        $PSBoundParameters.GetEnumerator() `
+            | Where-Object { $Exclusions -notcontains $_.Key } `
+            | ForEach-Object {
+                $key = if($paramsTable.containsKey($_.Key)) { $paramsTable[$_.Key] } else { $_.Key }
+                $params[$key] = $_.value
+            }
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @params
         return $r
 	}
 
@@ -300,7 +291,7 @@ function Get-SecuronixAssetData {
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @Params
         return $r
 	}
 
@@ -372,7 +363,7 @@ function Get-SecuronixGeolocationData {
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @Params
         return $r
 	}
 
@@ -447,7 +438,7 @@ function Get-SecuronixLookupData {
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @Params
         return $r
 	}
 
@@ -519,7 +510,7 @@ function Get-SecuronixRiskScorecard {
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @Params
         return $r
 	}
 
@@ -591,7 +582,7 @@ function Get-SecuronixRiskHistory {
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @Params
         return $r
 	}
 
@@ -663,7 +654,7 @@ function Get-SecuronixTPI {
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @Params
         return $r
 	}
 
@@ -735,7 +726,7 @@ function Get-SecuronixUsersData {
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @Params
         return $r
 	}
 
@@ -808,12 +799,8 @@ function Get-SecuronixViolationEvents {
 	Begin {
         . "$PSScriptRoot\lib\Convert-StringTime.ps1"
 
-		if($TimeStart -match '^[\d]+$' ) {
-			$PSBoundParameters['TimeStart'] = Convert-StringTime -Epoch $TimeStart
-		}
-		if($TimeEnd -match '^[\d]+$' ) {
-			$PSBoundParameters['TimeEnd'] = Convert-StringTime -Epoch $TimeEnd
-		}
+		$PSBoundParameters['TimeStart'] = Convert-StringTime -InputDateTime $TimeStart -OutDateTime
+        $PSBoundParameters['TimeEnd']   = Convert-StringTime -InputDateTime $TimeEnd -OutDateTime
 
 		$paramsTable = @{
             'Query' = 'query'
@@ -844,7 +831,7 @@ function Get-SecuronixViolationEvents {
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @Params
         return $r
 	}
 
@@ -916,7 +903,7 @@ function Get-SecuronixWatchlistData {
 	}
 
 	Process {
-        $r = Get-SecuronixSearchAPIResponse @Params
+        $r = Invoke-SecuronixSearchApi @Params
         return $r
 	}
 
