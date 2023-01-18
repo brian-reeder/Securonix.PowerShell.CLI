@@ -22,17 +22,28 @@ https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/List/Get
 #>
 function Get-SecuronixPolicyList {
     [CmdletBinding(
+        DefaultParameterSetName='default',
         PositionalBinding,
         SupportsShouldProcess
     )]
-	param(
-		[Parameter(Mandatory)]
-		[string] $Url,
-		[Parameter(Mandatory)]
-		[string] $Token
-	)
+    param(
+        [Parameter(ParameterSetName='supplied',
+            Mandatory,
+            Position=0
+        )]
+        [string] $Url,
+        [Parameter(ParameterSetName='supplied',
+            Mandatory,
+            Position=1
+        )]
+        [string] $Token
+    )
 
-	Begin {
+    Begin {
+        . "$PSScriptRoot/lib/Get-SecuronixConnection.ps1"
+
+        $Url,$Token = Get-SecuronixConnection -ParameterSet $PSBoundParameters
+
         $Header = @{
             'token' = $Token
         }
@@ -74,17 +85,28 @@ https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/List/Get
 #>
 function Get-SecuronixResourcegroupList {
     [CmdletBinding(
+        DefaultParameterSetName='default',
         PositionalBinding,
         SupportsShouldProcess
     )]
-	param(
-		[Parameter(Mandatory)]
-		[string] $Url,
-		[Parameter(Mandatory)]
-		[string] $Token
-	)
+    param(
+        [Parameter(ParameterSetName='supplied',
+            Mandatory,
+            Position=0
+        )]
+        [string] $Url,
+        [Parameter(ParameterSetName='supplied',
+            Mandatory,
+            Position=1
+        )]
+        [string] $Token
+    )
 
-	Begin {
+    Begin {
+        . "$PSScriptRoot/lib/Get-SecuronixConnection.ps1"
+
+        $Url,$Token = Get-SecuronixConnection -ParameterSet $PSBoundParameters
+
         $Header = @{
             'token' = $Token
         }
@@ -126,17 +148,28 @@ https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/List/Get
 #>
 function Get-SecuronixPeerGroupsList {
     [CmdletBinding(
+        DefaultParameterSetName='default',
         PositionalBinding,
         SupportsShouldProcess
     )]
-	param(
-		[Parameter(Mandatory)]
-		[string] $Url,
-		[Parameter(Mandatory)]
-		[string] $Token
-	)
+    param(
+        [Parameter(ParameterSetName='supplied',
+            Mandatory,
+            Position=0
+        )]
+        [string] $Url,
+        [Parameter(ParameterSetName='supplied',
+            Mandatory,
+            Position=1
+        )]
+        [string] $Token
+    )
 
-	Begin {
+    Begin {
+        . "$PSScriptRoot/lib/Get-SecuronixConnection.ps1"
+
+        $Url,$Token = Get-SecuronixConnection -ParameterSet $PSBoundParameters
+
         $Header = @{
             'token' = $Token
         }

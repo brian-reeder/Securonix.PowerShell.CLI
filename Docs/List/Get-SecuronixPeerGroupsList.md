@@ -8,6 +8,11 @@ Get-SecuronixPeerGroupsList
     [-Token] <string>
 ```
 
+Connection was set by Connect-SecuronixApi
+```
+Get-SecuronixPeerGroupsList
+```
+
 ## Description
 Get-SecuronixPeerGroupsList prepares API parameters and queries the Securonix for a list of all Peer Groups configured in the system.
 
@@ -21,6 +26,33 @@ Get-SecuronixPeerGroupsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '123
 ```
 
 Response
+```
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<peerGroups>
+	<peerGroup>
+		<criticality>Low</criticality>
+		<name>Advertising</name>
+	</peerGroup>
+	<peerGroup>
+		<criticality>Low</criticality>
+		<name>Branding</name>
+	</peerGroup>
+</peerGroups> 
+```
+
+### Example 2: Connect to the Securonix Api and get list of peer groups.
+```
+Connect-SecuronixApi -Instance 'dundermifflin' `
+    -Username 'MichaelBolton' -Password 'PiEcEsOfFlAiR'
+
+Get-SecuronixPeerGroupsList
+```
+
+Responses
+```
+Connected
+```
+
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <peerGroups>

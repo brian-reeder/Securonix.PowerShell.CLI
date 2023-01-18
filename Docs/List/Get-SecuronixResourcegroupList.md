@@ -8,6 +8,11 @@ Get-SecuronixResourcegroupList
     [-Token] <string>
 ```
 
+Connection was set by Connect-SecuronixApi
+```
+Get-SecuronixResourcegroupList
+```
+
 ## Description
 Get-SecuronixResourcegroupList prepares API parameters and queries the Securonix for a list of all Resource Groups configured by Snypr for monitoring.
 
@@ -21,6 +26,37 @@ Get-SecuronixResourcegroupList -Url 'DunderMifflin.securonix.com/Snypr' -Token '
 ```
 
 Response
+```
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
+<resourceGroups> 
+	<resourceGroup> 
+		<name>Bluecoat Proxy</name> 
+		<type>Bluecoat Proxy</type> 
+	</resourceGroup> 
+	<resourceGroup> 
+		<name>Ironport Data</name> 
+		<type>Cisco Ironport Email</type> 
+	</resourceGroup> 
+	<resourceGroup> 
+		<name>Windchill Data</name> 
+		<type>Windchill</type> 
+	</resourceGroup> 
+</resourceGroups>
+```
+
+### Example 2: Connect to the Securonix Api and get list of resource groups.
+```
+Connect-SecuronixApi -Instance 'dundermifflin' `
+    -Username 'MichaelBolton' -Password 'PiEcEsOfFlAiR'
+
+Get-SecuronixPeerGroupsList
+```
+
+Responses
+```
+Connected
+```
+
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
 <resourceGroups> 

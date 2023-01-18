@@ -7,7 +7,7 @@ Update-SecuronixApiToken
     [-Url] <string>
     [-Token] <string>
 ```
-
+Connection was set by Connect-SecuronixApi
 ```
 Update-SecuronixApiToken
 ```
