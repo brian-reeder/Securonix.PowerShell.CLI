@@ -26,12 +26,12 @@ Describe 'Get-SecuronixResourcegroupList' {
         It 'Given required parameters, it returns all resource groups.' {
             $response = Get-SecuronixResourcegroupList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
             Should -InvokeVerifiable
-            $response.resourceGroups.resourceGroup | Should -not -BeNullOrEmpty
+            $response.Count | Should -be 3
         }
         It 'Given positional parameters, it returns all resource groups.' {
             $response = Get-SecuronixResourcegroupList 'DunderMifflin.securonix.com/Snypr' '12345678-90AB-CDEF-1234-567890ABCDEF'
             Should -InvokeVerifiable
-            $response.resourceGroups.resourceGroup | Should -not -BeNullOrEmpty
+            $response.Count | Should -be 3
         }
     }
 }
@@ -46,12 +46,12 @@ Describe 'Get-SecuronixPolicyList' {
         It 'Given required parameters, it returns all configured policies.' {
             $response = Get-SecuronixPolicyList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
             Should -InvokeVerifiable
-            $response.policies.policy | Should -not -BeNullOrEmpty
+            $response.Count | Should -be 2
         }
         It 'Given positional parameters, it returns all configured policies.' {
             $response = Get-SecuronixPolicyList 'DunderMifflin.securonix.com/Snypr' '12345678-90AB-CDEF-1234-567890ABCDEF'
             Should -InvokeVerifiable
-            $response.policies.policy | Should -not -BeNullOrEmpty
+            $response.Count | Should -be 2
         }
     }
 }
@@ -66,12 +66,12 @@ Describe 'Get-SecuronixPeerGroupsList' {
         It 'Given required parameters, it returns all user peer groups.' {
             $response = Get-SecuronixPeerGroupsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
             Should -InvokeVerifiable
-            $response.peerGroups.peerGroup | Should -not -BeNullOrEmpty
+            $response.Count | Should -be 2
         }
         It 'Given positional parameters, it returns all user peer groups.' {
             $response = Get-SecuronixPeerGroupsList 'DunderMifflin.securonix.com/Snypr' '12345678-90AB-CDEF-1234-567890ABCDEF'
             Should -InvokeVerifiable
-            $response.peerGroups.peerGroup | Should -not -BeNullOrEmpty
+            $response.Count | Should -be 2
         }
     }
 }
