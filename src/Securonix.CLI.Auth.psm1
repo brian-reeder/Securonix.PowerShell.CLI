@@ -61,8 +61,8 @@ function New-SecuronixApiToken {
 
     Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
-            $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
-            return $response.Content
+            $response = Invoke-RestMethod -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
+            return $response
         }
     }
 }
@@ -115,8 +115,8 @@ function Confirm-SecuronixApiToken {
 
     Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
-            $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
-            return $response.Content
+            $response = Invoke-RestMethod -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
+            return $response
         }
     }
 
@@ -171,8 +171,8 @@ function Update-SecuronixApiToken {
 
     Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
-            $response = Invoke-WebRequest -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
-            return $response.Content
+            $response = Invoke-RestMethod -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
+            return $response
         }
         
     }
