@@ -33,6 +33,10 @@ function Get-SecuronixConnection {
                 $url = $url.Remove($Url.Length-1, 1)   
             }
         } else {
+            if($null -eq $env:scnx_url) {
+                throw 'Securonix url is not set. Call `Connect-SecuronixApi`'
+            }
+
             # Url is provided by previous connection.
             $url = $env:scnx_url
         }
@@ -43,6 +47,9 @@ function Get-SecuronixConnection {
             # Token was supplied by function call.
             $ParameterSet['Token'] 
         } else {
+            if($null -eq $env:scnx_token) {
+                throw 'Securonix token is not set. Call `Connect-SecuronixApi`'
+            }
             # Token is provided by previous connection.
             $env:scnx_token
         }
