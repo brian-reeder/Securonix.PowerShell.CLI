@@ -657,12 +657,8 @@ function Get-SecuronixIncidentsList {
 	Begin {
 		. "$PSScriptRoot\lib\Convert-StringTime.ps1"
 
-		if($TimeStart -notmatch '^[\d]+$' ) {
-			$PSBoundParameters['TimeStart'] = Convert-StringTime -DateTime $TimeStart
-		}
-		if($TimeEnd -notmatch '^[\d]+$' ) {
-			$PSBoundParameters['TimeEnd'] = Convert-StringTime -DateTime $TimeEnd
-		}
+		$PSBoundParameters['TimeStart'] = Convert-StringTime -InputDateTime $TimeStart -OutEpoch
+        $PSBoundParameters['TimeEnd']   = Convert-StringTime -InputDateTime $TimeEnd -OutEpoch
 
 		$paramsTable = @{
 			'TimeStart' = 'from'
@@ -750,12 +746,8 @@ function Get-SecuronixIncidentAttachments {
 	Begin {
 		. "$PSScriptRoot\lib\Convert-StringTime.ps1"
 
-		if($TimeStart -notmatch '^[\d]+$' ) {
-			$PSBoundParameters['TimeStart'] = Convert-StringTime -DateTime $TimeStart
-		}
-		if($TimeEnd -notmatch '^[\d]+$' ) {
-			$PSBoundParameters['TimeEnd'] = Convert-StringTime -DateTime $TimeEnd
-		}
+		$PSBoundParameters['TimeStart'] = Convert-StringTime -InputDateTime $TimeStart -OutEpoch
+        $PSBoundParameters['TimeEnd']   = Convert-StringTime -InputDateTime $TimeEnd -OutEpoch
 
 		$paramsTable = @{
 			'IncidentId' = 'incidentId'
