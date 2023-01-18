@@ -8,6 +8,10 @@ Update-SecuronixApiToken
     [-Token] <string>
 ```
 
+```
+Update-SecuronixApiToken
+```
+
 ## Description
 Update-SecuronixApiToken makes an API call to the AUTH/Renew Securonix Web API to renew the supplied token. If the token was renewed, the API will respond with "Success".
 
@@ -32,6 +36,20 @@ Update-SecuronixApiToken -Url 'DunderMifflin.securonix.com/Snypr' -Token '530bf2
 Response
 ```
 Failure
+```
+
+### Example 3: Connect to the Securonix Api and update the connection length.
+```
+Connect-SecuronixApi -Instance 'dundermifflin' `
+    -Username 'MichaelBolton' -Password 'PiEcEsOfFlAiR'
+
+Update-SecuronixApiToken
+```
+
+Responses
+```
+Connected
+Success
 ```
 
 ## Parameters
