@@ -62,10 +62,11 @@ function Get-SecuronixIncidentAPIResponse {
 		[string] $Token,
 		[Parameter(Mandatory)]
 		[ValidateSet(
-			'metaInfo','status','workflows',
-			'actions', 'actionInfo','workflowname',
-			'defaultAssignee','list','childCaseInfo',
-			'activityStreamInfo', 'workflow','threatActions'
+			'actionInfo','actions','activityStreamInfo',
+			'childCaseInfo','defaultAssignee','list',
+			'metaInfo','status','threatActions',
+			'workflow','workflowDetails','workflowname',
+			'workflows'
 		)]
 		[string] $type,
 
@@ -89,7 +90,9 @@ function Get-SecuronixIncidentAPIResponse {
 		[Parameter(ParameterSetName='actioninfo',Mandatory)]
 		[string] $actionName,
 		[Parameter(ParameterSetName='workflowDetails', Mandatory)]
-		[string] $workflowname
+		[string] $workflowname,
+		[Parameter(ParameterSetName='defaultAssignee', Mandatory)]
+		[string] $workflow
 	)
 
 	Begin {
@@ -463,7 +466,7 @@ function Get-SecuronixWorkflowsList {
 
 	Process {
 		$r = Get-SecuronixIncidentAPIResponse -Url $Url -Token $Token -type 'workflows' 
-		return $r
+		return $r.workflows
 	}
 
 	End {}
@@ -513,7 +516,7 @@ function Get-SecuronixWorkflowDetails {
 			'WorkflowName' = 'workflowname'
 		}
 		
-		$params = [ordered]@{'type'='workflow'}
+		$params = [ordered]@{'type'='workflowDetails'}
 		foreach($param in $PSBoundParameters.Keys) {
 			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
 			$params[$key] = $PSBoundParameters[$param]
@@ -569,7 +572,7 @@ function Get-SecuronixWorkflowDefaultAssignee {
 
 	Begin {
 		$paramsTable = @{
-			'WorkflowName' = 'workflowName'
+			'WorkflowName' = 'workflow'
 		}
 		
 		$params = [ordered]@{'type'='defaultAssignee'}
@@ -679,7 +682,7 @@ function Get-SecuronixIncidentsList {
 
 	Process {
 		$r = Get-SecuronixIncidentAPIResponse @Params
-		return $r.data
+		return $r.data.incidentItems
 	}
 
 	End {}
@@ -823,12 +826,12 @@ function Get-SecuronixChildIncidents {
 		[Parameter(Mandatory)]
 		[string] $Token,
 		[Parameter(Mandatory)]
-		[string] $ParentId
+		[string] $IncidentId
 	)
 
 	Begin {
 		$paramsTable = @{
-			'ParentId' = 'incidentId'
+			'IncidentId' = 'incidentId'
 		}
 		
 		$params = [ordered]@{'type'='childCaseInfo'}
