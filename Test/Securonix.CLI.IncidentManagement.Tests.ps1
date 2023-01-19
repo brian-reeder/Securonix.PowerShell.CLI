@@ -10,11 +10,11 @@ BeforeAll {
     $WorkflowName            = ConvertFrom-Json '{"status": "OK","messages": ["Get incident workflow for incident ID [100107] - [SOCTeamReview]"],"result": {"workflow": "SOCTeamReview"}}'
     $ActionList              = ConvertFrom-Json '{"status": "OK","messages": ["Get possible actions for incident ID [100289], incident status [Open]"],"result": [{"actionDetails": [{"title": "Screen1","sections": {"sectionName": "Comments","attributes": [{"displayName": "Comments","attributeType": "textarea","attribute": "15_Comments","required": false}]}}],"actionName": "CLAIM","status": "CLAIMED"},{"actionDetails": [{"title": "Screen1","sections": {"sectionName": "Comments","attributes": [{"displayName": "Business Response","attributeType": "dropdown","values": ["Inaccurate alert-User not a HPA","Inaccurate alert-inaccurate log data","Inaccurate alert-host does not belong to our business","Need more information","Duplicate alert"],"attribute": "10_Business-Response","required": false},{"displayName": "Business Justification","attributeType": "text","attribute": "11_Business-Justification","required": false},{"displayName": "Remediation Performed","attributeType": "text","attribute": "12_Remediation-Performed","required": false},{"displayName": "Business Internal Use","attributeType": "text","attribute": "13_Business-Internal-Use","required": false},{"displayName": "Assign To Analyst","attributeType": "assignto","values": [{"key": "GROUP","value": "Administrators"},{"key": "GROUP","value": "SECURITYOPERATIONS"},{"key": "USER","value": "admin"},{"key": "USER","value": "auditor"},{"key": "USER","value": "useradmin"},{"key": "USER","value": "accessscanner"},{"key": "USER","value": "account08"},{"key": "USER","value": "account10"},{"key": "USER","value": "account06"},{"key": "USER","value": "account07"},{"key": "USER","value": "account02"},{"key": "USER","value": "account09"},{"key": "USER","value": "account01"},{"key": "USER","value": "account05"},{"key": "USER","value": "account03"},{"key": "USER","value": "account04"}],"attribute": "assigntouserid","required": true}]}}],"actionName": "ASSIGN TO ANALYST","status": "OPEN"},{"actionDetails": [{"title": "Screen1","sections": {"sectionName": "Comments","attributes": [{"displayName": "Comments","attributeType": "textarea","attribute": "15_Comments","required": false}]}}],"actionName": "ASSIGN TO SECOPS","status": "OPEN"}]}'
     $ActionClaim             = ConvertFrom-Json '{"status": "OK","messages": ["Check if action is possible and get list of parameters - Incident Id - [100289], action Name - [CLAIM], - status - [Open]"],"result": [{"actionDetails": [{"title": "Screen1","sections": {"sectionName": "Comments","attributes": [{"displayName": "Comments","attributeType": "textarea","attribute": "15_Comments","required": false}]}}],"actionName": "CLAIM","status": "CLAIMED"}]}'
-    $WorkflowLists           = ConvertFrom-Json '{"status": "OK","messages": ["Get all possible workflows"],"result": {"workflows": [{"workflow": "SOCTeamReview","type": "USER","value": "admin"},{"workflow": "ActivityOutlierWorkflow","type": "USER","value": "admin"},{"workflow": "AccessCertificationWorkflow","type": "USER","value": "admin"}]}}'
+    $WorkflowLists           = 
     $WorkflowDetails         = ConvertFrom-Json '{"status": "OK","messages": ["Workflow Details"],"result": {"SOCTeamReview": {"CLAIMED": [{"Status": "OPEN","Action": "ASSIGN TO ANALYST"},{"Status": "COMPLETED","Action": "ACCEPT RISK"},{"Status": "OPEN","Action": "RELEASE"},{"Status": "CLOSED","Action": "VIOLATION"},{"Status": "OPEN","Action": "ASSIGN TO SECOPS"}],"CLOSED": [{"Status": "PENDING VERIFICATION","Action": "CLAIM"},{"Status": "OPEN","Action": "ASSIGN TO ANALYST"},{"Status": "OPEN","Action": "RELEASE"}],"PENDING VERIFICATION": [{"Status": "COMPLETED","Action": "VERIFY"}],"OPEN": [{"Status": "OPEN","Action": "ASSIGN TO ANALYST"},{"Status": "CLAIMED","Action": "CLAIM"},{"Status": "OPEN","Action": "ASSIGN TO SECOPS"},{"Status": "Do Not Change","Action": "WhiteList_Action"}]}}}'
     $WorkflowDefaultAssignee = ConvertFrom-Json '{"status": "OK","messages": ["Default assignee for workflow [SOCTeamReview] - [admin]"],"result": {"type": "USER","value": "admin"}}'
-    $IncidentsList           = ConvertFrom-Json '{"status": "OK","result": {"data": {"totalIncidents": 1.0,"incidentItems": [{"violatorText": "Cyndi Converse","lastUpdateDate": 1566293234026,"violatorId": "96","incidentType": "RISK MODEL","incidentId": "100181","incidentStatus": "COMPLETED","riskscore": 0.0,"assignedUser": "Account Access 02","assignedGroup": "Administrators","priority": "None","reason": ["Resource: Symantec Email DLP"],"violatorSubText": "1096","entity": "Users","workflowName": "SOCTeamReview","url": "DunderMifflin.securonix.com/Snypr/configurableDashboards/view?&type=incident&id=100181","isWhitelisted": false,"watchlisted": false}]}}}'
-    $IncidentChildList       = ConvertFrom-Json '{"status": "OK","messages": ["Get child case details for incident ID [20019]"],"result": ["20046","20073","20100","20127","20154","20181","20208","20235"]}'
+    
+    
     $IncidentHistory         = ConvertFrom-Json '{"status": "OK","messages": ["Get activity stream details for incident ID [20019]"],"result": {"activityStreamData": [{"caseid": "20019","actiontaken": "CREATED","status": "Open","comment": [],"eventTime": "Jan 21, 2020 2:33:37 AM","username": "Admin Admin","currentassignee": "admin","commentType": [],"currWorkflow": "SOCTeamReview"}]}}'
     $IncidentActions         = ConvertFrom-Json '{"status": "OK","messages": ["test Message 04"],"result": ["Mark as concern and create incident","Non-Concern","Mark in progress (still investigating)"]}'
     $ActionResponse          = ConvertFrom-Json '{"status": "OK","result": "submitted"}'
@@ -125,21 +125,29 @@ Describe 'Confirm-SecuronixIncidentAction' {
 }
 
 Describe 'Get-SecuronixWorkflowsList' {
+    BeforeAll {
+        $ValidResponse = ConvertFrom-Json '{"status": "OK","messages": ["Get all possible workflows"],"result": {"workflows": [{"workflow": "SOCTeamReview","type": "USER","value": "admin"},{"workflow": "ActivityOutlierWorkflow","type": "USER","value": "admin"},{"workflow": "AccessCertificationWorkflow","type": "USER","value": "admin"}]}}'
+
+        $url   = 'https://DunderMifflin.securonix.com/Snypr'
+        $token = '12345678-90AB-CDEF-1234-567890ABCDEF'
+    }
     Context "When token is valid" {
-        BeforeEach {
+        BeforeAll {
             Mock Invoke-RestMethod -Verifiable `
-                -MockWith { return $WorkflowLists } `
+                -MockWith { return $ValidResponse } `
                 -ModuleName Securonix.CLI.IncidentManagement
         }
         It 'Given required parameters, it returns the list of workflows.' {
-            $response = Get-SecuronixWorkflowsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF'
+            $response = Get-SecuronixWorkflowsList -Url $url -Token $token
+            
             Should -InvokeVerifiable
-            $response.workflows | Should -not -BeNullOrEmpty
+            $response.GetType().BaseType | Should -Be 'Array'
         }
         It 'Given positional parameters, it returns the list of workflows.' {
-            $response = Get-SecuronixWorkflowsList 'DunderMifflin.securonix.com/Snypr' '12345678-90AB-CDEF-1234-567890ABCDEF'
+            $response = Get-SecuronixWorkflowsList $url $token
+
             Should -InvokeVerifiable
-            $response.workflows | Should -not -BeNullOrEmpty
+            $response.GetType().BaseType | Should -Be 'Array'
         }
     }
 }
@@ -185,31 +193,49 @@ Describe 'Get-SecuronixWorkflowDefaultAssignee' {
 }
 
 Describe 'Get-SecuronixIncidentsList' {
+    BeforeAll {
+        $ValidResponse = ConvertFrom-Json '{"status": "OK","result": {"data": {"totalIncidents": 1.0,"incidentItems": [{"violatorText": "Cyndi Converse","lastUpdateDate": 1566293234026,"violatorId": "96","incidentType": "RISK MODEL","incidentId": "100181","incidentStatus": "COMPLETED","riskscore": 0.0,"assignedUser": "Account Access 02","assignedGroup": "Administrators","priority": "None","reason": ["Resource: Symantec Email DLP"],"violatorSubText": "1096","entity": "Users","workflowName": "SOCTeamReview","url": "DunderMifflin.securonix.com/Snypr/configurableDashboards/view?&type=incident&id=100181","isWhitelisted": false,"watchlisted": false}]}}}'
+
+        $url   = 'https://DunderMifflin.securonix.com/Snypr'
+        $token = '12345678-90AB-CDEF-1234-567890ABCDEF'
+    }
     Context "When token is valid" {
-        BeforeEach {
+        BeforeAll {
             Mock Invoke-RestMethod -Verifiable `
-                -MockWith { return $IncidentsList } `
+                -MockWith { return $ValidResponse } `
                 -ModuleName Securonix.CLI.IncidentManagement
         }
         It 'Given only required parameters, it returns a list of incidents.' {
-            $response = Get-SecuronixIncidentsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -TimeStart '1566249473000' -TimeEnd '1566335873000' -RangeType 'updated'
+            $response = Get-SecuronixIncidentsList -Url $url `
+                -Token $token -TimeStart '1566249473000' `
+                -TimeEnd '1566335873000' -RangeType 'updated'
+
             Should -InvokeVerifiable
-            $response.totalIncidents | Should -not -BeNullOrEmpty
+            $response.Count | Should -Be 1
         }
         It 'Given datetime, it returns a list of events.' {
-            $response = Get-SecuronixIncidentsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -TimeStart '08/19/19 21:17:53' -TimeEnd '08/20/19 21:17:53' -RangeType 'updated'
+            $response = Get-SecuronixIncidentsList -Url $url `
+                -Token $token -TimeStart '08/19/19 21:17:53' `
+                -TimeEnd '08/20/19 21:17:53' -RangeType 'updated'
+            
             Should -InvokeVerifiable
-            $response.totalIncidents | Should -not -BeNullOrEmpty
+            $response.Count | Should -Be 1
         }
         It 'Given all optional parameters, it returns a list of events.' {
-            $response = Get-SecuronixIncidentsList -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -TimeStart '1566249473000' -TimeEnd '1566335873000' -RangeType 'updated' -Status 'Claimed' -AllowChildCases -Max 10000 -Offset '42'
-            Should -InvokeVerifiable
-            $response.totalIncidents | Should -not -BeNullOrEmpty
+            $response = Get-SecuronixIncidentsList -Url $url `
+                -Token $token -TimeStart '1566249473000' `
+                -TimeEnd '1566335873000' -RangeType 'updated' `
+                -Status 'Claimed' -AllowChildCases -Max 1 -Offset 0
+
+                Should -InvokeVerifiable
+                $response.Count | Should -Be 1
         }
         It 'Given all positional parameters, it returns a list of events.' {
-            $response = Get-SecuronixIncidentsList 'DunderMifflin.securonix.com/Snypr' '12345678-90AB-CDEF-1234-567890ABCDEF' '1566249473000' '1566335873000' 'updated'
+            $response = Get-SecuronixIncidentsList $url $token `
+                '1566249473000' '1566335873000' 'updated'
+            
             Should -InvokeVerifiable
-            $response.totalIncidents | Should -not -BeNullOrEmpty
+            $response.Count | Should -Be 1
         }
     }
 }
@@ -253,19 +279,30 @@ Describe 'Get-SecuronixIncidentAttachments' {
 #>
 
 Describe 'Get-SecuronixChildIncidents' {
+    BeforeAll {
+        $ValidResponse = ConvertFrom-Json '{"status": "OK","messages": ["Get child case details for incident ID [20019]"],"result": ["20046","20073","20100","20127","20154","20181","20208","20235"]}'
+
+        $url   = 'https://DunderMifflin.securonix.com/Snypr'
+        $token = '12345678-90AB-CDEF-1234-567890ABCDEF'
+
+        $id = '20019'
+    }
     Context "When token is valid" {
-        BeforeEach {
+        BeforeAll {
             Mock Invoke-RestMethod -Verifiable `
-                -MockWith { return $IncidentChildList } `
+                -MockWith { return $ValidResponse } `
                 -ModuleName Securonix.CLI.IncidentManagement
         }
         It 'Given required parameters, it returns a list of incident ids.' {
-            $response = Get-SecuronixChildIncidents -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -ParentId '20019'
+            $response = Get-SecuronixChildIncidents -Url $url -Token $token `
+                -IncidentId $id
+
             Should -InvokeVerifiable
             $response | Should -Not -BeNullOrEmpty
         }
         It 'Given positional parameters, it returns a list of incident ids.' {
-            $response = Get-SecuronixChildIncidents 'DunderMifflin.securonix.com/Snypr' '12345678-90AB-CDEF-1234-567890ABCDEF' '20019'
+            $response = Get-SecuronixChildIncidents $url $token $id
+            
             Should -InvokeVerifiable
             $response | Should -Not -BeNullOrEmpty
         }
