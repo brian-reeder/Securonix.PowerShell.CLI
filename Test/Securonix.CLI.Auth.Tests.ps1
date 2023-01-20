@@ -3,40 +3,37 @@ BeforeAll {
     Remove-Module Securonix.CLI -ErrorAction SilentlyContinue
     Import-Module $PSScriptRoot\..\Securonix.CLI.psd1
 
-    $Url = 'https://dundermifflin.securonix.net/Snypr'
+    $url = 'https://dundermifflin.securonix.net/Snypr'
+    $ins = 'dundermifflin'
+    $token = '530bf219-5360-41d3-81d1-8b4d6f75956d'
 
+    $username = 'jhalpert'
+    $password = 'sEcUrEpAsSwOrD'
 }
 
 Describe 'New-SecuronixApiToken' {
     Context "When credentials are valid" {
         BeforeEach {
             Mock Invoke-RestMethod  -Verifiable  `
-                -MockWith  { return '530bf219-5360-41d3-81d1-8b4d6f75956d' } `
+                -MockWith  { return $token } `
                 -ModuleName Securonix.CLI.Auth
         }
         It 'Given only the required parameters, it returns a token.' {
-            $token = New-SecuronixApiToken -Url $Url -Username 'jhalpert' -Password 'sEcUrEpAsSwOrD'
-
-            Should -InvokeVerifiable
-            $token | Should -Be '530bf219-5360-41d3-81d1-8b4d6f75956d'
+            $token = New-SecuronixApiToken -Url $url -Username $username -Password $password
         }
         It 'Given a validity, it returns a token.' {
-            $token = New-SecuronixApiToken -Url $Url -Username 'jhalpert' -Password 'sEcUrEpAsSwOrD' -Validity 7
-
-            Should -InvokeVerifiable
-            $token | Should -Be '530bf219-5360-41d3-81d1-8b4d6f75956d'
+            $token = New-SecuronixApiToken -Url $url -Username $username -Password $password `
+                -Validity 1
         }
         It 'Given only required positional parameters, it returns a token.' {
-            $token = New-SecuronixApiToken $Url 'jhalpert' 'sEcUrEpAsSwOrD' 7
-
-            Should -InvokeVerifiable
-            $token | Should -Be '530bf219-5360-41d3-81d1-8b4d6f75956d'
+            $token = New-SecuronixApiToken $url $username $password
         }
         It 'Given all positional parameters, it returns a token.' {
-            $token = New-SecuronixApiToken $Url 'jhalpert' 'sEcUrEpAsSwOrD'
-
+            $token = New-SecuronixApiToken $url $username $password 1
+        }
+        AfterEach {
             Should -InvokeVerifiable
-            $token | Should -Be '530bf219-5360-41d3-81d1-8b4d6f75956d'
+            $token | Should -Be $token
         }
     }
 }
@@ -45,55 +42,35 @@ Describe 'Connect-SecuronixApi' {
     Context "When credentials are valid" {
         BeforeEach {
             Mock Invoke-RestMethod  -Verifiable  `
-                -MockWith  { return '530bf219-5360-41d3-81d1-8b4d6f75956d' } `
+                -MockWith  { return $token } `
                 -ModuleName Securonix.CLI.Auth
         }
         It 'Given the url required parameters, it sets a connection.' {
-            $response = Connect-SecuronixApi -Url $Url -Username 'jhalpert' -Password 'sEcUrEpAsSwOrD'
-
-            Should -InvokeVerifiable
-            
-            $env:scnx_token | Should -Be '530bf219-5360-41d3-81d1-8b4d6f75956d'
-            $env:scnx_url   | Should -Be $Url
-            $response       | Should -Be 'Connected'
+            $response = Connect-SecuronixApi -Url $Url -Username $username `
+                -Password $password
         }
         It 'Given the instance required parameters, it sets a connection.' {
-            $response = Connect-SecuronixApi -Instance 'dundermifflin' -Username 'jhalpert' -Password 'sEcUrEpAsSwOrD'
-
-            Should -InvokeVerifiable
-            
-            $env:scnx_token | Should -Be '530bf219-5360-41d3-81d1-8b4d6f75956d'
-            $env:scnx_url   | Should -Be $Url
-            $response       | Should -Be 'Connected'
+            $response = Connect-SecuronixApi -Instance $ins `
+                -Username $username -Password $password
         }
         It 'Given the url optional parameters, it sets a connection.' {
-            $response = Connect-SecuronixApi -Url $Url -Username 'jhalpert' -Password 'sEcUrEpAsSwOrD' -Validity 1
-
-            Should -InvokeVerifiable
-            
-            $env:scnx_token | Should -Be '530bf219-5360-41d3-81d1-8b4d6f75956d'
-            $env:scnx_url   | Should -Be $Url
-            $response       | Should -Be 'Connected'
+            $response = Connect-SecuronixApi -Url $Url -Username $username `
+                -Password $password -Validity 1
         }
         It 'Given the instance optional parameters, it sets a connection.' {
-            $response = Connect-SecuronixApi -Instance 'dundermifflin' -Username 'jhalpert' -Password 'sEcUrEpAsSwOrD' -Validity 1
-
-            Should -InvokeVerifiable
-            
-            $env:scnx_token | Should -Be '530bf219-5360-41d3-81d1-8b4d6f75956d'
-            $env:scnx_url   | Should -Be $Url
-            $response       | Should -Be 'Connected'
+            $response = Connect-SecuronixApi -Instance $ins `
+                -Username $username -Password $password -Validity 1
         }
         It 'Given the positional parameters, it sets a connection.' {
-            $response = Connect-SecuronixApi 'dundermifflin' 'jhalpert' 'sEcUrEpAsSwOrD'
-
-            Should -InvokeVerifiable
-            
-            $env:scnx_token | Should -Be '530bf219-5360-41d3-81d1-8b4d6f75956d'
-            $env:scnx_url   | Should -Be $Url
-            $response       | Should -Be 'Connected'
+            $response = Connect-SecuronixApi $ins $username `
+                $password
         }
         AfterEach {
+            Should -InvokeVerifiable
+            $env:scnx_token | Should -Be $token
+            $env:scnx_url   | Should -Be $url
+            $response       | Should -Be 'Connected'
+
             $env:scnx_token = ''
             $env:scnx_url   = ''
         }
@@ -108,22 +85,20 @@ Describe 'Confirm-SecuronixApiToken' {
                 -ModuleName Securonix.CLI.Auth
         }
         It 'Given the required parameters, it returns "Valid".' {
-            $response = Confirm-SecuronixApiToken -Url $Url -Token '530bf219-5360-41d3-81d1-8b4d6f75956d'
-            
-            Should -InvokeVerifiable
-            $response | Should -be 'Valid'
+            $response = Confirm-SecuronixApiToken -Url $Url -Token $token
         }
         It 'Given the required positional parameters, it returns "Valid".' {
-            $response = Confirm-SecuronixApiToken $Url '530bf219-5360-41d3-81d1-8b4d6f75956d'
-            
+            $response = Confirm-SecuronixApiToken $Url $token
+        }
+        AfterEach {
             Should -InvokeVerifiable
             $response | Should -be 'Valid'
         }
     }
     Context "When connection is set" {
-        BeforeEach {
-            $env:scnx_url   = 'https://dundermifflin.securonix.net/Snypr'
-            $env:scnx_token = '530bf219-5360-41d3-81d1-8b4d6f75956d'
+        BeforeAll {
+            $env:scnx_url   = $url
+            $env:scnx_token = $token
 
             Mock Invoke-RestMethod  -Verifiable  `
                 -MockWith  { return 'Valid' } `
@@ -131,7 +106,8 @@ Describe 'Confirm-SecuronixApiToken' {
         }
         It 'Given the required parameters, it returns "Valid".' {
             $response = Confirm-SecuronixApiToken
-            
+        }
+        AfterEach {
             Should -InvokeVerifiable
             $response | Should -be 'Valid'
         }
@@ -150,22 +126,20 @@ Describe 'Update-SecuronixApiToken' {
                 -ModuleName Securonix.CLI.Auth
         }
         It 'Given the required parameters, it returns "Success".' {
-            $token = Update-SecuronixApiToken -Url $Url -Token '530bf219-5360-41d3-81d1-8b4d6f75956d'
-            
-            Should -InvokeVerifiable
-            $token | Should -be 'Success'
+            $response = Update-SecuronixApiToken -Url $Url -Token $token
         }
         It 'Given the required positional parameters, it returns "Success".' {
-            $token = Update-SecuronixApiToken $Url '530bf219-5360-41d3-81d1-8b4d6f75956d'
-            
+            $response = Update-SecuronixApiToken $Url $token
+        }
+        AfterEach {
             Should -InvokeVerifiable
-            $token | Should -be 'Success'
+            $response | Should -be 'Success'
         }
     }
     Context "When connection is set" {
         BeforeEach {
-            $env:scnx_url   = 'https://dundermifflin.securonix.net/Snypr'
-            $env:scnx_token = '530bf219-5360-41d3-81d1-8b4d6f75956d'
+            $env:scnx_url   = $url
+            $env:scnx_token = $token
 
             Mock Invoke-RestMethod  -Verifiable  `
                 -MockWith  { return 'Success' } `
@@ -173,7 +147,8 @@ Describe 'Update-SecuronixApiToken' {
         }
         It 'Given the required parameters, it returns "Valid".' {
             $response = Update-SecuronixApiToken
-            
+        }
+        AfterEach {
             Should -InvokeVerifiable
             $response | Should -be 'Success'
         }
