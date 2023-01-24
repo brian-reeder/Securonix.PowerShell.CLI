@@ -236,48 +236,50 @@ Describe 'Get-SecuronixIncidentsList' {
     }
 }
 
-<#
+
 # TODO: Set $IncidentAttachmentList
-Describe 'Get-SecuronixIncidentAttachments' {
+Describe 'Get-SecuronixIncidentAttachments' -Skip {
+    BeforeAll {
+        $ValidResponse = ConvertFrom-Json ''
+        $id = '20019'
+    }
     Context "When token is valid" {
         BeforeEach {
             Mock Invoke-RestMethod -Verifiable `
-                -MockWith { return $IncidentAttachmentList } `
+                -MockWith { return $ValidResponse } `
                 -ModuleName Securonix.CLI.IncidentManagement
         }
         It 'Given required parameters, it returns a list of incident attachments.' {
-            $response = Get-SecuronixIncidentAttachments -Url $url -Token $token -IncidentId '20019'
+            $response = Get-SecuronixIncidentAttachments -Url $url -Token $token -IncidentId $id
             Should -InvokeVerifiable
             $response | Should -Not -BeNullOrEmpty
         }
         It 'Given time (epoch) parameters, it returns a list of incident attachments.' {
-            $response = Get-SecuronixIncidentAttachments -Url $url -Token $token -IncidentId '20019' -TimeStart '1672617600' -TimeEnd '1672703999'
+            $response = Get-SecuronixIncidentAttachments -Url $url -Token $token -IncidentId $id -TimeStart '1672617600' -TimeEnd '1672703999'
             Should -InvokeVerifiable
             $response | Should -Not -BeNullOrEmpty
         }
         It 'Given time (datetime) parameters, it returns a list of incident attachments.' {
-            $response = Get-SecuronixIncidentAttachments -Whatif-Url $url -Token $token -IncidentId '20019' -TimeStart '01/02/2023 00:00:00-0' -TimeEnd '01/02/2023 23:59:59-0'
+            $response = Get-SecuronixIncidentAttachments -Whatif-Url $url -Token $token -IncidentId $id -TimeStart '01/02/2023 00:00:00-0' -TimeEnd '01/02/2023 23:59:59-0'
             Should -InvokeVerifiable
             $response | Should -Not -BeNullOrEmpty
         }
         It 'Given positional parameters, it returns a list of incident attachments.' {
-            $response = Get-SecuronixIncidentAttachments $url $token '20019'
+            $response = Get-SecuronixIncidentAttachments $url $token $id
             Should -InvokeVerifiable
             $response | Should -Not -BeNullOrEmpty
         }
         It 'Given optional parameters, it returns a list of incident attachments.' {
-            $response = Get-SecuronixIncidentAttachments -Url $url -Token $token -IncidentId '20019' -AttachmentType 'csv'
+            $response = Get-SecuronixIncidentAttachments -Url $url -Token $token -IncidentId $id -AttachmentType 'csv'
             Should -InvokeVerifiable
             $response | Should -Not -BeNullOrEmpty
         }
     }
 }
-#>
 
 Describe 'Get-SecuronixChildIncidents' {
     BeforeAll {
         $ValidResponse = ConvertFrom-Json '{"status": "OK","messages": ["Get child case details for incident ID [20019]"],"result": ["20046","20073","20100","20127","20154","20181","20208","20235"]}'
-
         $id = '20019'
     }
     Context "When token is valid" {
