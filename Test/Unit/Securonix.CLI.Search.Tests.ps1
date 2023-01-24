@@ -1,7 +1,7 @@
 # Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
 BeforeAll {
     Remove-Module Securonix.CLI -ErrorAction SilentlyContinue
-    Import-Module $PSScriptRoot\..\Securonix.CLI.psd1
+    Import-Module $PSScriptRoot\..\..\Securonix.CLI.psd1
 
     $Url = 'https://dundermifflin.securonix.net/Snypr'
 
