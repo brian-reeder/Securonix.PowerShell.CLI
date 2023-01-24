@@ -93,13 +93,13 @@ function Get-SecuronixThreats {
 			$paramsList += "$($Key)=$($PSBoundParameters[$param])"
 		}
 		
-		$Uri = "$Url/ws/sccWidget/GetThreats?$($paramsList -join '&')"
+		$Uri = "$Url/ws/sccWidget/getThreats?$($paramsList -join '&')"
 	}
 
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response
+            return $response.Response
         }
 	}
 
@@ -184,7 +184,7 @@ function Get-SecuronixEntityThreatDetails {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response
+            return $response.Response
         }
 	}
 
@@ -312,7 +312,7 @@ function Get-SecuronixTopThreats {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response
+            return $response.Response
         }
 	}
 
@@ -440,7 +440,7 @@ function Get-SecuronixTopViolations {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response
+            return $response.Response
         }
 	}
 
@@ -569,7 +569,7 @@ function Get-SecuronixTopViolators {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response
+            return $response.Response
         }
 	}
 

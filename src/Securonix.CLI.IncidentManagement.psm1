@@ -298,7 +298,7 @@ function Get-SecuronixIncidentWorkflowName {
 
 	Process {
 		$r = Get-SecuronixIncidentAPIResponse @Params
-		return $r
+		return $r.workflow
 	}
 
 	End {}

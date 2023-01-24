@@ -18,11 +18,11 @@ Describe 'Get-SecuronixIncident' {
                 -MockWith { return $ValidResponse } `
                 -ModuleName Securonix.CLI.IncidentManagement
         }
-        It 'Given required parameters, it returns the incident workflow name.' {
+        It 'Given required parameters, it returns the incident details.' {
             $response = Get-SecuronixIncident -Url $url -Token $token `
                 -IncidentId $IncidentId
         }
-        It 'Given positional parameters, it returns the incident workflow name.' {
+        It 'Given positional parameters, it returns the incident details.' {
             $response = Get-SecuronixIncident $url $token $IncidentId
         }
         AfterEach {
@@ -42,11 +42,11 @@ Describe 'Get-SecuronixIncidentStatus' {
                 -MockWith { return $ValidResponse } `
                 -ModuleName Securonix.CLI.IncidentManagement
         }
-        It 'Given required parameters, it returns the incident workflow name.' {
+        It 'Given required parameters, it returns the incident status.' {
             $response = Get-SecuronixIncidentStatus -Url $url -Token $token `
                 -IncidentId $IncidentId
         }
-        It 'Given positional parameters, it returns the incident workflow name.' {
+        It 'Given positional parameters, it returns the incident status.' {
             $response = Get-SecuronixIncidentStatus $url $token $IncidentId
         }
         AfterEach {
@@ -75,7 +75,7 @@ Describe 'Get-SecuronixIncidentWorkflowName' {
         }
         AfterEach {
             Should -InvokeVerifiable
-            $response.workflow | Should -not -BeNullOrEmpty
+            $response | Should -Be 'SOCTeamReview'
         }
     }
 }
