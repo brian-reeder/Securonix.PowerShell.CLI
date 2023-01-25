@@ -99,7 +99,7 @@ function Get-SecuronixThreats {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response.Response
+            return $response.Response.threats
         }
 	}
 
@@ -184,7 +184,7 @@ function Get-SecuronixEntityThreatDetails {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response.Response
+            return $response.Response.threats
         }
 	}
 
@@ -312,7 +312,7 @@ function Get-SecuronixTopThreats {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response.Response
+            return $response.Response.Docs
         }
 	}
 
@@ -440,7 +440,7 @@ function Get-SecuronixTopViolations {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response.Response
+            return $response.Response.Docs
         }
 	}
 
@@ -569,7 +569,7 @@ function Get-SecuronixTopViolators {
 	Process {
         if($PSCmdlet.ShouldProcess($Uri, 'REST Method')) {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -Method Get
-            return $response.Response
+            return $response.Response.Docs
         }
 	}
 
