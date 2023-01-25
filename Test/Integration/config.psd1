@@ -4,8 +4,9 @@
     username = 'jhalpert'
     password = 'sEcUrEpAsSwOrD'
 
-    incidentid = '100107'
-    status     = 'CLAIMED'
+    incidentid   = '100107'
+    status       = 'CLAIMED'
+    workflowname = 'SOCTeamReview'
 
     timestart  = @{
         epoch = '1566249473000'
