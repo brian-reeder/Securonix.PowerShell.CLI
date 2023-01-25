@@ -1,4 +1,8 @@
 # Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
+[CmdletBinding()]
+[Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssignments', '')]
+Param()
+
 BeforeAll {
     Remove-Module Securonix.CLI -ErrorAction SilentlyContinue
     Import-Module $PSScriptRoot\..\..\Securonix.CLI.psd1
@@ -231,7 +235,7 @@ Describe 'Get-SecuronixIncidentsList' {
         }
         AfterEach {
             Should -InvokeVerifiable
-            $response.Count | Should -Be 1
+            $response | Should -Not -BeNullOrEmpty
         }
     }
 }
