@@ -35,6 +35,10 @@ function New-SecuronixApiToken {
         PositionalBinding,
         SupportsShouldProcess
     )]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingPlainTextForPassword', '',
+        Scope='Function',
+        Justification='Plaintext passwords are a requirement to work with the Securonix Web Api'
+    )]
     param(
         [Parameter(Mandatory)]
         [string] $Url,
@@ -107,6 +111,10 @@ function Connect-SecuronixApi {
         PositionalBinding,
         SupportsShouldProcess
     )]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingPlainTextForPassword', '',
+        Scope='Function',
+        Justification='Plaintext passwords are a requirement to work with the Securonix Web Api'
+    )]
     param(
         [Parameter(ParameterSetName='instance',
             Mandatory,
@@ -133,17 +141,9 @@ function Connect-SecuronixApi {
         if($Instance -ne '') {
             $Url = "https://$instance.securonix.net/Snypr"
         }
-
-        $Header = @{
-            username = $Username
-            password = $Password
-            validity = $Validity
-        }
         if($Url.EndsWith('/')) {
             $Url = $Url.Remove($Url.Length-1, 1)   
         }
-
-        $Uri = "$Url/ws/token/generate"
     }
 
     Process {

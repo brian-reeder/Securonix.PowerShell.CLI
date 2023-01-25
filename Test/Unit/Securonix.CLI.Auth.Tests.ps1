@@ -1,4 +1,11 @@
 # Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
+[CmdletBinding()]
+[Diagnostics.CodeAnalysis.SuppressMessage(
+    'PSUseDeclaredVarsMoreThanAssignments', '',
+    Justification='PSSA does not properly detect for Pester scripts'
+)]
+Param()
+
 BeforeAll {
     Remove-Module Securonix.CLI -ErrorAction SilentlyContinue
     Import-Module $PSScriptRoot\..\..\Securonix.CLI.psd1
