@@ -1,11 +1,8 @@
 # Securonix.PowerShell.CLI
-
-## Description
 This PowerShell module is a wrapper for the Securonix SIEM Web API, which standardizes parameters for the API endpoints. It provides an easy way to interact with the Securonix API using PowerShell commands.
 
 ## Features
 - Implements functions for all of the API endpoints: Authentication, Incident Management, List, Search, Security Command Center, Watchlist, and Whitelist.
-
 - Standardizes parameters for the API endpoints, making it easy to use the API.
 
 ## Installation

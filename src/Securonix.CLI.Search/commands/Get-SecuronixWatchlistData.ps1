@@ -50,7 +50,7 @@ function Get-SecuronixWatchlistData {
 
 	Process {
         $r = Invoke-SecuronixSearchApi @Params
-        return $r
+        return $r.events.result.entry
 	}
 
 	End {}

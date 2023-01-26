@@ -6,6 +6,8 @@
 )]
 Param()
 
+$disable = (Import-PowerShellDataFile -Path "$PSScriptRoot\config.psd1").disable
+
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
     
@@ -20,7 +22,7 @@ BeforeAll {
     $password = $config.password
 }
 
-Describe 'New-SecuronixApiToken' {
+Describe 'New-SecuronixApiToken' -Skip:($disable."New-SecuronixApiToken") {
     Context "When credentials are valid" {
         It 'Given only the required parameters, it returns a token.' {
             $token = New-SecuronixApiToken -Url $url -Username $username -Password $password
@@ -40,7 +42,7 @@ Describe 'New-SecuronixApiToken' {
     }
 }
 
-Describe 'Connect-SecuronixApi' {
+Describe 'Connect-SecuronixApi' -Skip:($disable."Connect-SecuronixApi") {
     Context "When credentials are valid" {
         It 'Given the url required parameters, it sets a connection.' {
             $response = Connect-SecuronixApi -Url $url -Username $username `
@@ -72,8 +74,7 @@ Describe 'Connect-SecuronixApi' {
     }
 }
 
-
-Describe 'Confirm-SecuronixApiToken' {
+Describe 'Confirm-SecuronixApiToken' -Skip:($disable."Confirm-SecuronixApiToken") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username -Password $password
@@ -105,7 +106,7 @@ Describe 'Confirm-SecuronixApiToken' {
     }
 }
 
-Describe 'Update-SecuronixApiToken' {
+Describe 'Update-SecuronixApiToken' -Skip:($disable."Update-SecuronixApiToken") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username -Password $password

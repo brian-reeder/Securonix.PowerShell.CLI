@@ -44,7 +44,7 @@ function Get-SecuronixLookupData {
 	Begin {
         $PSBoundParameters['Query'] = "index=lookup$(if($Query -ne '') { " AND $Query" })"
 
-        params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+        $params = Format-ApiParameters -ParameterSet $PSBoundParameters `
             -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
             -Aliases @{
                 'Query' = 'query'
@@ -53,7 +53,7 @@ function Get-SecuronixLookupData {
 
 	Process {
         $r = Invoke-SecuronixSearchApi @Params
-        return $r
+        return $r.events.result.entry
 	}
 
 	End {}

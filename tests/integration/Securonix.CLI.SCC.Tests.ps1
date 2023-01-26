@@ -6,6 +6,8 @@
 )]
 Param()
 
+$disable = (Import-PowerShellDataFile -Path "$PSScriptRoot\config.psd1").disable
+
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
     
@@ -30,7 +32,7 @@ BeforeAll {
     $violatorName = $config.violatorname
 }
 
-Describe 'Get-SecuronixThreats' {
+Describe 'Get-SecuronixThreats' -Skip:($disable."Get-SecuronixThreats") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -61,21 +63,13 @@ Describe 'Get-SecuronixThreats' {
     }
 }
 
-Describe 'Get-SecuronixEntityThreatDetails' -Skip {
-    Context "When token is valid" {
-        BeforeAll {
-            $token = New-SecuronixApiToken -Url $url -Username $username -Password $password
-        }
-        It 'Given required parameters, it returns threat model details.' {
-        }
-        It 'Given positional parameters, it returns threat model details.' {
-        }
-        AfterEach {
-        }
+Describe 'Get-SecuronixEntityThreatDetails' -Skip:($disable."Get-SecuronixEntityThreatDetails") {
+    It 'Tests have not been implemented. See issue #81' {
+        $null | Should -Not -BeNullOrEmpty
     }
 }
 
-Describe 'Get-SecuronixTopThreats' {
+Describe 'Get-SecuronixTopThreats' -Skip:($disable."Get-SecuronixTopThreats") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -106,7 +100,7 @@ Describe 'Get-SecuronixTopThreats' {
     }
 }
 
-Describe 'Get-SecuronixTopViolations' {
+Describe 'Get-SecuronixTopViolations' -Skip:($disable."Get-SecuronixTopViolations") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -137,7 +131,7 @@ Describe 'Get-SecuronixTopViolations' {
     }
 }
 
-Describe 'Get-SecuronixTopViolators' {
+Describe 'Get-SecuronixTopViolators' -Skip:($disable."Get-SecuronixTopViolators") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `

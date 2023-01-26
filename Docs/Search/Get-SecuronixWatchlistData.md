@@ -140,7 +140,7 @@ Response
                 }
             ]
         }
-    }] 
+    }],
     "from": "1533842667887", 
     "offset": "1000", 
     "query": "index=watchlist AND watchlistname=\"Flight Risk Users\"", 
