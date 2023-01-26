@@ -6,6 +6,8 @@
 )]
 Param()
 
+$disable = (Import-PowerShellDataFile -Path "$PSScriptRoot\config.psd1").disable
+
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
     
@@ -30,7 +32,7 @@ BeforeAll {
     $timeend_datetime   = $config.timeend30d.datetime
 }
 
-Describe 'Get-SecuronixIncident' {
+Describe 'Get-SecuronixIncident' -Skip:($disable."Get-SecuronixIncident") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -49,7 +51,7 @@ Describe 'Get-SecuronixIncident' {
     }
 }
 
-Describe 'Get-SecuronixIncidentStatus' {
+Describe 'Get-SecuronixIncidentStatus' -Skip:($disable."Get-SecuronixIncidentStatus") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -69,7 +71,7 @@ Describe 'Get-SecuronixIncidentStatus' {
     }
 }
 
-Describe 'Get-SecuronixIncidentWorkflowName' {
+Describe 'Get-SecuronixIncidentWorkflowName' -Skip:($disable."Get-SecuronixIncidentWorkflowName") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -90,7 +92,7 @@ Describe 'Get-SecuronixIncidentWorkflowName' {
     }
 }
 
-Describe 'Get-SecuronixIncidentActions' {
+Describe 'Get-SecuronixIncidentActions' -Skip:($disable."Get-SecuronixIncidentActions") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -109,7 +111,7 @@ Describe 'Get-SecuronixIncidentActions' {
     }
 }
 
-Describe 'Confirm-SecuronixIncidentAction' {
+Describe 'Confirm-SecuronixIncidentAction' -Skip:($disable."Confirm-SecuronixIncidentAction") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -129,7 +131,7 @@ Describe 'Confirm-SecuronixIncidentAction' {
     }
 }
 
-Describe 'Get-SecuronixWorkflowsList' {
+Describe 'Get-SecuronixWorkflowsList' -Skip:($disable."Get-SecuronixWorkflowsList") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -148,7 +150,7 @@ Describe 'Get-SecuronixWorkflowsList' {
     }
 }
 
-Describe 'Get-SecuronixWorkflowDetails' {
+Describe 'Get-SecuronixWorkflowDetails' -Skip:($disable."Get-SecuronixWorkflowDetails") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -168,7 +170,7 @@ Describe 'Get-SecuronixWorkflowDetails' {
     }
 }
 
-Describe 'Get-SecuronixWorkflowDefaultAssignee' {
+Describe 'Get-SecuronixWorkflowDefaultAssignee' -Skip:($disable."Get-SecuronixWorkflowDefaultAssignee") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -188,7 +190,7 @@ Describe 'Get-SecuronixWorkflowDefaultAssignee' {
     }
 }
 
-Describe 'Get-SecuronixIncidentsList' {
+Describe 'Get-SecuronixIncidentsList' -Skip:($disable."Get-SecuronixIncidentsList") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -220,31 +222,15 @@ Describe 'Get-SecuronixIncidentsList' {
     }
 }
 
-
 # TODO: Write test case for incident attachments
-Describe 'Get-SecuronixIncidentAttachments' -Skip {
-    Context "When token is valid" {
-        BeforeAll {
-            $token = New-SecuronixApiToken -Url $url -Username $username `
-                -Password $password -Validity 1
-        }
-        It 'Given required parameters, it returns a list of incident attachments.' {
-        }
-        It 'Given time (epoch) parameters, it returns a list of incident attachments.' {
-        }
-        It 'Given time (datetime) parameters, it returns a list of incident attachments.' {
-        }
-        It 'Given optional parameters, it returns a list of incident attachments.' {
-        }
-        It 'Given positional parameters, it returns a list of incident attachments.' {
-        }
-        AfterEach {
-        }
+Describe 'Get-SecuronixIncidentAttachments' -Skip:($disable."Get-SecuronixIncidentAttachments") {
+    It 'Tests have not been implemented. See issue #62' {
+        $null | Should -Not -BeNullOrEmpty
     }
 }
 
 # TODO: Write test case for child incidents
-Describe 'Get-SecuronixChildIncidents' -Skip {
+Describe 'Get-SecuronixChildIncidents' -Skip:($disable."Get-SecuronixChildIncidents") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -259,7 +245,7 @@ Describe 'Get-SecuronixChildIncidents' -Skip {
     }
 }
 
-Describe 'Get-SecuronixIncidentActivityHistory' {
+Describe 'Get-SecuronixIncidentActivityHistory' -Skip:($disable."Get-SecuronixIncidentActivityHistory") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -279,7 +265,7 @@ Describe 'Get-SecuronixIncidentActivityHistory' {
     }
 }
 
-Describe 'Get-SecuronixThreatActions' {
+Describe 'Get-SecuronixThreatActions' -Skip:($disable."Get-SecuronixThreatActions") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -298,19 +284,34 @@ Describe 'Get-SecuronixThreatActions' {
 }
 
 # TODO: Write tests for functions that make changes to Securonix environment.
-Describe 'Update-SecuronixIncident' -Skip {
+Describe 'Update-SecuronixIncident' -Skip:($disable."Update-SecuronixIncident") {
+    It 'Tests have not been implemented. See issue #80' {
+        $null | Should -Not -BeNullOrEmpty
+    }
 }
 
-Describe 'Add-SecuronixComment' -Skip {
+Describe 'Add-SecuronixComment' -Skip:($disable."Add-SecuronixComment") {
+    It 'Tests have not been implemented. See issue #80' {
+        $null | Should -Not -BeNullOrEmpty
+    }
 }
 
-Describe 'Update-SecuronixCriticality' -Skip {
+Describe 'Update-SecuronixCriticality' -Skip:($disable."Update-SecuronixCriticality") {
+    It 'Tests have not been implemented. See issue #80' {
+        $null | Should -Not -BeNullOrEmpty
+    }
 }
 
-Describe 'New-SecuronixIncident' -Skip {
+Describe 'New-SecuronixIncident' -Skip:($disable."New-SecuronixIncident") {
+    It 'Tests have not been implemented. See issue #80' {
+        $null | Should -Not -BeNullOrEmpty
+    }
 }
 
-Describe 'Add-SecuronixViolationScore' -Skip {
+Describe 'Add-SecuronixViolationScore' -Skip:($disable."Add-SecuronixViolationScore") {
+    It 'Tests have not been implemented. See issue #80' {
+        $null | Should -Not -BeNullOrEmpty
+    }
 }
 
 AfterAll {

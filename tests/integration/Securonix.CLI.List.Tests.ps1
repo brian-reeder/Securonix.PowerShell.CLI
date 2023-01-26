@@ -6,6 +6,8 @@
 )]
 Param()
 
+$disable = (Import-PowerShellDataFile -Path "$PSScriptRoot\config.psd1").disable
+
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
     
@@ -20,7 +22,7 @@ BeforeAll {
     $password = $config.password
 }
 
-Describe 'Get-SecuronixResourcegroupList' {
+Describe 'Get-SecuronixResourcegroupList' -Skip:($disable."Get-SecuronixResourcegroupList") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -54,7 +56,7 @@ Describe 'Get-SecuronixResourcegroupList' {
     }
 }
 
-Describe 'Get-SecuronixPolicyList' {
+Describe 'Get-SecuronixPolicyList' -Skip:($disable."Get-SecuronixPolicyList") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -88,7 +90,7 @@ Describe 'Get-SecuronixPolicyList' {
     }
 }
 
-Describe 'Get-SecuronixPeerGroupsList' {
+Describe 'Get-SecuronixPeerGroupsList' -Skip:($disable."Get-SecuronixPeerGroupsList") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
