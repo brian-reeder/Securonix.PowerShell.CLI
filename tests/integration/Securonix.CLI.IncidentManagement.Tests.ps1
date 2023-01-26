@@ -165,7 +165,7 @@ Describe 'Get-SecuronixWorkflowDetails' -Skip:($disable."Get-SecuronixWorkflowDe
                 $workflowname
         }
         AfterEach {
-            $response[$workflowname] | Should -Not -BeNullOrEmpty
+            $response.$workflowname | Should -Not -BeNullOrEmpty
         }
     }
 }
