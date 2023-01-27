@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Get-SecuronixIncidentAPIResponse is a flexible controller used to process Securonix Incident Management calls. Use the higher level interfaces to enforce parameter guidelines.
 
@@ -97,7 +97,7 @@ function Get-SecuronixIncidentAPIResponse {
 
 	Begin {
 		if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -108,12 +108,12 @@ function Get-SecuronixIncidentAPIResponse {
         foreach($key in $Exclusions) {
             $PSBoundParameters.Remove($key) | Out-Null
         }
-		
+
 		$paramsList = @()
 		foreach($param in $PSBoundParameters.Keys) {
 			$paramsList += "$($param)=$($PSBoundParameters[$param])"
 		}
-		
+
 		$Uri = "$Url/ws/incident/get?$($paramsList -join '&')"
 	}
 

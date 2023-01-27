@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 New-SecuronixApiToken makes an API call to the AUTH/Generate Securonix Web API with the supplied credentials. If the user successfully authenticates, a token is provided.
 
@@ -34,6 +34,10 @@ function New-SecuronixApiToken {
         PositionalBinding,
         SupportsShouldProcess
     )]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingUsernameAndPasswordParams', '',
+        Scope='Function',
+        Justification='Plaintext passwords are a requirement to work with the Securonix Web Api'
+    )]
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingPlainTextForPassword', '',
         Scope='Function',
         Justification='Plaintext passwords are a requirement to work with the Securonix Web Api'
@@ -56,7 +60,7 @@ function New-SecuronixApiToken {
             validity = $Validity
         }
         if($Url.EndsWith('/')) {
-            $Url = $Url.Remove($Url.Length-1, 1)   
+            $Url = $Url.Remove($Url.Length-1, 1)
         }
 
         $Uri = "$Url/ws/token/generate"

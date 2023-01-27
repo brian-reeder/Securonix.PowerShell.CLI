@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Get-SecuronixWhitelist prepares API parameters and requests Securonix to get a list of Whitelists.
 
@@ -43,7 +43,7 @@ function Get-SecuronixWhitelist {
 
 	Begin {
         if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -59,13 +59,13 @@ function Get-SecuronixWhitelist {
             'WhitelistName' = 'whitelistname'
             'TenantName' = 'tenantname'
 		}
-		
+
         $paramsList = @()
 		foreach($param in $PSBoundParameters.Keys) {
             $Key = if($paramsTable.Keys -ccontains $param) { $paramsTable[$param] } else { $param }
 			$paramsList += "$($Key)=$($PSBoundParameters[$param])"
 		}
-		
+
 		$Uri = "$Url/ws/incident/getlistofWhitelist?$($paramsList -join '&')"
 	}
 

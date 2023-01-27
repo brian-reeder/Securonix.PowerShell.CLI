@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Get-SecuronixIncidentAttachments makes an API call to the Incident/Get endpoint and retrieves attachments from an incident.
 
@@ -32,7 +32,7 @@ PS> Get-SecuronixIncidentAttachments -Url "hxxps://DunderMifflin.securonix.com/S
 .LINK
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Incident%20Management/Get-SecuronixIncidentAttachments.md
 #>
-function Get-SecuronixIncidentAttachments {
+function Get-SecuronixIncidentAttachment {
 
 	[CmdletBinding(
 		DefaultParameterSetName='default',
@@ -68,7 +68,7 @@ function Get-SecuronixIncidentAttachments {
 		}
 
 		if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -79,12 +79,12 @@ function Get-SecuronixIncidentAttachments {
         foreach($key in $Exclusions) {
             $PSBoundParameters.Remove($key) | Out-Null
         }
-		
+
 		$paramsList = @()
 		foreach($param in $PSBoundParameters.Keys) {
 			$paramsList += "$($paramsTable[$param])=$($PSBoundParameters[$param])"
 		}
-		
+
 		$Uri = "$Url/ws/incident/attachments?$($paramsList -join '&')"
 	}
 

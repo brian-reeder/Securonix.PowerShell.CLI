@@ -1,4 +1,4 @@
-# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
+﻿# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
 [CmdletBinding()]
 [Diagnostics.CodeAnalysis.SuppressMessage(
     'PSUseDeclaredVarsMoreThanAssignments', '',
@@ -8,7 +8,7 @@ Param()
 
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
-    
+
     Remove-Module Securonix.CLI* -ErrorAction SilentlyContinue
     Import-Module $modulepath
 
@@ -111,7 +111,7 @@ Describe 'Get-SecuronixPolicyList' {
 Describe 'Get-SecuronixPeerGroupsList' {
     BeforeAll {
         $ValidResponse = [xml]@'
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><peerGroups><peerGroup> <criticality>Low</criticality><name>Advertising</name></peerGroup><peerGroup> <criticality>Low</criticality><name>Branding</name></peerGroup></peerGroups> 
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><peerGroups><peerGroup> <criticality>Low</criticality><name>Advertising</name></peerGroup><peerGroup> <criticality>Low</criticality><name>Branding</name></peerGroup></peerGroups>
 '@
     }
     Context "When token is valid" {

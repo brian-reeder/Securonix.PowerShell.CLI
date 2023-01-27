@@ -1,4 +1,4 @@
-@{
+﻿@{
     url      = 'https://dundermifflin.securonix.net/Snypr'
     instance = 'dundermifflin'
     username = 'jhalpert'
@@ -31,16 +31,16 @@
         "Connect-SecuronixApi" = $false
         "New-SecuronixApiToken" = $false
         "Update-SecuronixApiToken" = $false
-        
+
         # Incident Management
         # Disabled - Issue#80
         "Add-SecuronixComment" = $true
         # Disabled - Issue#80
         "Add-SecuronixViolationScore" = $true
         "Confirm-SecuronixIncidentAction" = $false
-        "Get-SecuronixChildIncidents" = $false
+        "Get-SecuronixChildIncidentList" = $false
         "Get-SecuronixIncident" = $false
-        "Get-SecuronixIncidentActions" = $false
+        "Get-SecuronixIncidentActionList" = $false
         "Get-SecuronixIncidentActivityHistory" = $false
         "Get-SecuronixIncidentAPIResponse" = $false
         # Disabled - Issue#62
@@ -48,9 +48,9 @@
         "Get-SecuronixIncidentsList" = $false
         "Get-SecuronixIncidentStatus" = $false
         "Get-SecuronixIncidentWorkflowName" = $false
-        "Get-SecuronixThreatActions" = $false
+        "Get-SecuronixThreatActionList" = $false
         "Get-SecuronixWorkflowDefaultAssignee" = $false
-        "Get-SecuronixWorkflowDetails" = $false
+        "Get-SecuronixWorkflowDefinition" = $false
         "Get-SecuronixWorkflowsList" = $false
         # Disabled - Issue#80
         "New-SecuronixIncident" = $true
@@ -66,10 +66,10 @@
 
         # Security Command Center (SCC)
         # Disabled - Issue#81
-        "Get-SecuronixEntityThreatDetails" = $true
-        "Get-SecuronixThreats" = $false
-        "Get-SecuronixTopThreats" = $false
-        "Get-SecuronixTopViolations" = $false
-        "Get-SecuronixTopViolators" = $false
+        "Get-SecuronixEntityThreatModel" = $true
+        "Get-SecuronixThreatList" = $false
+        "Get-SecuronixTopThreatsList" = $false
+        "Get-SecuronixTopViolationsList" = $false
+        "Get-SecuronixTopViolatorsList" = $false
     }
 }

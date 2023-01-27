@@ -1,11 +1,11 @@
-# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
+﻿# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
 [CmdletBinding()]
 [Diagnostics.CodeAnalysis.SuppressMessage('PSUseDeclaredVarsMoreThanAssignments', '')]
 Param()
 
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
-    
+
     Remove-Module Securonix.CLI* -ErrorAction SilentlyContinue
     Import-Module $modulepath
 
@@ -86,7 +86,7 @@ Describe 'Get-SecuronixIncidentWorkflowName' {
     }
 }
 
-Describe 'Get-SecuronixIncidentActions' {
+Describe 'Get-SecuronixIncidentActionList' {
     BeforeAll {
         $ValidResponse = ConvertFrom-Json '{"status": "OK","messages": ["Get possible actions for incident ID [100289], incident status [Open]"],"result": [{"actionDetails": [{"title": "Screen1","sections": {"sectionName": "Comments","attributes": [{"displayName": "Comments","attributeType": "textarea","attribute": "15_Comments","required": false}]}}],"actionName": "CLAIM","status": "CLAIMED"},{"actionDetails": [{"title": "Screen1","sections": {"sectionName": "Comments","attributes": [{"displayName": "Business Response","attributeType": "dropdown","values": ["Inaccurate alert-User not a HPA","Inaccurate alert-inaccurate log data","Inaccurate alert-host does not belong to our business","Need more information","Duplicate alert"],"attribute": "10_Business-Response","required": false},{"displayName": "Business Justification","attributeType": "text","attribute": "11_Business-Justification","required": false},{"displayName": "Remediation Performed","attributeType": "text","attribute": "12_Remediation-Performed","required": false},{"displayName": "Business Internal Use","attributeType": "text","attribute": "13_Business-Internal-Use","required": false},{"displayName": "Assign To Analyst","attributeType": "assignto","values": [{"key": "GROUP","value": "Administrators"},{"key": "GROUP","value": "SECURITYOPERATIONS"},{"key": "USER","value": "admin"},{"key": "USER","value": "auditor"},{"key": "USER","value": "useradmin"},{"key": "USER","value": "accessscanner"},{"key": "USER","value": "account08"},{"key": "USER","value": "account10"},{"key": "USER","value": "account06"},{"key": "USER","value": "account07"},{"key": "USER","value": "account02"},{"key": "USER","value": "account09"},{"key": "USER","value": "account01"},{"key": "USER","value": "account05"},{"key": "USER","value": "account03"},{"key": "USER","value": "account04"}],"attribute": "assigntouserid","required": true}]}}],"actionName": "ASSIGN TO ANALYST","status": "OPEN"},{"actionDetails": [{"title": "Screen1","sections": {"sectionName": "Comments","attributes": [{"displayName": "Comments","attributeType": "textarea","attribute": "15_Comments","required": false}]}}],"actionName": "ASSIGN TO SECOPS","status": "OPEN"}]}'
     }
@@ -97,11 +97,11 @@ Describe 'Get-SecuronixIncidentActions' {
                 -ModuleName Securonix.CLI.IncidentManagement
         }
         It 'Given required parameters, it returns the list of actions.' {
-            $response = Get-SecuronixIncidentActions -Url $url -Token $token `
+            $response = Get-SecuronixIncidentActionList -Url $url -Token $token `
                 -IncidentId $IncidentId
         }
         It 'Given positional parameters, it returns the list of actions.' {
-            $response = Get-SecuronixIncidentActions $url $token $IncidentId
+            $response = Get-SecuronixIncidentActionList $url $token $IncidentId
         }
         AfterEach {
             Should -InvokeVerifiable
@@ -157,7 +157,7 @@ Describe 'Get-SecuronixWorkflowsList' {
     }
 }
 
-Describe 'Get-SecuronixWorkflowDetails' {
+Describe 'Get-SecuronixWorkflowDefinition' {
     BeforeAll {
         $ValidResponse = ConvertFrom-Json '{"status": "OK","messages": ["Workflow Details"],"result": {"SOCTeamReview": {"CLAIMED": [{"Status": "OPEN","Action": "ASSIGN TO ANALYST"},{"Status": "COMPLETED","Action": "ACCEPT RISK"},{"Status": "OPEN","Action": "RELEASE"},{"Status": "CLOSED","Action": "VIOLATION"},{"Status": "OPEN","Action": "ASSIGN TO SECOPS"}],"CLOSED": [{"Status": "PENDING VERIFICATION","Action": "CLAIM"},{"Status": "OPEN","Action": "ASSIGN TO ANALYST"},{"Status": "OPEN","Action": "RELEASE"}],"PENDING VERIFICATION": [{"Status": "COMPLETED","Action": "VERIFY"}],"OPEN": [{"Status": "OPEN","Action": "ASSIGN TO ANALYST"},{"Status": "CLAIMED","Action": "CLAIM"},{"Status": "OPEN","Action": "ASSIGN TO SECOPS"},{"Status": "Do Not Change","Action": "WhiteList_Action"}]}}}'
     }
@@ -168,11 +168,11 @@ Describe 'Get-SecuronixWorkflowDetails' {
                 -ModuleName Securonix.CLI.IncidentManagement
         }
         It 'Given required parameters, it returns the workflow details.' {
-            $response = Get-SecuronixWorkflowDetails -Url $url -Token $token `
+            $response = Get-SecuronixWorkflowDefinition -Url $url -Token $token `
                 -WorkflowName 'SOCTeamReview'
         }
         It 'Given positional parameters, it returns the workflow details.' {
-            $response = Get-SecuronixWorkflowDetails $url $token 'SOCTeamReview'
+            $response = Get-SecuronixWorkflowDefinition $url $token 'SOCTeamReview'
         }
         AfterEach {
             Should -InvokeVerifiable
@@ -283,7 +283,7 @@ Describe 'Get-SecuronixIncidentAttachments' -Skip {
     }
 }
 
-Describe 'Get-SecuronixChildIncidents' {
+Describe 'Get-SecuronixChildIncidentList' {
     BeforeAll {
         $ValidResponse = ConvertFrom-Json '{"status": "OK","messages": ["Get child case details for incident ID [20019]"],"result": ["20046","20073","20100","20127","20154","20181","20208","20235"]}'
         $id = '20019'
@@ -295,11 +295,11 @@ Describe 'Get-SecuronixChildIncidents' {
                 -ModuleName Securonix.CLI.IncidentManagement
         }
         It 'Given required parameters, it returns a list of incident ids.' {
-            $response = Get-SecuronixChildIncidents -Url $url -Token $token `
+            $response = Get-SecuronixChildIncidentList -Url $url -Token $token `
                 -IncidentId $id
         }
         It 'Given positional parameters, it returns a list of incident ids.' {
-            $response = Get-SecuronixChildIncidents $url $token $id
+            $response = Get-SecuronixChildIncidentList $url $token $id
         }
         AfterEach {
             Should -InvokeVerifiable
@@ -333,7 +333,7 @@ Describe 'Get-SecuronixIncidentActivityHistory' {
     }
 }
 
-Describe 'Get-SecuronixThreatActions' {
+Describe 'Get-SecuronixThreatActionList' {
     BeforeAll {
         $ValidResponse = ConvertFrom-Json '{"status": "OK","messages": ["test Message 04"],"result": ["Mark as concern and create incident","Non-Concern","Mark in progress (still investigating)"]}'
     }
@@ -344,10 +344,10 @@ Describe 'Get-SecuronixThreatActions' {
                 -ModuleName Securonix.CLI.IncidentManagement
         }
         It 'Given the required parameters, it returns a list of actions.' {
-            $response = Get-SecuronixThreatActions -Url $url -Token $token
+            $response = Get-SecuronixThreatActionList -Url $url -Token $token
         }
         It 'Given the positional parameters, it returns a list of actions.' {
-            $response = Get-SecuronixThreatActions $url $token
+            $response = Get-SecuronixThreatActionList $url $token
         }
         AfterEach {
             Should -InvokeVerifiable

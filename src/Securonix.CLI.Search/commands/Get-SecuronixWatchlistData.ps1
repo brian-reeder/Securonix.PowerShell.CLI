@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Get-SecuronixWatchlistData prepares API parameters and queries the Securonix watchlist index.
 
@@ -28,6 +28,10 @@ function Get-SecuronixWatchlistData {
         PositionalBinding,
         SupportsShouldProcess
     )]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Invoke-SecuronixSearchApi'
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -39,9 +43,9 @@ function Get-SecuronixWatchlistData {
 	)
 
     Begin {
-        $PSBoundParameters['Query'] = "index=watchlist$(if($Query -ne '') { " AND $Query" })" 
+        $PSBoundParameters['Query'] = "index=watchlist$(if($Query -ne '') { " AND $Query" })"
 
-        $params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+        $params = Format-ApiParameterSet -ParameterSet $PSBoundParameters `
             -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
             -Aliases @{
                 'Query' = 'query'

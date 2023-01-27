@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Update-SecuronixCriticality makes an API call to the Incident/Actions endpoint and updates the incidents criticality.
 
@@ -31,6 +31,10 @@ function Update-SecuronixCriticality {
         PositionalBinding,
         SupportsShouldProcess
     )]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Update-SecuronixIncident'
+    )]
 	param(
 		[Parameter(Mandatory,Position=0)]
 		[string] $Url,
@@ -43,7 +47,7 @@ function Update-SecuronixCriticality {
 		[string] $Criticality
 	)
 
-	Begin {		
+	Begin {
 		$Exclusions = @('WhatIf', 'Confirm', 'Verbose')
         foreach($key in $Exclusions) {
             $PSBoundParameters.Remove($key) | Out-Null

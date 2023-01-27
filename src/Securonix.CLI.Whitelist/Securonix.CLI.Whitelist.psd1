@@ -73,7 +73,7 @@ FunctionsToExport = @(
     "Add-SecuronixAttributeToWhitelist",
     "Add-SecuronixEntityToWhitelist",
     "Get-SecuronixWhitelist",
-    "Get-SecuronixWhitelistMembers",
+    "Get-SecuronixWhitelistMemberList",
     "New-SecuronixWhitelist",
     "Remove-SecuronixAttributeFromWhitelist",
     "Remove-SecuronixEntityFromWhitelist"

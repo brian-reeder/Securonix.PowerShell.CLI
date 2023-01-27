@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Get-SecuronixWatchlistList prepares API parameters and queries the Securonix API for a list of all watchlists.
 
@@ -34,13 +34,13 @@ function Get-SecuronixWatchlistList {
 
 	Begin {
         if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
 			'token' = $Token
 		}
-		
+
 		$Uri = "$Url/ws/incident/listWatchlist"
 	}
 

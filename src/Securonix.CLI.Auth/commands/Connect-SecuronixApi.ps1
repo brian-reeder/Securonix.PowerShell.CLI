@@ -32,16 +32,22 @@ PS> Connect-SecuronixApi -Instance 'dundermifflin' -Username 'MichaelBolton' -Pa
 .LINK
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Auth/Connect-SecuronixApi.md
 #>
+
 function Connect-SecuronixApi {
     [CmdletBinding(
         DefaultParameterSetName='instance',
         PositionalBinding,
         SupportsShouldProcess
     )]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingUsernameAndPasswordParams', '',
+        Scope='Function',
+        Justification='Plaintext passwords are a requirement to work with the Securonix Web Api'
+    )]
     [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingPlainTextForPassword', '',
         Scope='Function',
         Justification='Plaintext passwords are a requirement to work with the Securonix Web Api'
     )]
+    [OutputType([System.string])]
     param(
         [Parameter(ParameterSetName='instance',
             Mandatory,
@@ -69,7 +75,7 @@ function Connect-SecuronixApi {
             $Url = "https://$instance.securonix.net/Snypr"
         }
         if($Url.EndsWith('/')) {
-            $Url = $Url.Remove($Url.Length-1, 1)   
+            $Url = $Url.Remove($Url.Length-1, 1)
         }
     }
 

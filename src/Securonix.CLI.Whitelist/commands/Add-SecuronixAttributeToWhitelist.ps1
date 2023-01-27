@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Add-SecuronixAttributeToWhitelist prepares API parameters and requests Securonix to add an attribute to an Attribute whitelist.
 
@@ -24,13 +24,13 @@ A required API Parameter, enter the name of the attribute being added. It is rec
 The attribute value to add to an Attribute whitelist. Required for use with the AttributeName parameter.
 
 .PARAMETER SourceIp
-A required API Parameter, automatically specifies the AttributeName as source ip. Enter the ip address to add to the Attribute whitelist. 
+A required API Parameter, automatically specifies the AttributeName as source ip. Enter the ip address to add to the Attribute whitelist.
 
 .PARAMETER ResourceType
-A required API Parameter, automatically specifies the AttributeName as resourcetype. Enter the resourcetype to add to the Attribute whitelist. 
+A required API Parameter, automatically specifies the AttributeName as resourcetype. Enter the resourcetype to add to the Attribute whitelist.
 
 .PARAMETER TransactionString
-A required API Parameter, automatically specifies the AttributeName as transactionstring. Enter the transactionstring to add to the Attribute whitelist. 
+A required API Parameter, automatically specifies the AttributeName as transactionstring. Enter the transactionstring to add to the Attribute whitelist.
 
 .PARAMETER ExpiryDate
 An optional API Parameter, enter the date Securonix will remove the entity from the whitelist. Format: MM/DD/YYYY
@@ -96,7 +96,7 @@ function Add-SecuronixAttributeToWhitelist {
 
 	Begin {
         if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -108,12 +108,12 @@ function Add-SecuronixAttributeToWhitelist {
                 $AttributeName = 'source ip'
                 $AttributeValue = $SourceIp
                 $PSBoundParameters.Remove('SourceIp') | Out-Null
-            } 
+            }
             elseif ($ResourceType -ne '') {
                 $AttributeName = 'resourcetype'
                 $AttributeValue = $ResourceType
                 $PSBoundParameters.Remove('ResourceType') | Out-Null
-            } 
+            }
             elseif ($TransactionString -ne '') {
                 $AttributeName = 'transactionstring'
                 $AttributeValue = $TransactionString
@@ -139,13 +139,13 @@ function Add-SecuronixAttributeToWhitelist {
 		}
 
         $PSBoundParameters.Add('violationname', $WhitelistName)
-		
+
         $paramsList = @('whitelisttype=attribute')
 		foreach($param in $PSBoundParameters.Keys) {
             $Key = if($paramsTable.Keys -ccontains $param) { $paramsTable[$param] } else { $param }
 			$paramsList += "$($Key)=$($PSBoundParameters[$param])"
 		}
-		
+
 		$Uri = "$Url/ws/incident/addToWhitelist?$($paramsList -join '&')"
 	}
 

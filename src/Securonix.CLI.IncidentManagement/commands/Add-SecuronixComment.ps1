@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Add-SecuronixComment makes an API call to the Incident/Actions endpoint and adds a comment.
 
@@ -40,6 +40,11 @@ function Add-SecuronixComment {
         PositionalBinding,
         SupportsShouldProcess
     )]
+
+	[System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Update-SecuronixIncident'
+    )]
 	param(
 		[Parameter(Mandatory,Position=0)]
 		[string] $Url,
@@ -49,13 +54,13 @@ function Add-SecuronixComment {
 		[string] $IncidentId,
 		[Parameter(Mandatory,Position=3)]
 		[string] $Comment,
-		
+
 		[string] $Username,
 		[string] $Firstname,
 		[string] $Lastname
 	)
 
-	Begin {		
+	Begin {
 		$Exclusions = @('WhatIf', 'Confirm', 'Verbose')
         foreach($key in $Exclusions) {
             $PSBoundParameters.Remove($key) | Out-Null

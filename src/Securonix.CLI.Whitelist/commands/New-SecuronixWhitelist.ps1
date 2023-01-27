@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 New-SecuronixWhitelist prepares API parameters and requests Securonix to create a new whitelist.
 
@@ -50,7 +50,7 @@ function New-SecuronixWhitelist {
 
 	Begin {
         if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -73,7 +73,7 @@ function New-SecuronixWhitelist {
             $Key = if($paramsTable.Keys -ccontains $param) { $paramsTable[$param] } else { $param }
 			$paramsList += "$($Key)=$($PSBoundParameters[$param])"
 		}
-		
+
 		$Uri = "$Url/ws/incident/createGlobalWhitelist?$($paramsList -join '&')"
 	}
 
