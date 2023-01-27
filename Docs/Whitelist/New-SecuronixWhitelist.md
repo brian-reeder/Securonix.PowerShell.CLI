@@ -4,11 +4,11 @@ Create a new whitelist.
 ## Syntax
 ```
 New-SecuronixWhitelist
-    [[-Url]<string>]
-    [[-Token]<string>]
-    [[-WhitelistName]<string>]
-    [[-TenantName]<string>]
-    [[-EntityType]<string>]
+    [-Url] <string>
+    [-Token] <string>
+    [-WhitelistName] <string>
+    [-TenantName] <string>
+    [-EntityType] <string>
 ```
 
 ## Description
