@@ -29,7 +29,7 @@ PS> Get-SecuronixEntityThreatModel -Url 'DunderMifflin.securonix.com/Snypr' -Tok
 .LINK
 https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Security%20Command%20Center/Get-SecuronixEntityThreatModel.md
 #>
-function Get-SecuronixEntityThreatModels {
+function Get-SecuronixEntityThreatModel {
     [CmdletBinding(
         PositionalBinding,
         SupportsShouldProcess
