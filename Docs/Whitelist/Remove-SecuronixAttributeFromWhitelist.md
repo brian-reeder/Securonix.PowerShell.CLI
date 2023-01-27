@@ -4,21 +4,21 @@ Remove an entity from an Attribute whitelist.
 ## Syntax
 ```
 Remove-SecuronixAttributeFromWhitelist
-    [[-Url]<string>]
-    [[-Token]<string>]
-    [[-WhitelistName]<string>]
-    [[-TenantName]<string>]
-    [[-AttributeName]<string>]
-    [[-AttributeValue]<string>]
+    [-Url] <string>
+    [-Token] <string>
+    [-WhitelistName] <string>
+    [-TenantName] <string>
+    [-AttributeName] <string>
+    [-AttributeValue] <string>
 ```
 ```
 Remove-SecuronixAttributeFromWhitelist
-    [[-Url]<string>]
-    [[-Token]<string>]
-    [[-WhitelistName]<string>]
-    [[-TenantName]<string>]
-    [[-AttributeName]<string>]
-    [[-AttributeValueList]<string[]>]
+    [-Url] <string>
+    [-Token] <string>
+    [-WhitelistName] <string>
+    [-TenantName] <string>
+    [-AttributeName] <string>
+    [-AttributeValueList] <string[]>
 ```
 
 ## Description

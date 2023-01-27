@@ -20,7 +20,7 @@ Add-SecuronixAttributeToWhitelist
     [-WhitelistName] <string>
     [-TenantName] <string>
     [-ViolationType] <string>
-    [-SourceIp] <string>
+    -SourceIp <string>
     [-ExpiryDate <string>]
 ```
 ```
@@ -30,7 +30,7 @@ Add-SecuronixAttributeToWhitelist
     [-WhitelistName] <string>
     [-TenantName] <string>
     [-ViolationType] <string>
-    [-ResourceType] <string>
+    -ResourceType <string>
     [-ExpiryDate <string>]
 ```
 ```
@@ -40,7 +40,7 @@ Add-SecuronixAttributeToWhitelist
     [-WhitelistName] <string>
     [-TenantName] <string>
     [-ViolationType] <string>
-    [-TransactionString] <string>
+    -TransactionString <string>
     [-ExpiryDate <string>]
 ```
 

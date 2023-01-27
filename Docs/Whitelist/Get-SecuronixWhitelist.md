@@ -22,6 +22,22 @@ Get-SecuronixWhitelist -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678
 -WhitelistName 'test_policy_name' -TenantName 'PA-Scranton'
 ```
 
+Response
+```
+{
+	"status": "OK",
+	"messages": [
+		" WhiteList Name | Whitelist Type | Tenant Name "
+	],
+	"result": [
+		" Whitelistname1 | whitelisttype1 | tenantname1 ",
+		" Whitelistname2 | whitelisttype2 | tenantname2 ",
+		" Whitelistname3 | whitelisttype3 | tenantname3 ",
+		" Whitelistname4 | whitelisttype4 | tenantname4 ",  
+	]
+}
+```
+
 ## Parameters
 
 ### -Url
