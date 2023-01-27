@@ -32,8 +32,8 @@ Add-SecuronixEntityToWhitelist
     [-WhitelistName] <string>
     [-TenantName] <string>
     -ActivitaccountEntityId <string>
-    [-ResourceName <string>]
-    [-ResourceGroupId <string>]
+    -ResourceName <string>
+    -ResourceGroupId <string>
     [-ExpiryDate <string>]
 ```
 ```
