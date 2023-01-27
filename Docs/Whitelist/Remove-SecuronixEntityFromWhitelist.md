@@ -4,19 +4,19 @@ Remove an entity from a Global whitelist.
 ## Syntax
 ```
 Remove-SecuronixEntityFromWhitelist
-    [[-Url]<string>]
-    [[-Token]<string>]
-    [[-WhitelistName]<string>]
-    [[-TenantName]<string>]
-    [[-EntityId]<string>]
+    [-Url] <string>
+    [-Token] <string>
+    [-WhitelistName] <string>
+    [-TenantName] <string>
+    [-EntityId] <string>
 ```
 ```
 Remove-SecuronixEntityFromWhitelist
-    [[-Url]<string>]
-    [[-Token]<string>]
-    [[-WhitelistName]<string>]
-    [[-TenantName]<string>]
-    [[-EntityIdList]<string[]>]
+    [-Url] <string>
+    [-Token] <string>
+    [-WhitelistName] <string>
+    [-TenantName] <string>
+    [-EntityIdList] <string[]>
 ```
 
 ## Description
