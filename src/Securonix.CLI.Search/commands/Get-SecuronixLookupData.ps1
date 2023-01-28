@@ -57,7 +57,7 @@ function Get-SecuronixLookupData {
 
 	Process {
         $r = Invoke-SecuronixSearchApi @Params
-        return $r.events.result.entry
+        return $r.events
 	}
 
 	End {}
