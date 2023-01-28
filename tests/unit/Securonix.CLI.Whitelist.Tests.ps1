@@ -6,7 +6,9 @@
 )]
 Param()
 
-$EntityTypes = @('Users', 'Activityaccount', 'Resources', 'IpAddress')
+BeforeDiscovery {
+    $EntityTypes = @('Users', 'Activityaccount', 'Resources', 'IpAddress')
+}
 
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"

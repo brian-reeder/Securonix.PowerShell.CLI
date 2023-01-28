@@ -6,7 +6,9 @@
 )]
 Param()
 
-$disable = (Import-PowerShellDataFile -Path "$PSScriptRoot\config.psd1").disable
+BeforeDiscovery {
+    $disable = (Import-PowerShellDataFile -Path "$PSScriptRoot\config.psd1").disable
+}
 
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
