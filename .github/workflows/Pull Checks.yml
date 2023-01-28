@@ -1,4 +1,4 @@
-name: Pre-Merge Checks.
+name: Build Status
 
 # Controls when the workflow will run
 on:
