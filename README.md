@@ -1,4 +1,6 @@
 # Securonix.PowerShell.CLI
+![example workflow](https://github.com/brian-reeder/Securonix.PowerShell.CLI/actions/workflows/Pull%20Checks.yml/badge.svg)
+
 This PowerShell module is a wrapper for the Securonix SIEM Web API, which standardizes parameters for the API endpoints. It provides an easy way to interact with the Securonix API using PowerShell commands.
 
 ## Features
