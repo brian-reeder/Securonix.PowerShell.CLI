@@ -6,7 +6,9 @@
 )]
 Param()
 
-$EntityTypes = @('Users', 'Activityaccount', 'Resources', 'IpAddress')
+BeforeDiscovery {
+    $EntityTypes = @('Users', 'Activityaccount', 'Resources', 'IpAddress')
+}
 
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
@@ -139,7 +141,7 @@ Describe 'Add-SecuronixEntityToWhitelist' {
 
 Describe 'Get-SecuronixWhitelist' {
     BeforeAll {
-        $ValidResponse = ConvertFrom-Json '{"status": "OK","messages": [" WhiteList Name | Whitelist Type | Tenant Name "],"result": [" Whitelistname1 | whitelisttype1 | tenantname1 "," Whitelistname2 | whitelisttype2 | tenantname2 "," Whitelistname3 | whitelisttype3 | tenantname3 "," Whitelistname4 | whitelisttype4 | tenantname4 ",  ]}'
+        $ValidResponse = ConvertFrom-Json '{"status": "OK","messages": [" WhiteList Name | Whitelist Type | Tenant Name "],"result": [" Whitelistname1 | whitelisttype1 | tenantname1 "," Whitelistname2 | whitelisttype2 | tenantname2 "," Whitelistname3 | whitelisttype3 | tenantname3 "," Whitelistname4 | whitelisttype4 | tenantname4 "]}'
     }
     Context "When token is valid" {
         BeforeEach {

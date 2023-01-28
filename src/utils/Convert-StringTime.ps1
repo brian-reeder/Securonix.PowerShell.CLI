@@ -46,7 +46,7 @@ function Convert-StringTime {
 
     Process {
         if($OutDateTime) {
-            return Get-Date $newDateTime -UFormat "%D %T"
+            return Get-Date $newDateTime -UFormat "%m/%d/%Y %T"
         }
 
         if($OutEpoch) {

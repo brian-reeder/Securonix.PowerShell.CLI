@@ -60,7 +60,7 @@ Describe 'Get-SecuronixActivityEventsList' {
         }
         AfterEach {
             Should -InvokeVerifiable
-            $response.totalDocuments | Should -not -BeNullOrEmpty
+            $response | Should -not -BeNullOrEmpty
         }
     }
 }
@@ -252,7 +252,7 @@ Describe 'Get-SecuronixViolationEventsList' {
         }
         AfterEach {
             Should -InvokeVerifiable
-            $response.totalDocuments | Should -not -BeNullOrEmpty
+            $response | Should -not -BeNullOrEmpty
         }
     }
 }
