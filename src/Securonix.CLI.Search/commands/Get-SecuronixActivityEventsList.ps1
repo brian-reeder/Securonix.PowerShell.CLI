@@ -85,7 +85,7 @@ function Get-SecuronixActivityEventsList {
 
 	Process {
         $r = Invoke-SecuronixSearchApi @params
-        return $r
+        return $r.events
 	}
 
 	End {}
