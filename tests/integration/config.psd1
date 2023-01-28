@@ -34,6 +34,7 @@
         "Get-SecuronixTPI" = 'tpi_type="Malicious Domain"'
         "Get-SecuronixUsersData" = 'location="Dallas" AND lastname="OGWA"'
         "Get-SecuronixViolationEventsList" = 'policyname="Email sent to self"'
+        "Get-SecuronixWatchlistData" = 'watchlistname="Flight Risk Users"'
     }
 
     disable = @{
