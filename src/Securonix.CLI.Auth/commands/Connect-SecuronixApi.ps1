@@ -43,7 +43,10 @@ function Connect-SecuronixApi {
         Scope='Function',
         Justification='Plaintext passwords are a requirement to work with the Securonix Web Api'
     )]
-
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSAvoidUsingPlainTextForPassword', '',
+        Scope='Function',
+        Justification='Plaintext passwords are a requirement to work with the Securonix Web Api'
+    )]
     [OutputType([System.string])]
     param(
         [Parameter(ParameterSetName='instance',
