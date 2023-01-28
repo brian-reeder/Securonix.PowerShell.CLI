@@ -25,6 +25,17 @@
         datetime = '09/19/19 21:17:53'
     }
 
+    query = @{
+        # Search
+        "Get-SecuronixActivityEventsList" = 'accountname="admin"'
+        "Get-SecuronixAssetData" = 'entityname="QUALYSTEST|30489654_42428"'
+        "Get-SecuronixGeolocationData" = 'location="City:Paris Region:A8 Country:FR" and longitude="2.3488"'
+        "Get-SecuronixLookupData" = 'lookupname="VulnerableHostLookUpTable"'
+        "Get-SecuronixTPI" = 'tpi_type="Malicious Domain"'
+        "Get-SecuronixUsersData" = 'location="Dallas" AND lastname="OGWA"'
+        "Get-SecuronixViolationEventsList" = 'policyname="Email sent to self"'
+    }
+
     disable = @{
         # Auth
         "Confirm-SecuronixApiToken" = $false
@@ -71,5 +82,17 @@
         "Get-SecuronixTopThreatsList" = $false
         "Get-SecuronixTopViolationsList" = $false
         "Get-SecuronixTopViolatorsList" = $false
+
+        # Search
+        "Get-SecuronixActivityEventsList" = $true
+        "Get-SecuronixAssetData" = $false
+        "Get-SecuronixGeolocationData" = $false
+        "Get-SecuronixLookupData" = $false
+        "Get-SecuronixRiskHistory" = $true
+        "Get-SecuronixRiskScorecard" = $true
+        "Get-SecuronixTPI" = $false
+        "Get-SecuronixUsersData" = $false
+        "Get-SecuronixViolationEventsList" = $false
+        "Get-SecuronixWatchlistData" = $false
     }
 }
