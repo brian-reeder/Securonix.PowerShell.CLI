@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Add-SecuronixEntityToWhitelist prepares API parameters and requests Securonix to add an entity to a whitelist.
 
@@ -21,7 +21,7 @@ A required API Parameter, enter the type of entity being added. It is recommende
 The entity id to to add a whitelist. Required for use with the EntityType parameter.
 
 .PARAMETER UsersEntityId
-A required API Parameter, automatically specifies the EntityType as Users. Enter the entity id of the user being added. 
+A required API Parameter, automatically specifies the EntityType as Users. Enter the entity id of the user being added.
 
 .PARAMETER ActivityaccountEntityType
 A required API Parameter, automatically specifies the EntityType as Activityaccount. Enter the entity id of the activityaccount being added.
@@ -102,7 +102,7 @@ function Add-SecuronixEntityToWhitelist {
 
 	Begin {
         if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -114,17 +114,17 @@ function Add-SecuronixEntityToWhitelist {
                 $EntityType = 'Users'
                 $EntityId = $UsersEntityId
                 $PSBoundParameters.Remove('UsersEntityId') | Out-Null
-            } 
+            }
             elseif ($ActivityaccountEntityId -ne '') {
                 $EntityType = 'Activityaccount'
                 $EntityId = $ActivityaccountEntityId
                 $PSBoundParameters.Remove('ActivityaccountEntityId') | Out-Null
-            } 
+            }
             elseif ($ActivityipEntityId -ne '') {
                 $EntityType = 'Activityip'
                 $EntityId = $ActivityipEntityId
                 $PSBoundParameters.Remove('ActivityipEntityId') | Out-Null
-            } 
+            }
             elseif($ResourcesEntityId -ne '') {
                 $EntityType = 'Resources'
                 $EntityId = $ResourcesEntityId
@@ -164,7 +164,7 @@ function Add-SecuronixEntityToWhitelist {
             $Key = if($paramsTable.Keys -ccontains $param) { $paramsTable[$param] } else { $param }
 			$paramsList += "$($Key)=$($PSBoundParameters[$param])"
 		}
-		
+
 		$Uri = "$Url/ws/incident/addToWhitelist?$($paramsList -join '&')"
 	}
 

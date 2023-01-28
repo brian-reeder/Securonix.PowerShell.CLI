@@ -28,6 +28,10 @@ function Get-SecuronixRiskScorecard {
         PositionalBinding,
         SupportsShouldProcess
     )]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Invoke-SecuronixSearchApi'
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -41,7 +45,7 @@ function Get-SecuronixRiskScorecard {
     Begin {
         $PSBoundParameters['Query'] = "index=riskscore$(if($Query -ne '') { " AND $Query" })"
 
-        params = Format-ApiParameters -ParameterSet $PSBoundParameters `
+        params = Format-ApiParameterSet -ParameterSet $PSBoundParameters `
             -Exclusions @('WhatIf', 'Confirm', 'Verbose') `
             -Aliases @{
                 'Query' = 'query'

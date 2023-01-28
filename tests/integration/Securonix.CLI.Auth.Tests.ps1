@@ -1,4 +1,4 @@
-# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
+﻿# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
 [CmdletBinding()]
 [Diagnostics.CodeAnalysis.SuppressMessage(
     'PSUseDeclaredVarsMoreThanAssignments', '',
@@ -10,7 +10,7 @@ $disable = (Import-PowerShellDataFile -Path "$PSScriptRoot\config.psd1").disable
 
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
-    
+
     Remove-Module Securonix.CLI* -ErrorAction SilentlyContinue
     Import-Module $modulepath
 
@@ -63,7 +63,7 @@ Describe 'Connect-SecuronixApi' -Skip:($disable."Connect-SecuronixApi") {
         It 'Given the positional parameters, it sets a connection.' {
             $response = Connect-SecuronixApi $instance $username $password
         }
-        AfterEach {            
+        AfterEach {
             $env:scnx_token | Should -Match '[\w]{8}(\-[\w]{4}){3}\-[\w]{12}'
             $env:scnx_url   | Should -Be $url
             $response       | Should -Be 'Connected'

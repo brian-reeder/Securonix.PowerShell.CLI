@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Add-SecuronixViolationScore makes an API call to the Incident/Actions endpoint and updates an incident with the supplied action.
 
@@ -76,7 +76,7 @@ function Add-SecuronixViolationScore {
 
 	Begin {
 		if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -89,7 +89,7 @@ function Add-SecuronixViolationScore {
         foreach($key in $Exclusions) {
             $PSBoundParameters.Remove($key) | Out-Null
         }
-		
+
 		$paramsTable = @{
 			'ScoreIcrement' = 'scoreIncrement'
 			'TenantName' = 'tenantname'
@@ -100,14 +100,14 @@ function Add-SecuronixViolationScore {
 			'ResourceGroupName' = 'resourcegroupName'
 			'ResourceName' = 'resourceName'
 		}
-		
+
 		$params = @()
 		foreach($param in $PSBoundParameters.Keys) {
 			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
 			$value = $PSBoundParameters[$param]
 			$params += "$key=$value"
 		}
-		
+
 		$Uri = "$Url/ws/incident/updateViolationScore?$($params -join '&')"
 	}
 

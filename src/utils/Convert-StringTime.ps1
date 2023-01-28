@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Convert-StringTime takes either a string in DateTime or Epoch time format and converts it to the other type.
 
@@ -33,7 +33,7 @@ function Convert-StringTime {
         [Parameter(Mandatory, ParameterSetName='epoch')]
         [switch] $OutEpoch
     )
-    
+
     Begin {
         if($InputDateTime -match "^[\d]+$") {
             [System.DateTime]$newDateTime = (Get-Date -Date '01-01-1970') `

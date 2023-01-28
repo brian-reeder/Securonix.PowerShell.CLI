@@ -1,4 +1,4 @@
-# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
+﻿# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
 [CmdletBinding()]
 [Diagnostics.CodeAnalysis.SuppressMessage(
     'PSUseDeclaredVarsMoreThanAssignments', '',
@@ -10,7 +10,7 @@ $disable = (Import-PowerShellDataFile -Path "$PSScriptRoot\config.psd1").disable
 
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
-    
+
     Remove-Module Securonix.CLI* -ErrorAction SilentlyContinue
     Import-Module $modulepath
 
@@ -27,7 +27,7 @@ BeforeAll {
 
     $timestart_epoch = $config.timestart.epoch
     $timeend_epoch   = $config.timeend30d.epoch
-    
+
     $timestart_datetime = $config.timestart.datetime
     $timeend_datetime   = $config.timeend30d.datetime
 }
@@ -92,18 +92,18 @@ Describe 'Get-SecuronixIncidentWorkflowName' -Skip:($disable."Get-SecuronixIncid
     }
 }
 
-Describe 'Get-SecuronixIncidentActions' -Skip:($disable."Get-SecuronixIncidentActions") {
+Describe 'Get-SecuronixIncidentActionList' -Skip:($disable."Get-SecuronixIncidentActionList") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
                 -Password $password -Validity 1
         }
         It 'Given required parameters, it returns the list of actions.' {
-            $response = Get-SecuronixIncidentActions -Url $url -Token $token `
+            $response = Get-SecuronixIncidentActionList -Url $url -Token $token `
                 -IncidentId $incidentid
         }
         It 'Given positional parameters, it returns the list of actions.' {
-            $response = Get-SecuronixIncidentActions $url $token $incidentid
+            $response = Get-SecuronixIncidentActionList $url $token $incidentid
         }
         AfterEach {
             $response.actionDetails | Should -Not -BeNullOrEmpty
@@ -150,18 +150,18 @@ Describe 'Get-SecuronixWorkflowsList' -Skip:($disable."Get-SecuronixWorkflowsLis
     }
 }
 
-Describe 'Get-SecuronixWorkflowDetails' -Skip:($disable."Get-SecuronixWorkflowDetails") {
+Describe 'Get-SecuronixWorkflowDefinition' -Skip:($disable."Get-SecuronixWorkflowDefinition") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
                 -Password $password -Validity 1
         }
         It 'Given required parameters, it returns the workflow details.' {
-            $response = Get-SecuronixWorkflowDetails -Url $url `
+            $response = Get-SecuronixWorkflowDefinition -Url $url `
                 -Token $token -WorkflowName $workflowname
         }
         It 'Given positional parameters, it returns the workflow details.' {
-            $response = Get-SecuronixWorkflowDetails $url $token `
+            $response = Get-SecuronixWorkflowDefinition $url $token `
                 $workflowname
         }
         AfterEach {
@@ -230,7 +230,7 @@ Describe 'Get-SecuronixIncidentAttachments' -Skip:($disable."Get-SecuronixIncide
 }
 
 # TODO: Write test case for child incidents
-Describe 'Get-SecuronixChildIncidents' -Skip:($disable."Get-SecuronixChildIncidents") {
+Describe 'Get-SecuronixChildIncidentList' -Skip:($disable."Get-SecuronixChildIncidentList") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
@@ -265,17 +265,17 @@ Describe 'Get-SecuronixIncidentActivityHistory' -Skip:($disable."Get-SecuronixIn
     }
 }
 
-Describe 'Get-SecuronixThreatActions' -Skip:($disable."Get-SecuronixThreatActions") {
+Describe 'Get-SecuronixThreatActionList' -Skip:($disable."Get-SecuronixThreatActionList") {
     Context "When token is valid" {
         BeforeAll {
             $token = New-SecuronixApiToken -Url $url -Username $username `
                 -Password $password -Validity 1
         }
         It 'Given the required parameters, it returns a list of actions.' {
-            $response = Get-SecuronixThreatActions -Url $url -Token $token
+            $response = Get-SecuronixThreatActionList -Url $url -Token $token
         }
         It 'Given the positional parameters, it returns a list of actions.' {
-            $response = Get-SecuronixThreatActions $url $token
+            $response = Get-SecuronixThreatActionList $url $token
         }
         AfterEach {
             $response | Should -not -BeNullOrEmpty

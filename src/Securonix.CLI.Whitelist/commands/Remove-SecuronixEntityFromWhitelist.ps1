@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Remove-SecuronixAttributeFromWhitelist prepares API parameters and requests Securonix to remove an entity from a whitelist.
 
@@ -78,7 +78,7 @@ function Remove-SecuronixEntityFromWhitelist {
 
 	Begin {
         if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
         if($EntityIdList.Count -gt 5) {
@@ -110,7 +110,7 @@ function Remove-SecuronixEntityFromWhitelist {
             $Key = if($paramsTable.Keys -ccontains $param) { $paramsTable[$param] } else { $param }
 			$paramsList += "$($Key)=$($PSBoundParameters[$param])"
 		}
-		
+
 		$Uri = "$Url/ws/incident/removeFromWhitelist?$($paramsList -join '&')"
 	}
 

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Add-SecuronixEntityToWatchlist prepares API parameters and requests Securonix to list all watchlists an entity is a member of.
 
@@ -18,7 +18,7 @@ A required API Parameter, enter the type of entity you are adding. May be the fo
 A required API Parameter, the unique id to find watchlist memberships for. If the entitytype is users, the entityid will be the employeeid.
 
 .PARAMETER EntityIdList
-A required API Parameter, a list of Entity Ids to add to a watch list. Max number of 5 at a time. 
+A required API Parameter, a list of Entity Ids to add to a watch list. Max number of 5 at a time.
 
 .PARAMETER UsersId
 A requried API parameter, enter the id for the Users entity to be added to a watchlist. This parameter sets EntityType to Users.
@@ -63,7 +63,7 @@ PS> Add-SecuronixEntityToWatchlist -Url 'DunderMifflin.securonix.com/Snypr' -Tok
 PS> Add-SecuronixEntityToWatchlist -Url 'DunderMifflin.securonix.com/Snypr' -Token '12345678-90AB-CDEF-1234-567890ABCDEF' -WatchlistName 'Log4J Application Hosts' -ActivityIpIdList @('127.0.0.1','192.168.1.1','172.16.1.1','10.1.1.1','172.31.255.255') -EntityDays 90 -ResourceGroupId '83375'
 
 .LINK
-https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Watchlist/Get-SecuronixEntityWatchlists.md
+https://github.com/brian-reeder/Securonix.PowerShell.CLI/blob/main/Docs/Watchlist/Get-SecuronixEntityWatchlistList.md
 #>
 function Add-SecuronixEntityToWatchlist {
     [CmdletBinding(
@@ -196,7 +196,7 @@ function Add-SecuronixEntityToWatchlist {
         }
 
         if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -221,7 +221,7 @@ function Add-SecuronixEntityToWatchlist {
             $Key = if($paramsTable.Keys -ccontains $param) { $paramsTable[$param] } else { $param }
 			$paramsList += "$($Key)=$($PSBoundParameters[$param])"
 		}
-		
+
 		$Uri = "$Url/ws/incident/addToWatchlist?$($paramsList -join '&')"
 	}
 

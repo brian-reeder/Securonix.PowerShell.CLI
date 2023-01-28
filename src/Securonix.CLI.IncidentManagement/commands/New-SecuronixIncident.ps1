@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 New-SecuronixIncident makes an API call to the Incident/Actions endpoint and creates a new incident.
 
@@ -52,6 +52,10 @@ function New-SecuronixIncident {
         PositionalBinding,
         SupportsShouldProcess
     )]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Update-SecuronixIncident'
+    )]
 	param(
 		[Parameter(Mandatory,Position=0)]
 		[string] $Url,
@@ -76,7 +80,7 @@ function New-SecuronixIncident {
 
 	)
 
-	Begin {		
+	Begin {
 		$Exclusions = @('Url','Token','WhatIf', 'Confirm', 'Verbose')
         foreach($key in $Exclusions) {
             $PSBoundParameters.Remove($key) | Out-Null

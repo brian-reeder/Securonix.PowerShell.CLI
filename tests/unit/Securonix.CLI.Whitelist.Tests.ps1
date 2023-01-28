@@ -1,4 +1,4 @@
-# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
+﻿# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
 [CmdletBinding()]
 [Diagnostics.CodeAnalysis.SuppressMessage(
     'PSUseDeclaredVarsMoreThanAssignments', '',
@@ -10,7 +10,7 @@ $EntityTypes = @('Users', 'Activityaccount', 'Resources', 'IpAddress')
 
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
-    
+
     Remove-Module Securonix.CLI* -ErrorAction SilentlyContinue
     Import-Module $modulepath
 
@@ -112,7 +112,7 @@ Describe 'Add-SecuronixEntityToWhitelist' {
         It 'Given UsersEntityId parameters, it returns confirmation.' {
             $response = Add-SecuronixEntityToWhitelist -Url $url -Token $token `
                 -WhitelistName 'remote_users' -TenantName 'PA-Scranton' `
-                -UsersEntityId 'jhalpert' 
+                -UsersEntityId 'jhalpert'
         }
         It 'Given ActivityaccountEntityId parameters, it returns confirmation.' {
             $response = Add-SecuronixEntityToWhitelist -Url $url -Token $token `
@@ -162,7 +162,7 @@ Describe 'Get-SecuronixWhitelist' {
     }
 }
 
-Describe 'Get-SecuronixWhitelistMembers' {
+Describe 'Get-SecuronixWhitelistMemberList' {
     BeforeAll {
         $ValidResponse = 'Test'
     }
@@ -173,11 +173,11 @@ Describe 'Get-SecuronixWhitelistMembers' {
                 -ModuleName Securonix.CLI.Whitelist
         }
         It 'Given only required parameters, it returns a list of whitelists.' {
-            $response = Get-SecuronixWhitelistMembers -Url $url -Token $token `
+            $response = Get-SecuronixWhitelistMemberList -Url $url -Token $token `
                 -WhitelistName 'remote_users' -TenantName 'PA-Scranton'
         }
         It 'Given positional parameters, it returns a list of whitelists.' {
-            $response = Get-SecuronixWhitelistMembers $url $token `
+            $response = Get-SecuronixWhitelistMemberList $url $token `
                 'remote_users' 'PA-Scranton'
         }
         AfterEach {

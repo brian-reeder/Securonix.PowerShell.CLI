@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Get-SecuronixWorkflowDefaultAssignee makes an API call to the Incident/Get endpoint and retrieves the resource an incident will be assigned for the selected workflow.
 
@@ -28,6 +28,10 @@ function Get-SecuronixWorkflowDefaultAssignee {
         PositionalBinding,
         SupportsShouldProcess
     )]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Get-SecuronixIncidentAPIResponse'
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -41,7 +45,7 @@ function Get-SecuronixWorkflowDefaultAssignee {
 		$paramsTable = @{
 			'WorkflowName' = 'workflow'
 		}
-		
+
 		$params = [ordered]@{'type'='defaultAssignee'}
 		foreach($param in $PSBoundParameters.Keys) {
 			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }

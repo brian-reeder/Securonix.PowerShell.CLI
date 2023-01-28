@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Invoke-SecuronixSearchApi is a flexible controller used to process Securonix Search calls. Use the higher level interfaces to enforce parameter guidelines.
 
@@ -94,7 +94,7 @@ function Invoke-SecuronixSearchApi {
 
 	Begin {
 		if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -106,7 +106,7 @@ function Invoke-SecuronixSearchApi {
         $paramsList = $PSBoundParameters.GetEnumerator() `
             | Where-Object { $Exclusions -notcontains $_.Key } `
             | ForEach-Object { "$($_.Key)=$($_.Value)" }
-		
+
 		$Uri = "$Url/ws/spotter/index/search?$($paramsList -join '&')"
 	}
 

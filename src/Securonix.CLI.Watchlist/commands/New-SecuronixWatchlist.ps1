@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 New-SecuronixWatchlist prepares API parameters and requests Securonix to create a new watchlist.
 
@@ -39,7 +39,7 @@ function New-SecuronixWatchlist {
 
 	Begin {
         if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -60,7 +60,7 @@ function New-SecuronixWatchlist {
             $Key = if($paramsTable.Keys -ccontains $param) { $paramsTable[$param] } else { $param }
 			$paramsList += "$($Key)=$($PSBoundParameters[$param])"
 		}
-		
+
 		$Uri = "$Url/ws/incident/createWatchlist?$($paramsList -join '&')"
 	}
 

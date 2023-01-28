@@ -1,4 +1,4 @@
-# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
+﻿# Invoke-Pester -Output Detailed .\Test\*.Tests.ps1
 [CmdletBinding()]
 [Diagnostics.CodeAnalysis.SuppressMessage(
     'PSUseDeclaredVarsMoreThanAssignments', '',
@@ -8,7 +8,7 @@ Param()
 
 BeforeAll {
     $modulepath = "$PSScriptRoot\..\..\src\Securonix.CLI\Securonix.CLI.psd1"
-    
+
     Remove-Module Securonix.CLI* -ErrorAction SilentlyContinue
     Import-Module $modulepath
 
@@ -66,7 +66,7 @@ Describe 'Get-SecuronixWatchlistList' {
     }
 }
 
-Describe 'Get-SecuronixEntityWatchlists' {
+Describe 'Get-SecuronixEntityWatchlistList' {
     Context "When token is valid" {
         BeforeEach {
             Mock Invoke-RestMethod  -Verifiable  `
@@ -74,25 +74,25 @@ Describe 'Get-SecuronixEntityWatchlists' {
                 -ModuleName Securonix.CLI.Watchlist
         }
         It 'Given the required parameters, it returns a list of watchlists.' {
-            $response = Get-SecuronixEntityWatchlists -Url $Url -Token '530bf219-5360-41d3-81d1-8b4d6f75956d' -EntityId 'jhalpert'
+            $response = Get-SecuronixEntityWatchlistList -Url $Url -Token '530bf219-5360-41d3-81d1-8b4d6f75956d' -EntityId 'jhalpert'
 
             Should -InvokeVerifiable
             $response.status | Should -Be 'OK'
         }
         It 'Given a watchlist name, it returns a list of watchlists.' {
-            $response = Get-SecuronixEntityWatchlists -Url $Url -Token '530bf219-5360-41d3-81d1-8b4d6f75956d' -EntityId 'jhalpert' -WatchlistName 'test_watchlist'
+            $response = Get-SecuronixEntityWatchlistList -Url $Url -Token '530bf219-5360-41d3-81d1-8b4d6f75956d' -EntityId 'jhalpert' -WatchlistName 'test_watchlist'
 
             Should -InvokeVerifiable
             $response.status | Should -Be 'OK'
         }
         It 'Given the required positional parameters, it returns a list of watchlists.' {
-            $response = Get-SecuronixEntityWatchlists $Url '530bf219-5360-41d3-81d1-8b4d6f75956d' 'jhalpert'
+            $response = Get-SecuronixEntityWatchlistList $Url '530bf219-5360-41d3-81d1-8b4d6f75956d' 'jhalpert'
 
             Should -InvokeVerifiable
             $response.status | Should -Be 'OK'
         }
         It 'Given a watchlist name and positional parameters, it returns a list of watchlists.' {
-            $response = Get-SecuronixEntityWatchlists $Url '530bf219-5360-41d3-81d1-8b4d6f75956d' 'jhalpert' 'test_watchlist'
+            $response = Get-SecuronixEntityWatchlistList $Url '530bf219-5360-41d3-81d1-8b4d6f75956d' 'jhalpert' 'test_watchlist'
 
             Should -InvokeVerifiable
             $response.status | Should -Be 'OK'
@@ -206,7 +206,7 @@ Describe 'Add-SecuronixEntityToWatchlist' {
     }
 }
 
-Describe 'Get-SecuronixWatchlistMembers' {
+Describe 'Get-SecuronixWatchlistMemberList' {
     Context "When token is valid" {
         BeforeEach {
             Mock Invoke-RestMethod  -Verifiable  `
@@ -214,13 +214,13 @@ Describe 'Get-SecuronixWatchlistMembers' {
                 -ModuleName Securonix.CLI.Watchlist
         }
         It 'Given the required parameters, it returns a list of watchlists.' {
-            $response = Get-SecuronixWatchlistMembers -Url $Url -Token '530bf219-5360-41d3-81d1-8b4d6f75956d' -WatchlistName 'test_watchlist'
+            $response = Get-SecuronixWatchlistMemberList -Url $Url -Token '530bf219-5360-41d3-81d1-8b4d6f75956d' -WatchlistName 'test_watchlist'
 
             Should -InvokeVerifiable
             $response.status | Should -Be 'OK'
         }
         It 'Given the required positional parameters, it returns a list of watchlists.' {
-            $response = Get-SecuronixWatchlistMembers $Url '530bf219-5360-41d3-81d1-8b4d6f75956d' 'test_watchlist'
+            $response = Get-SecuronixWatchlistMemberList $Url '530bf219-5360-41d3-81d1-8b4d6f75956d' 'test_watchlist'
 
             Should -InvokeVerifiable
             $response.status | Should -Be 'OK'

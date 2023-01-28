@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Get-SecuronixIncidentActivityHistory makes an API call to the incident/Get endpoint and retrieves a list of activity and actions taken on an incident.
 
@@ -28,6 +28,10 @@ function Get-SecuronixIncidentActivityHistory {
         PositionalBinding,
         SupportsShouldProcess
     )]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Get-SecuronixIncidentAPIResponse'
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -41,7 +45,7 @@ function Get-SecuronixIncidentActivityHistory {
 		$paramsTable = @{
 			'IncidentId' = 'incidentId'
 		}
-		
+
 		$params = [ordered]@{'type'='activityStreamInfo'}
 		foreach($param in $PSBoundParameters.Keys) {
 			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }

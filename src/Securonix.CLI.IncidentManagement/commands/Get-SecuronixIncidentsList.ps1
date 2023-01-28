@@ -46,6 +46,10 @@ function Get-SecuronixIncidentsList {
         PositionalBinding,
         SupportsShouldProcess
     )]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Get-SecuronixIncidentAPIResponse'
+    )]
 	param(
 		[Parameter(Mandatory,Position=0)]
 		[string] $Url,

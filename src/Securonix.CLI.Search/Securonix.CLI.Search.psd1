@@ -70,7 +70,7 @@ Copyright = '(c) Brian Reeder. All rights reserved.'
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(
-    "Get-SecuronixActivityEvents",
+    "Get-SecuronixActivityEventsList",
     "Get-SecuronixAssetData",
     "Get-SecuronixGeolocationData",
     "Get-SecuronixLookupData",
@@ -78,7 +78,7 @@ FunctionsToExport = @(
     "Get-SecuronixRiskScorecard",
     "Get-SecuronixTPI",
     "Get-SecuronixUsersData",
-    "Get-SecuronixViolationEvents",
+    "Get-SecuronixViolationEventsList",
     "Get-SecuronixWatchlistData",
     "Invoke-SecuronixSearchApi"
 )

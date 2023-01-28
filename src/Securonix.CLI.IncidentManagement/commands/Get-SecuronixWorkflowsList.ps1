@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Get-SecuronixWorkflowsList makes an API call to the Incident/Get endpoint and retrieves the list of available Workflows for Incidents.
 
@@ -25,6 +25,10 @@ function Get-SecuronixWorkflowsList {
         PositionalBinding,
         SupportsShouldProcess
     )]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Get-SecuronixIncidentAPIResponse'
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -35,7 +39,7 @@ function Get-SecuronixWorkflowsList {
 	Begin {}
 
 	Process {
-		$r = Get-SecuronixIncidentAPIResponse -Url $Url -Token $Token -type 'workflows' 
+		$r = Get-SecuronixIncidentAPIResponse -Url $Url -Token $Token -type 'workflows'
 		return $r.workflows
 	}
 

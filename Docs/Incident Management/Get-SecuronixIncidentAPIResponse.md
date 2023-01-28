@@ -11,7 +11,7 @@ Get-SecuronixIncidentAPIResponse
     [-type] <string>
 ```
 
-Get-SecuronixIncident, Get-SecuronixIncidentStatus, Get-SecuronixIncidentWorkflowName, Get-SecuronixIncidentActions, Get-SecuronixChildIncidents, Get-SecuronixIncidentActivityHistory
+Get-SecuronixIncident, Get-SecuronixIncidentStatus, Get-SecuronixIncidentWorkflowName, Get-SecuronixIncidentActionList, Get-SecuronixChildIncidents, Get-SecuronixIncidentActivityHistory
 ```
 Get-SecuronixIncidentAPIResponse
     [-Url] <string>
@@ -45,7 +45,7 @@ Get-SecuronixIncidentAPIResponse
     [-offset <int>]
 ```
 
-Get-SecuronixWorkflowDetails, Get-SecuronixWorkflowDefaultAssignee
+Get-SecuronixWorkflowDefinition, Get-SecuronixWorkflowDefaultAssignee
 ```
 Get-SecuronixIncidentAPIResponse
     [-Url] <string>

@@ -1,0 +1,52 @@
+name: Pre-Merge Checks.
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  lint-with-PSScriptAnalyzer:
+    name: Install and run PSScriptAnalyzer
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install PSScriptAnalyzer module
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module PSScriptAnalyzer -ErrorAction Stop
+      - name: Lint with PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Invoke-ScriptAnalyzer -Path * -Recurse -Outvariable issues | Out-Null
+
+          $errors   = $issues.Where({$_.Severity -eq 'Error'})
+          $warnings = $issues.Where({$_.Severity -eq 'Warning'})
+
+          if ($issues) {
+            $issues | Foreach-Object {
+              Write-Error "$($_.ScriptName) Line:$($_.Line) Col:$($_.Column) | $($_.RuleName)/$($_.Severity) `r`n $($_.message)`r`n"
+            }
+            Write-Error "There were $($errors.Count) errors and $($warnings.Count) warnings total." -ErrorAction Stop
+          } else {
+            Write-Host "There were $($errors.Count) errors and $($warnings.Count) warnings total." -ErrorAction Stop
+          }
+  pester-test:
+    name: Pester test
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+      - name: Perform a Pester test for all module Tests
+        shell: pwsh
+        run: | 
+          Invoke-Pester -Output Detailed ./tests/unit/*.Tests.ps1
+        

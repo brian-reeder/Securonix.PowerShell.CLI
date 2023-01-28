@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Update-SecuronixIncident makes an API call to the Incident/Actions endpoint and updates an incident with the supplied action.
 
@@ -15,7 +15,7 @@ A required API Parameter, enter the incident id to view the workflow name.
 A required API Parameter. Enter an action that you want to perform for the incident. You can run the Available Threat Actions on an Incident API to view the available actions.
 
 .PARAMETER Attributes
-Depending on workflow configured in your organization, add the required attributes. Run Confirm-SecuronixIncidentAction, or Get-SecuronixIncidentActions to view all the attributes (required or not).
+Depending on workflow configured in your organization, add the required attributes. Run Confirm-SecuronixIncidentAction, or Get-SecuronixIncidentActionList to view all the attributes (required or not).
 
 .INPUTS
 None. You cannot pipe objects to Update-SecuronixIncident
@@ -55,13 +55,13 @@ function Update-SecuronixIncident {
 		[string[]] $bulkcaseidsList,
 		[Parameter(Mandatory,Position=2)]
 		[string] $ActionName,
-		
+
 		[hashtable] $Attributes
 	)
 
 	Begin {
 		if($Url.EndsWith('/')) {
-			$Url = $Url.Remove($Url.Length-1, 1)   
+			$Url = $Url.Remove($Url.Length-1, 1)
 		}
 
 		$Header = [ordered]@{
@@ -96,7 +96,7 @@ function Update-SecuronixIncident {
 			'IncidentId' = 'incidentId'
 			'ActionName' = 'actionName'
 		}
-		
+
 		$params = @()
 		foreach($param in $PSBoundParameters.Keys) {
 			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }

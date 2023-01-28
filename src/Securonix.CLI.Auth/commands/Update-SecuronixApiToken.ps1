@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Update-SecuronixApiToken makes an API call to the AUTH/Renew Securonix Web API to renew the supplied token. If the token was renewed, the API will respond with "Success".
 
@@ -54,7 +54,7 @@ function Update-SecuronixApiToken {
             $response = Invoke-RestMethod -Uri $Uri -Headers $Header -UseBasicParsing -Method Get
             return $response
         }
-        
+
     }
 
     End {}

@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Confirm-SecuronixIncidentAction makes an API call to the Incident/Get endpoint and checks to see if an actions is possible, and returns with a list of parameters.
 
@@ -31,6 +31,10 @@ function Confirm-SecuronixIncidentAction {
         PositionalBinding,
         SupportsShouldProcess
     )]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Get-SecuronixIncidentAPIResponse'
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -47,7 +51,7 @@ function Confirm-SecuronixIncidentAction {
 			'IncidentId' = 'incidentId'
 			'ActionName' = 'actionName'
 		}
-		
+
 		$params = [ordered]@{'type'='actionInfo'}
 		foreach($param in $PSBoundParameters.Keys) {
 			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }

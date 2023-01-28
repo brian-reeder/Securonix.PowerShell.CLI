@@ -1,4 +1,4 @@
-<#
+﻿<#
 .DESCRIPTION
 Get-SecuronixIncidentStatus makes an API call to the Incident/Get endpoint and retrieves the status of an incident.
 
@@ -28,6 +28,10 @@ function Get-SecuronixIncidentStatus {
         PositionalBinding,
         SupportsShouldProcess
     )]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage('PSShouldProcess', '',
+        Scope='Function',
+        Justification='ShouldProcess is handled by the function Get-SecuronixIncidentAPIResponse'
+    )]
 	param(
 		[Parameter(Mandatory)]
 		[string] $Url,
@@ -41,7 +45,7 @@ function Get-SecuronixIncidentStatus {
 		$paramsTable = @{
 			'IncidentId' = 'incidentId'
 		}
-		
+
 		$params = [ordered]@{'type'='status'}
 		foreach($param in $PSBoundParameters.Keys) {
 			$key = if($paramsTable.Keys -Contains $param) { $paramsTable[$param] } else { $param }
