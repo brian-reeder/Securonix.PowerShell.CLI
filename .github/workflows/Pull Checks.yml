@@ -40,7 +40,7 @@ jobs:
             Write-Host "There were $($errors.Count) errors and $($warnings.Count) warnings total." -ErrorAction Stop
           }
   pester-test:
-    name: Pester test
+    name: Run unit tests with Pester
     runs-on: windows-latest
     steps:
       - name: Checkout repository code
