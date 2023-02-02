@@ -17,7 +17,7 @@ BeforeAll {
     $token = '530bf219-5360-41d3-81d1-8b4d6f75956d'
 
     $username = 'jhalpert'
-    $password = 'sEcUrEpAsSwOrD'
+    $password = 'sEcUrEpAsSwOrDA'
 }
 
 Describe 'New-SecuronixApiToken' {
