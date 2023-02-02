@@ -10,6 +10,9 @@
     tenantname   = 'PA-Scranton'
     violatorname = 'dshrute'
 
+    WatchlistName = 'Phished users'
+    WatchlistEntityId = 'mscott'
+
     timestart  = @{
         epoch = '1566249473000'
         datetime = '08/19/19 21:17:53'
@@ -85,15 +88,25 @@
         "Get-SecuronixTopViolatorsList" = $false
 
         # Search
-        "Get-SecuronixActivityEventsList" = $true
+        "Get-SecuronixActivityEventsList" = $false
         "Get-SecuronixAssetData" = $false
         "Get-SecuronixGeolocationData" = $false
         "Get-SecuronixLookupData" = $false
+        # Disabled - Issue#83
         "Get-SecuronixRiskHistory" = $true
         "Get-SecuronixRiskScorecard" = $true
         "Get-SecuronixTPI" = $false
         "Get-SecuronixUsersData" = $false
         "Get-SecuronixViolationEventsList" = $false
         "Get-SecuronixWatchlistData" = $false
+
+        # Watchlist
+        # Disabled - Issue#94
+        "Add-SecuronixEntityToWatchlist" = $true
+        "Get-SecuronixEntityWatchlistList" = $false
+        "Get-SecuronixWatchlistList" = $false
+        "Get-SecuronixWatchlistMemberList" = $false
+        # Disabled - Issue#94
+        "New-SecuronixWatchlist" = $true
     }
 }
