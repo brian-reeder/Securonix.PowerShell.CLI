@@ -124,13 +124,13 @@ Describe 'Get-SecuronixLookupData' -Skip:($disable."Get-SecuronixLookupData") {
 }
 
 Describe 'Get-SecuronixRiskHistory' -Skip:($disable."Get-SecuronixRiskHistory") {
-    It 'Tests have not been implemented. See issue #83' {
+    It 'Tests have not been implemented. See issue #' {
         $null | Should -Not -BeNullOrEmpty
     }
 }
 
 Describe 'Get-SecuronixRiskScorecard' -Skip:($disable."Get-SecuronixRiskScorecard") {
-    It 'Tests have not been implemented. See issue #83' {
+    It 'Tests have not been implemented. See issue #' {
         $null | Should -Not -BeNullOrEmpty
     }
 }
