@@ -56,7 +56,7 @@ PrivateData = @{
 
         # A URL to the main website for this project.
         ProjectUri = 'https://github.com/brian-reeder/Securonix.PowerShell.CLI'
-        
+
     } # End of PSData hashtable
 
 } # End of PrivateData hashtable
