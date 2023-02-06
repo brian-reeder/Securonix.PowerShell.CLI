@@ -48,7 +48,7 @@ jobs:
       - name: Perform a Pester test for all module Tests
         shell: pwsh
         run: |
-          $srcpath = (Get-ChildItem . -Discovery -Filter 'src').FullName
+          $srcpath = (Get-ChildItem . -Directory -Filter 'src').FullName
           $env:PSModulePath = @($env:PSModulePath, $srcpath) -join ';'
           Invoke-Pester -Output Detailed ./tests/unit/*.Tests.ps1
         
