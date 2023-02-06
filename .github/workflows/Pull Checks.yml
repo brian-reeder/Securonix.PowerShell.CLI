@@ -45,6 +45,10 @@ jobs:
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v3
+      - name: Add src to PSModulePath
+        shell: pwsh
+        run: |
+          $env:PSModulePath = $env:PSModulePath+";"+(Get-ChildItem . -Directory -Filter 'src').FullName
       - name: Perform a Pester test for all module Tests
         shell: pwsh
         run: | 

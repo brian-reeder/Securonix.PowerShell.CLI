@@ -12,7 +12,7 @@
 RootModule = "$PSScriptRoot\Securonix.CLI.Auth.psm1"
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '1.0.0'
 
 # ID used to uniquely identify this module
 GUID = 'bf805ae6-2b1e-4e8c-b683-8d5346777836'
