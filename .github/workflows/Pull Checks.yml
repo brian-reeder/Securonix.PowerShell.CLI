@@ -44,9 +44,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3          
       - name: Perform a Pester test for all module Tests
         shell: pwsh
-        run: | 
+        run: |
+          $srcpath = (Get-ChildItem . -Directory -Filter 'src').FullName
+          $env:PSModulePath = @($env:PSModulePath, $srcpath) -join ';'
           Invoke-Pester -Output Detailed ./tests/unit/*.Tests.ps1
         

@@ -9,10 +9,17 @@ This PowerShell module is a wrapper for the Securonix SIEM Web API, which standa
 
 ## Installation
 1. Download the repository.
-2. Import the PowerShell module from the module manifest.
-```
-PS C:\..\Securonix.PowerShell.CLI> Import-Module .\src\Securonix.CLI\Securonix.CLI.psd1
-```
+
+2. Add the src directory to your module path
+    ```
+    $srcpath = (Get-ChildItem . -Directory -Filter 'src').FullName
+    $env:PSModulePath = @($env:PSModulePath, $srcpath) -join ';'
+    ```
+
+3. Import the PowerShell module from the module manifest.
+    ```
+    PS C:\..\Securonix.PowerShell.CLI> Import-Module .\src\Securonix.CLI\Securonix.CLI.psd1
+    ```
 
 ## Verify Installation
 You can check to see if your PowerShell session has the module installed with the Get-Module cmdlet and Get-Command cmdlet.
@@ -21,8 +28,8 @@ PS C:\..\Securonix.PowerShell.CLI> Get-Module Securonix.CLI*
 
 ModuleType Version  PreRelease Name                              ExportedCommands
 ---------- -------  ---------- ----                              ----------------
-Manifest   0.1                 Securonix.CLI
-Script     0.0.1               Securonix.CLI.Auth                {Confirm-SecuronixApiToken, Connect-SecuronixApi, New-SecuronixApiToken, Update-SecuronixApiToken}
+Manifest   0.0.1                 Securonix.CLI
+Script     1.0.0               Securonix.CLI.Auth                {Confirm-SecuronixApiToken, Connect-SecuronixApi, New-SecuronixApiToken, Update-SecuronixApiToken}
 Script     0.0.1               Securonix.CLI.IncidentManagement  {Add-SecuronixComment, Add-SecuronixViolationScore, Confirm-SecuronixIncidentAction, Get-SecuronixChildIncidentList…}  
 Script     0.0.1               Securonix.CLI.List                {Get-SecuronixPeerGroupsList, Get-SecuronixPolicyList, Get-SecuronixResourcegroupList}
 Script     0.0.1               Securonix.CLI.SCC                 {Get-SecuronixEntityThreatModel, Get-SecuronixThreatList, Get-SecuronixTopThreatsList, Get-SecuronixTopViolationsList…}
@@ -41,9 +48,9 @@ Function     Add-SecuronixComment                    0.0.1    Securonix.CLI.Inci
 Function     Add-SecuronixEntityToWatchlist          0.0.1    Securonix.CLI.Watchlist
 Function     Add-SecuronixEntityToWhitelist          0.0.1    Securonix.CLI.Whitelist
 Function     Add-SecuronixViolationScore             0.0.1    Securonix.CLI.IncidentManagement
-Function     Confirm-SecuronixApiToken               0.0.1    Securonix.CLI.Auth
+Function     Confirm-SecuronixApiToken               1.0.0    Securonix.CLI.Auth
 Function     Confirm-SecuronixIncidentAction         0.0.1    Securonix.CLI.IncidentManagement
-Function     Connect-SecuronixApi                    0.0.1    Securonix.CLI.Auth
+Function     Connect-SecuronixApi                    1.0.0    Securonix.CLI.Auth
 Function     Get-SecuronixActivityEventsList         0.0.1    Securonix.CLI.Search
 Function     Get-SecuronixAssetData                  0.0.1    Securonix.CLI.Search
 Function     Get-SecuronixChildIncidentList          0.0.1    Securonix.CLI.IncidentManagement
@@ -80,13 +87,13 @@ Function     Get-SecuronixWorkflowDefaultAssignee    0.0.1    Securonix.CLI.Inci
 Function     Get-SecuronixWorkflowDefinition         0.0.1    Securonix.CLI.IncidentManagement
 Function     Get-SecuronixWorkflowsList              0.0.1    Securonix.CLI.IncidentManagement
 Function     Invoke-SecuronixSearchApi               0.0.1    Securonix.CLI.Search
-Function     New-SecuronixApiToken                   0.0.1    Securonix.CLI.Auth
+Function     New-SecuronixApiToken                   1.0.0    Securonix.CLI.Auth
 Function     New-SecuronixIncident                   0.0.1    Securonix.CLI.IncidentManagement
 Function     New-SecuronixWatchlist                  0.0.1    Securonix.CLI.Watchlist
 Function     New-SecuronixWhitelist                  0.0.1    Securonix.CLI.Whitelist
 Function     Remove-SecuronixAttributeFromWhitelist  0.0.1    Securonix.CLI.Whitelist
 Function     Remove-SecuronixEntityFromWhitelist     0.0.1    Securonix.CLI.Whitelist
-Function     Update-SecuronixApiToken                0.0.1    Securonix.CLI.Auth
+Function     Update-SecuronixApiToken                1.0.0    Securonix.CLI.Auth
 Function     Update-SecuronixCriticality             0.0.1    Securonix.CLI.IncidentManagement
 Function     Update-SecuronixIncident                0.0.1    Securonix.CLI.IncidentManagement
 ```
