@@ -12,7 +12,7 @@
 RootModule = "$PSScriptRoot\Securonix.CLI.IncidentManagement.psm1"
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '1.0.0'
 
 # ID used to uniquely identify this module
 GUID = '3a45d59e-9c33-49ee-a1f2-caf4f13ae12f'
