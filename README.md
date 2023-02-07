@@ -12,13 +12,13 @@ This PowerShell module is a wrapper for the Securonix SIEM Web API, which standa
 
 2. Add the src directory to your module path
     ```
-    $srcpath = (Get-ChildItem . -Directory -Filter 'src').FullName
-    $env:PSModulePath = @($env:PSModulePath, $srcpath) -join ';'
+    PS C:\..\Securonix.PowerShell.CLI> $srcpath = (Get-ChildItem . -Directory -Filter 'src').FullName
+    PS C:\..\Securonix.PowerShell.CLI> $env:PSModulePath = @($env:PSModulePath, $srcpath) -join ';'
     ```
 
 3. Import the PowerShell module from the module manifest.
     ```
-    PS C:\..\Securonix.PowerShell.CLI> Import-Module .\src\Securonix.CLI\Securonix.CLI.psd1
+    PS C:\..\Securonix.PowerShell.CLI> Import-Module Securonix.CLI
     ```
 
 ## Verify Installation
@@ -28,7 +28,7 @@ PS C:\..\Securonix.PowerShell.CLI> Get-Module Securonix.CLI*
 
 ModuleType Version  PreRelease Name                              ExportedCommands
 ---------- -------  ---------- ----                              ----------------
-Manifest   0.0.1                 Securonix.CLI
+Manifest   0.0.1               Securonix.CLI
 Script     1.0.0               Securonix.CLI.Auth                {Confirm-SecuronixApiToken, Connect-SecuronixApi, New-SecuronixApiToken, Update-SecuronixApiToken}
 Script     1.0.0               Securonix.CLI.IncidentManagement  {Add-SecuronixComment, Add-SecuronixViolationScore, Confirm-SecuronixIncidentAction, Get-SecuronixChildIncidentList…}  
 Script     0.0.1               Securonix.CLI.List                {Get-SecuronixPeerGroupsList, Get-SecuronixPolicyList, Get-SecuronixResourcegroupList}
