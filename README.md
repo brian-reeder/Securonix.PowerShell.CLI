@@ -30,7 +30,7 @@ ModuleType Version  PreRelease Name                              ExportedCommand
 ---------- -------  ---------- ----                              ----------------
 Manifest   0.0.1                 Securonix.CLI
 Script     1.0.0               Securonix.CLI.Auth                {Confirm-SecuronixApiToken, Connect-SecuronixApi, New-SecuronixApiToken, Update-SecuronixApiToken}
-Script     0.0.1               Securonix.CLI.IncidentManagement  {Add-SecuronixComment, Add-SecuronixViolationScore, Confirm-SecuronixIncidentAction, Get-SecuronixChildIncidentList…}  
+Script     1.0.0               Securonix.CLI.IncidentManagement  {Add-SecuronixComment, Add-SecuronixViolationScore, Confirm-SecuronixIncidentAction, Get-SecuronixChildIncidentList…}  
 Script     0.0.1               Securonix.CLI.List                {Get-SecuronixPeerGroupsList, Get-SecuronixPolicyList, Get-SecuronixResourcegroupList}
 Script     0.0.1               Securonix.CLI.SCC                 {Get-SecuronixEntityThreatModel, Get-SecuronixThreatList, Get-SecuronixTopThreatsList, Get-SecuronixTopViolationsList…}
 Script     0.0.1               Securonix.CLI.Search              {Get-SecuronixActivityEventsList, Get-SecuronixAssetData, Get-SecuronixGeolocationData, Get-SecuronixLookupData…}      
@@ -44,33 +44,33 @@ PS C:\..\Securonix.PowerShell.CLI> Get-Command -Module Securonix.CLI*
 CommandType  Name                                    Version  Source
 -----------  ----                                    -------  ------
 Function     Add-SecuronixAttributeToWhitelist       0.0.1    Securonix.CLI.Whitelist
-Function     Add-SecuronixComment                    0.0.1    Securonix.CLI.IncidentManagement
+Function     Add-SecuronixComment                    1.0.0    Securonix.CLI.IncidentManagement
 Function     Add-SecuronixEntityToWatchlist          0.0.1    Securonix.CLI.Watchlist
 Function     Add-SecuronixEntityToWhitelist          0.0.1    Securonix.CLI.Whitelist
-Function     Add-SecuronixViolationScore             0.0.1    Securonix.CLI.IncidentManagement
+Function     Add-SecuronixViolationScore             1.0.0    Securonix.CLI.IncidentManagement
 Function     Confirm-SecuronixApiToken               1.0.0    Securonix.CLI.Auth
-Function     Confirm-SecuronixIncidentAction         0.0.1    Securonix.CLI.IncidentManagement
+Function     Confirm-SecuronixIncidentAction         1.0.0    Securonix.CLI.IncidentManagement
 Function     Connect-SecuronixApi                    1.0.0    Securonix.CLI.Auth
 Function     Get-SecuronixActivityEventsList         0.0.1    Securonix.CLI.Search
 Function     Get-SecuronixAssetData                  0.0.1    Securonix.CLI.Search
-Function     Get-SecuronixChildIncidentList          0.0.1    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixChildIncidentList          1.0.0    Securonix.CLI.IncidentManagement
 Function     Get-SecuronixEntityThreatModel          0.0.1    Securonix.CLI.SCC
 Function     Get-SecuronixEntityWatchlistList        0.0.1    Securonix.CLI.Watchlist
 Function     Get-SecuronixGeolocationData            0.0.1    Securonix.CLI.Search
-Function     Get-SecuronixIncident                   0.0.1    Securonix.CLI.IncidentManagement
-Function     Get-SecuronixIncidentActionList         0.0.1    Securonix.CLI.IncidentManagement
-Function     Get-SecuronixIncidentActivityHistory    0.0.1    Securonix.CLI.IncidentManagement
-Function     Get-SecuronixIncidentAPIResponse        0.0.1    Securonix.CLI.IncidentManagement
-Function     Get-SecuronixIncidentsList              0.0.1    Securonix.CLI.IncidentManagement
-Function     Get-SecuronixIncidentStatus             0.0.1    Securonix.CLI.IncidentManagement
-Function     Get-SecuronixIncidentWorkflowName       0.0.1    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixIncident                   1.0.0    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixIncidentActionList         1.0.0    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixIncidentActivityHistory    1.0.0    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixIncidentAPIResponse        1.0.0    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixIncidentsList              1.0.0    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixIncidentStatus             1.0.0    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixIncidentWorkflowName       1.0.0    Securonix.CLI.IncidentManagement
 Function     Get-SecuronixLookupData                 0.0.1    Securonix.CLI.Search
 Function     Get-SecuronixPeerGroupsList             0.0.1    Securonix.CLI.List
 Function     Get-SecuronixPolicyList                 0.0.1    Securonix.CLI.List
 Function     Get-SecuronixResourcegroupList          0.0.1    Securonix.CLI.List
 Function     Get-SecuronixRiskHistory                0.0.1    Securonix.CLI.Search
 Function     Get-SecuronixRiskScorecard              0.0.1    Securonix.CLI.Search
-Function     Get-SecuronixThreatActionList           0.0.1    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixThreatActionList           1.0.0    Securonix.CLI.IncidentManagement
 Function     Get-SecuronixThreatList                 0.0.1    Securonix.CLI.SCC
 Function     Get-SecuronixTopThreatsList             0.0.1    Securonix.CLI.SCC
 Function     Get-SecuronixTopViolationsList          0.0.1    Securonix.CLI.SCC
@@ -83,19 +83,19 @@ Function     Get-SecuronixWatchlistList              0.0.1    Securonix.CLI.Watc
 Function     Get-SecuronixWatchlistMemberList        0.0.1    Securonix.CLI.Watchlist
 Function     Get-SecuronixWhitelist                  0.0.1    Securonix.CLI.Whitelist
 Function     Get-SecuronixWhitelistMemberList        0.0.1    Securonix.CLI.Whitelist
-Function     Get-SecuronixWorkflowDefaultAssignee    0.0.1    Securonix.CLI.IncidentManagement
-Function     Get-SecuronixWorkflowDefinition         0.0.1    Securonix.CLI.IncidentManagement
-Function     Get-SecuronixWorkflowsList              0.0.1    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixWorkflowDefaultAssignee    1.0.0    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixWorkflowDefinition         1.0.0    Securonix.CLI.IncidentManagement
+Function     Get-SecuronixWorkflowsList              1.0.0    Securonix.CLI.IncidentManagement
 Function     Invoke-SecuronixSearchApi               0.0.1    Securonix.CLI.Search
 Function     New-SecuronixApiToken                   1.0.0    Securonix.CLI.Auth
-Function     New-SecuronixIncident                   0.0.1    Securonix.CLI.IncidentManagement
+Function     New-SecuronixIncident                   1.0.0    Securonix.CLI.IncidentManagement
 Function     New-SecuronixWatchlist                  0.0.1    Securonix.CLI.Watchlist
 Function     New-SecuronixWhitelist                  0.0.1    Securonix.CLI.Whitelist
 Function     Remove-SecuronixAttributeFromWhitelist  0.0.1    Securonix.CLI.Whitelist
 Function     Remove-SecuronixEntityFromWhitelist     0.0.1    Securonix.CLI.Whitelist
 Function     Update-SecuronixApiToken                1.0.0    Securonix.CLI.Auth
-Function     Update-SecuronixCriticality             0.0.1    Securonix.CLI.IncidentManagement
-Function     Update-SecuronixIncident                0.0.1    Securonix.CLI.IncidentManagement
+Function     Update-SecuronixCriticality             1.0.0    Securonix.CLI.IncidentManagement
+Function     Update-SecuronixIncident                1.0.0    Securonix.CLI.IncidentManagement
 ```
 
 ## Support
