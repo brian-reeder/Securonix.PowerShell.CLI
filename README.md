@@ -31,7 +31,7 @@ ModuleType Version  PreRelease Name                              ExportedCommand
 Manifest   0.0.1               Securonix.CLI
 Script     1.0.0               Securonix.CLI.Auth                {Confirm-SecuronixApiToken, Connect-SecuronixApi, New-SecuronixApiToken, Update-SecuronixApiToken}
 Script     1.0.0               Securonix.CLI.IncidentManagement  {Add-SecuronixComment, Add-SecuronixViolationScore, Confirm-SecuronixIncidentAction, Get-SecuronixChildIncidentList…}  
-Script     0.0.1               Securonix.CLI.List                {Get-SecuronixPeerGroupsList, Get-SecuronixPolicyList, Get-SecuronixResourcegroupList}
+Script     1.0.0               Securonix.CLI.List                {Get-SecuronixPeerGroupsList, Get-SecuronixPolicyList, Get-SecuronixResourcegroupList}
 Script     0.0.1               Securonix.CLI.SCC                 {Get-SecuronixEntityThreatModel, Get-SecuronixThreatList, Get-SecuronixTopThreatsList, Get-SecuronixTopViolationsList…}
 Script     0.0.1               Securonix.CLI.Search              {Get-SecuronixActivityEventsList, Get-SecuronixAssetData, Get-SecuronixGeolocationData, Get-SecuronixLookupData…}      
 Script     0.0.1               Securonix.CLI.Watchlist           {Add-SecuronixEntityToWatchlist, Get-SecuronixEntityWatchlistList, Get-SecuronixWatchlistList, Get-SecuronixWatchlistM…
@@ -65,9 +65,9 @@ Function     Get-SecuronixIncidentsList              1.0.0    Securonix.CLI.Inci
 Function     Get-SecuronixIncidentStatus             1.0.0    Securonix.CLI.IncidentManagement
 Function     Get-SecuronixIncidentWorkflowName       1.0.0    Securonix.CLI.IncidentManagement
 Function     Get-SecuronixLookupData                 0.0.1    Securonix.CLI.Search
-Function     Get-SecuronixPeerGroupsList             0.0.1    Securonix.CLI.List
-Function     Get-SecuronixPolicyList                 0.0.1    Securonix.CLI.List
-Function     Get-SecuronixResourcegroupList          0.0.1    Securonix.CLI.List
+Function     Get-SecuronixPeerGroupsList             1.0.0    Securonix.CLI.List
+Function     Get-SecuronixPolicyList                 1.0.0    Securonix.CLI.List
+Function     Get-SecuronixResourcegroupList          1.0.0    Securonix.CLI.List
 Function     Get-SecuronixRiskHistory                0.0.1    Securonix.CLI.Search
 Function     Get-SecuronixRiskScorecard              0.0.1    Securonix.CLI.Search
 Function     Get-SecuronixThreatActionList           1.0.0    Securonix.CLI.IncidentManagement
