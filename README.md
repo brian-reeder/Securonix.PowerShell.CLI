@@ -34,7 +34,7 @@ Script     1.0.0               Securonix.CLI.IncidentManagement  {Add-SecuronixC
 Script     1.0.0               Securonix.CLI.List                {Get-SecuronixPeerGroupsList, Get-SecuronixPolicyList, Get-SecuronixResourcegroupList}
 Script     1.0.0               Securonix.CLI.SCC                 {Get-SecuronixEntityThreatModel, Get-SecuronixThreatList, Get-SecuronixTopThreatsList, Get-SecuronixTopViolationsList…}
 Script     1.0.0               Securonix.CLI.Search              {Get-SecuronixActivityEventsList, Get-SecuronixAssetData, Get-SecuronixGeolocationData, Get-SecuronixLookupData…}      
-Script     0.0.1               Securonix.CLI.Watchlist           {Add-SecuronixEntityToWatchlist, Get-SecuronixEntityWatchlistList, Get-SecuronixWatchlistList, Get-SecuronixWatchlistM…
+Script     1.0.0               Securonix.CLI.Watchlist           {Add-SecuronixEntityToWatchlist, Get-SecuronixEntityWatchlistList, Get-SecuronixWatchlistList, Get-SecuronixWatchlistM…
 Script     0.0.1               Securonix.CLI.Whitelist           {Add-SecuronixAttributeToWhitelist, Add-SecuronixEntityToWhitelist, Get-SecuronixWhitelist, Get-SecuronixWhitelistMemb…
 
 ```
@@ -45,7 +45,7 @@ CommandType  Name                                    Version  Source
 -----------  ----                                    -------  ------
 Function     Add-SecuronixAttributeToWhitelist       0.0.1    Securonix.CLI.Whitelist
 Function     Add-SecuronixComment                    1.0.0    Securonix.CLI.IncidentManagement
-Function     Add-SecuronixEntityToWatchlist          0.0.1    Securonix.CLI.Watchlist
+Function     Add-SecuronixEntityToWatchlist          1.0.0    Securonix.CLI.Watchlist
 Function     Add-SecuronixEntityToWhitelist          0.0.1    Securonix.CLI.Whitelist
 Function     Add-SecuronixViolationScore             1.0.0    Securonix.CLI.IncidentManagement
 Function     Confirm-SecuronixApiToken               1.0.0    Securonix.CLI.Auth
@@ -55,7 +55,7 @@ Function     Get-SecuronixActivityEventsList         1.0.0    Securonix.CLI.Sear
 Function     Get-SecuronixAssetData                  1.0.0    Securonix.CLI.Search
 Function     Get-SecuronixChildIncidentList          1.0.0    Securonix.CLI.IncidentManagement
 Function     Get-SecuronixEntityThreatModel          1.0.0    Securonix.CLI.SCC
-Function     Get-SecuronixEntityWatchlistList        0.0.1    Securonix.CLI.Watchlist
+Function     Get-SecuronixEntityWatchlistList        1.0.0    Securonix.CLI.Watchlist
 Function     Get-SecuronixGeolocationData            1.0.0    Securonix.CLI.Search
 Function     Get-SecuronixIncident                   1.0.0    Securonix.CLI.IncidentManagement
 Function     Get-SecuronixIncidentActionList         1.0.0    Securonix.CLI.IncidentManagement
@@ -79,8 +79,8 @@ Function     Get-SecuronixTPI                        1.0.0    Securonix.CLI.Sear
 Function     Get-SecuronixUsersData                  1.0.0    Securonix.CLI.Search
 Function     Get-SecuronixViolationEventsList        1.0.0    Securonix.CLI.Search
 Function     Get-SecuronixWatchlistData              1.0.0    Securonix.CLI.Search
-Function     Get-SecuronixWatchlistList              0.0.1    Securonix.CLI.Watchlist
-Function     Get-SecuronixWatchlistMemberList        0.0.1    Securonix.CLI.Watchlist
+Function     Get-SecuronixWatchlistList              1.0.0    Securonix.CLI.Watchlist
+Function     Get-SecuronixWatchlistMemberList        1.0.0    Securonix.CLI.Watchlist
 Function     Get-SecuronixWhitelist                  0.0.1    Securonix.CLI.Whitelist
 Function     Get-SecuronixWhitelistMemberList        0.0.1    Securonix.CLI.Whitelist
 Function     Get-SecuronixWorkflowDefaultAssignee    1.0.0    Securonix.CLI.IncidentManagement
@@ -89,7 +89,7 @@ Function     Get-SecuronixWorkflowsList              1.0.0    Securonix.CLI.Inci
 Function     Invoke-SecuronixSearchApi               1.0.0    Securonix.CLI.Search
 Function     New-SecuronixApiToken                   1.0.0    Securonix.CLI.Auth
 Function     New-SecuronixIncident                   1.0.0    Securonix.CLI.IncidentManagement
-Function     New-SecuronixWatchlist                  0.0.1    Securonix.CLI.Watchlist
+Function     New-SecuronixWatchlist                  1.0.0    Securonix.CLI.Watchlist
 Function     New-SecuronixWhitelist                  0.0.1    Securonix.CLI.Whitelist
 Function     Remove-SecuronixAttributeFromWhitelist  0.0.1    Securonix.CLI.Whitelist
 Function     Remove-SecuronixEntityFromWhitelist     0.0.1    Securonix.CLI.Whitelist
